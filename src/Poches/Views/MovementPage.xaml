@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Poches.Views.MovementPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:MovementViewModel"
+    ios:Page.ModalPresentationStyle="PageSheet"
+    Shell.NavBarIsVisible="False"
+    SafeAreaEdges="All"
+    Shell.PresentationMode="ModalAnimated">
+
+    <ContentPage.Resources>
+        <Style x:Key="Key" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        </Style>
+        <Style x:Key="KeyText" TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSansSemibold" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="Chip" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+            <Setter Property="StrokeThickness" Value="2" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Sheet header -->
+        <Grid Padding="20,18,20,6" ColumnDefinitions="90,*,90">
+            <Label
+                c:Touch.Command="{Binding CancelCommand}"
+                Style="{StaticResource LinkLabel}"
+                Text="Annuler" />
+            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="Mouvement" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,8,20,12" Spacing="16">
+
+                <!-- Deposit / withdrawal / transfer -->
+                <Border
+                    Padding="4"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                    StrokeShape="RoundRectangle 16"
+                    StrokeThickness="0">
+                    <Grid BindableLayout.ItemsSource="{Binding Modes}" ColumnDefinitions="*,*,*">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:SelectableOption">
+                                <Grid Grid.Column="{Binding Column}" c:Touch.Command="{Binding SelectCommand}" HeightRequest="40">
+                                    <Border
+                                        IsVisible="{Binding IsSelected}"
+                                        Style="{StaticResource Card}"
+                                        Padding="0"
+                                        StrokeShape="RoundRectangle 12" />
+                                    <Label
+                                        FontFamily="OpenSansSemibold"
+                                        FontSize="14"
+                                        HorizontalOptions="Center"
+                                        Opacity="{Binding LabelOpacity}"
+                                        Text="{Binding Label}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </Grid>
+                </Border>
+
+                <!-- Amount being typed -->
+                <VerticalStackLayout Spacing="4">
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Label
+                            FontFamily="OpenSansSemibold"
+                            FontSize="46"
+                            LineBreakMode="NoWrap"
+                            Text="{Binding AmountDisplay}"
+                            TextColor="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}">
+                            <Label.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding HasAmount}"
+                                    TargetType="Label"
+                                    Value="True">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label
+                            Margin="0,0,0,9"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="26"
+                            Style="{StaticResource Secondary}"
+                            Text="{Binding Currency}"
+                            VerticalOptions="End" />
+                    </HorizontalStackLayout>
+                    <Label IsVisible="{Binding HasError}" Style="{StaticResource ErrorLabel}" Text="{Binding ErrorMessage}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Style="{StaticResource FieldLabel}" Text="{Binding SourceLabel}" />
+                    <ScrollView Margin="-20,0" Orientation="Horizontal">
+                        <HorizontalStackLayout
+                            Padding="20,2"
+                            BindableLayout.ItemsSource="{Binding SourceChoices}"
+                            Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:PocketChoice">
+                                    <Border
+                                        c:Touch.Command="{Binding SelectSourceCommand}"
+                                        Stroke="{Binding SourceStroke}"
+                                        Style="{StaticResource Chip}">
+                                        <HorizontalStackLayout
+                                            Padding="12,9,16,9"
+                                            BackgroundColor="{Binding SourceBackground}"
+                                            Spacing="10">
+                                            <Label FontSize="22" Text="{Binding Icon}" VerticalOptions="Center" />
+                                            <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                                                <Label FontFamily="OpenSansSemibold" FontSize="14" Text="{Binding Name}" />
+                                                <Label FontSize="12" Style="{StaticResource Caption}" Text="{Binding BalanceText}" />
+                                            </VerticalStackLayout>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout IsVisible="{Binding IsTransfer}" Spacing="10">
+                    <Label Style="{StaticResource FieldLabel}" Text="VERS" />
+                    <ScrollView Margin="-20,0" Orientation="Horizontal">
+                        <HorizontalStackLayout
+                            Padding="20,2"
+                            BindableLayout.ItemsSource="{Binding TargetChoices}"
+                            Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:PocketChoice">
+                                    <Border
+                                        c:Touch.Command="{Binding SelectTargetCommand}"
+                                        Stroke="{Binding TargetStroke}"
+                                        Style="{StaticResource Chip}">
+                                        <HorizontalStackLayout
+                                            Padding="12,9,16,9"
+                                            BackgroundColor="{Binding TargetBackground}"
+                                            Spacing="10">
+                                            <Label FontSize="22" Text="{Binding Icon}" VerticalOptions="Center" />
+                                            <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                                                <Label FontFamily="OpenSansSemibold" FontSize="14" Text="{Binding Name}" />
+                                                <Label FontSize="12" Style="{StaticResource Caption}" Text="{Binding BalanceText}" />
+                                            </VerticalStackLayout>
+                                        </HorizontalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+
+                <!-- Note and date -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Border
+                        Padding="14,0"
+                        c:Touch.Command="{Binding EditNoteCommand}"
+                        HeightRequest="46"
+                        Stroke="Transparent"
+                        Style="{StaticResource Chip}">
+                        <HorizontalStackLayout Spacing="8">
+                            <c:IconView
+                                Color="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                Data="{x:Static c:Icons.Note}"
+                                HeightRequest="18"
+                                VerticalOptions="Center"
+                                WidthRequest="18" />
+                            <Label
+                                FontSize="14"
+                                LineBreakMode="TailTruncation"
+                                MaximumWidthRequest="130"
+                                Style="{StaticResource Secondary}"
+                                Text="{Binding NoteDisplay}"
+                                VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+                    <Border
+                        Grid.Column="1"
+                        Padding="14,0"
+                        HeightRequest="46"
+                        Stroke="Transparent"
+                        Style="{StaticResource Chip}">
+                        <Grid ColumnDefinitions="18,*" ColumnSpacing="8">
+                            <c:IconView
+                                Color="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                Data="{x:Static c:Icons.Calendar}"
+                                HeightRequest="18"
+                                VerticalOptions="Center"
+                                WidthRequest="18" />
+                            <DatePicker
+                                Grid.Column="1"
+                                Date="{Binding Date}"
+                                FontSize="14"
+                                Format="d MMM yyyy"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Keypad and confirmation -->
+        <VerticalStackLayout Grid.Row="2" Padding="20,6,20,14" Spacing="12">
+            <Grid
+                ColumnDefinitions="*,*,*"
+                ColumnSpacing="10"
+                RowDefinitions="48,48,48,48"
+                RowSpacing="8">
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="1"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="1" />
+                </Border>
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="2"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="2" />
+                </Border>
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="3"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="3" />
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="4"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="4" />
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="5"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="5" />
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="6"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="6" />
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="7"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="7" />
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="8"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="8" />
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="9"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="9" />
+                </Border>
+                <Border
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter=","
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="," />
+                </Border>
+                <Border
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="0"
+                    Style="{StaticResource Key}">
+                    <Label Style="{StaticResource KeyText}" Text="0" />
+                </Border>
+                <Border
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    c:Touch.Command="{Binding KeyCommand}"
+                    c:Touch.CommandParameter="back"
+                    Style="{StaticResource Key}"
+                    SemanticProperties.Description="Effacer">
+                    <c:IconView
+                        Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                        Data="{x:Static c:Icons.Backspace}"
+                        HeightRequest="26"
+                        WidthRequest="26" />
+                </Border>
+            </Grid>
+            <Border
+                Background="{Binding AccentBrush}"
+                c:Touch.Command="{Binding SaveCommand}"
+                Style="{StaticResource PrimaryButton}">
+                <Label Style="{StaticResource PrimaryButtonText}" Text="{Binding ConfirmText}" />
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

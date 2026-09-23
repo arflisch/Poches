@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Poches.Views.PocketDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:PocketDetailViewModel"
+    Shell.NavBarIsVisible="False"
+    SafeAreaEdges="Container">
+
+    <ContentPage.Resources>
+        <Style x:Key="ActionIcon" TargetType="Border">
+            <Setter Property="HeightRequest" Value="44" />
+            <Setter Property="WidthRequest" Value="44" />
+            <Setter Property="Padding" Value="11" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 22" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="ActionLabel" TargetType="Label">
+            <Setter Property="FontFamily" Value="OpenSansSemibold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Top bar -->
+        <Grid Padding="20,8,20,6" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+            <Border
+                c:Touch.Command="{Binding GoBackCommand}"
+                Style="{StaticResource IconButton}"
+                SemanticProperties.Description="Retour">
+                <c:IconView Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" Data="{x:Static c:Icons.ChevronLeft}" />
+            </Border>
+            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="{Binding Name}" />
+            <Border
+                Grid.Column="2"
+                c:Touch.Command="{Binding EditCommand}"
+                Style="{StaticResource IconButton}"
+                SemanticProperties.Description="Modifier la poche">
+                <c:IconView Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" Data="{x:Static c:Icons.Pencil}" />
+            </Border>
+        </Grid>
+
+        <CollectionView
+            Grid.Row="1"
+            IsGrouped="True"
+            ItemsSource="{Binding Groups}"
+            SelectionMode="None"
+            VerticalScrollBarVisibility="Never">
+
+            <CollectionView.Header>
+                <VerticalStackLayout Padding="20,8,20,0" Spacing="18">
+
+                    <!-- Balance card in the pocket colour -->
+                    <Border
+                        Background="{Binding HeroBrush}"
+                        StrokeShape="RoundRectangle 28"
+                        StrokeThickness="0">
+                        <VerticalStackLayout Padding="22,22,22,0" Spacing="0">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                                <Border
+                                    BackgroundColor="{StaticResource WhiteGlass}"
+                                    HeightRequest="56"
+                                    StrokeShape="RoundRectangle 18"
+                                    StrokeThickness="0"
+                                    WidthRequest="56">
+                                    <Label
+                                        FontSize="28"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Icon}"
+                                        VerticalOptions="Center" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
+                                    <Label FontSize="14" Text="Solde" TextColor="{StaticResource WhiteSoft}" />
+                                    <Label LineBreakMode="NoWrap">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span
+                                                    FontFamily="OpenSansSemibold"
+                                                    FontSize="34"
+                                                    Text="{Binding BalanceWhole}"
+                                                    TextColor="White" />
+                                                <Span
+                                                    FontFamily="OpenSansSemibold"
+                                                    FontSize="19"
+                                                    Text="{Binding BalanceFraction}"
+                                                    TextColor="{StaticResource WhiteSoft}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <VerticalStackLayout Margin="0,18,0,0" IsVisible="{Binding HasGoal}" Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label
+                                        FontFamily="OpenSansSemibold"
+                                        FontSize="14"
+                                        Text="{Binding GoalLabel}"
+                                        TextColor="White" />
+                                    <Label
+                                        Grid.Column="1"
+                                        FontFamily="OpenSansSemibold"
+                                        FontSize="14"
+                                        Text="{Binding GoalPercentText}"
+                                        TextColor="White" />
+                                </Grid>
+                                <c:ProgressPill
+                                    FillColor="White"
+                                    HeightRequest="8"
+                                    Progress="{Binding GoalProgress}"
+                                    TrackColor="#33FFFFFF" />
+                                <Label FontSize="13" Text="{Binding GoalStatusText}" TextColor="{StaticResource WhiteSoft}" />
+                            </VerticalStackLayout>
+
+                            <c:SparklineView
+                                Margin="-22,14,-22,0"
+                                HeightRequest="84"
+                                IsVisible="{Binding HasHistory}"
+                                LineColor="White"
+                                Points="{Binding History}" />
+                            <BoxView HeightRequest="22" IsVisible="{Binding IsHistoryEmpty}" Color="Transparent" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Actions -->
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                        <Border Padding="8,14" c:Touch.Command="{Binding DepositCommand}" Style="{StaticResource Card}">
+                            <VerticalStackLayout Spacing="8">
+                                <Border BackgroundColor="{Binding SoftColor}" Style="{StaticResource ActionIcon}">
+                                    <c:IconView Color="{Binding Color}" Data="{x:Static c:Icons.Plus}" StrokeWidth="2.4" />
+                                </Border>
+                                <Label Style="{StaticResource ActionLabel}" Text="Ajouter" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border
+                            Grid.Column="1"
+                            Padding="8,14"
+                            c:Touch.Command="{Binding WithdrawCommand}"
+                            Style="{StaticResource Card}">
+                            <VerticalStackLayout Spacing="8">
+                                <Border BackgroundColor="{Binding SoftColor}" Style="{StaticResource ActionIcon}">
+                                    <c:IconView Color="{Binding Color}" Data="{x:Static c:Icons.Minus}" StrokeWidth="2.4" />
+                                </Border>
+                                <Label Style="{StaticResource ActionLabel}" Text="Retirer" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border
+                            Grid.Column="2"
+                            Padding="8,14"
+                            c:Touch.Command="{Binding TransferCommand}"
+                            Style="{StaticResource Card}">
+                            <VerticalStackLayout Spacing="8">
+                                <Border BackgroundColor="{Binding SoftColor}" Style="{StaticResource ActionIcon}">
+                                    <c:IconView Color="{Binding Color}" Data="{x:Static c:Icons.Transfer}" />
+                                </Border>
+                                <Label Style="{StaticResource ActionLabel}" Text="Transférer" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <Label Margin="0,4,0,0" Style="{StaticResource SectionTitle}" Text="Historique" />
+
+                    <Border IsVisible="{Binding IsHistoryEmpty}" Style="{StaticResource Card}">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource Secondary}"
+                            Text="Aucun mouvement pour l'instant. Commence par ajouter de l'argent dans cette poche." />
+                    </Border>
+                </VerticalStackLayout>
+            </CollectionView.Header>
+
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate x:DataType="vm:MovementGroup">
+                    <Label
+                        Padding="24,14,24,6"
+                        Style="{StaticResource FieldLabel}"
+                        Text="{Binding Title}" />
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:MovementItemViewModel">
+                    <Grid Padding="20,5">
+                        <Border
+                            Padding="12"
+                            c:Touch.Command="{Binding TapCommand}"
+                            Style="{StaticResource Card}">
+                            <Grid ColumnDefinitions="42,*,Auto" ColumnSpacing="12">
+                                <Border
+                                    Padding="10"
+                                    BackgroundColor="{Binding IconBackground}"
+                                    HeightRequest="42"
+                                    StrokeShape="RoundRectangle 14"
+                                    StrokeThickness="0"
+                                    WidthRequest="42">
+                                    <c:IconView Color="{Binding IconColor}" Data="{Binding IconData}" />
+                                </Border>
+                                <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                    <Label
+                                        FontFamily="OpenSansSemibold"
+                                        FontSize="15"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding Title}" />
+                                    <Label Style="{StaticResource Caption}" Text="{Binding Subtitle}" />
+                                </VerticalStackLayout>
+                                <Label
+                                    Grid.Column="2"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="15"
+                                    Text="{Binding AmountText}"
+                                    TextColor="{Binding AmountColor}"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <BoxView HeightRequest="32" Color="Transparent" />
+            </CollectionView.Footer>
+        </CollectionView>
+    </Grid>
+</ContentPage>
