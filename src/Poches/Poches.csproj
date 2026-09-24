@@ -31,7 +31,7 @@
 		<ApplicationTitle>Poches</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.poches.app</ApplicationId>
+		<ApplicationId>com.arflisch.poches</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
