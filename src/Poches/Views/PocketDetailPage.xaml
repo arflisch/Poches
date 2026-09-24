@@ -7,7 +7,7 @@
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:PocketDetailViewModel"
     Shell.NavBarIsVisible="False"
-    SafeAreaEdges="Container">
+    SafeAreaEdges="None">
 
     <ContentPage.Resources>
         <Style x:Key="ActionIcon" TargetType="Border">
@@ -25,7 +25,8 @@
         </Style>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,*">
+    <!-- Top, left and right stay clear of the notch; the history scrolls under the home indicator. -->
+    <Grid RowDefinitions="Auto,*" SafeAreaEdges="Container,Container,Container,None">
         <!-- Top bar -->
         <Grid Padding="20,8,20,6" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
             <Border
@@ -221,7 +222,7 @@
             </CollectionView.ItemTemplate>
 
             <CollectionView.Footer>
-                <BoxView HeightRequest="32" Color="Transparent" />
+                <BoxView HeightRequest="64" Color="Transparent" />
             </CollectionView.Footer>
         </CollectionView>
     </Grid>

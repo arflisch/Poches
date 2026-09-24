@@ -7,10 +7,11 @@
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:MainViewModel"
     Shell.NavBarIsVisible="False"
-    SafeAreaEdges="Container">
+    SafeAreaEdges="None">
 
-    <Grid>
-        <ScrollView>
+    <!-- Top, left and right stay clear of the notch; the list scrolls under the home indicator. -->
+    <Grid SafeAreaEdges="Container,Container,Container,None">
+        <ScrollView SafeAreaEdges="None">
             <VerticalStackLayout Padding="20,12,20,120" Spacing="22">
 
                 <!-- Header -->
@@ -250,35 +251,40 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Floating action button -->
-        <Border
-            Margin="0,0,20,20"
-            Padding="22,0"
-            c:Touch.Command="{Binding AddMovementCommand}"
-            Background="{StaticResource AccentGradient}"
-            HeightRequest="58"
-            HorizontalOptions="End"
-            IsVisible="{Binding HasPockets}"
-            Shadow="{StaticResource FloatingShadow}"
-            StrokeShape="RoundRectangle 29"
-            StrokeThickness="0"
-            VerticalOptions="End"
-            SemanticProperties.Description="Ajouter de l'argent">
-            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
-                <c:IconView
-                    Color="White"
-                    Data="{x:Static c:Icons.Plus}"
-                    HeightRequest="22"
-                    StrokeWidth="2.4"
-                    VerticalOptions="Center"
-                    WidthRequest="22" />
-                <Label
-                    FontFamily="OpenSansSemibold"
-                    FontSize="16"
-                    Text="Ajouter"
-                    TextColor="White"
-                    VerticalOptions="Center" />
-            </HorizontalStackLayout>
-        </Border>
+        <!-- Floating action button, kept above the home indicator while the list scrolls beneath it -->
+        <Grid
+            CascadeInputTransparent="False"
+            InputTransparent="True"
+            SafeAreaEdges="Container">
+            <Border
+                Margin="0,0,20,20"
+                Padding="22,0"
+                c:Touch.Command="{Binding AddMovementCommand}"
+                Background="{StaticResource AccentGradient}"
+                HeightRequest="58"
+                HorizontalOptions="End"
+                IsVisible="{Binding HasPockets}"
+                Shadow="{StaticResource FloatingShadow}"
+                StrokeShape="RoundRectangle 29"
+                StrokeThickness="0"
+                VerticalOptions="End"
+                SemanticProperties.Description="Ajouter de l'argent">
+                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                    <c:IconView
+                        Color="White"
+                        Data="{x:Static c:Icons.Plus}"
+                        HeightRequest="22"
+                        StrokeWidth="2.4"
+                        VerticalOptions="Center"
+                        WidthRequest="22" />
+                    <Label
+                        FontFamily="OpenSansSemibold"
+                        FontSize="16"
+                        Text="Ajouter"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
     </Grid>
 </ContentPage>
