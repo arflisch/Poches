@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.Extensions.Logging;
 using Poches.Core.Data;
 using Poches.Services;
@@ -11,11 +10,6 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        // The app is written in French: dates and numbers follow French conventions.
-        var french = new CultureInfo("fr-FR");
-        CultureInfo.DefaultThreadCurrentCulture = french;
-        CultureInfo.DefaultThreadCurrentUICulture = french;
-
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()

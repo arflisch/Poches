@@ -83,16 +83,14 @@ public sealed partial class BudgetStore
 
     private static void Validate(BackupDocument backup)
     {
-        const string invalid = "Cette sauvegarde est incomplète ou abîmée, elle ne peut pas être restaurée.";
-
         var ids = new HashSet<int>();
         foreach (var pocket in backup.Pockets)
         {
             if (!ids.Add(pocket.Id) || string.IsNullOrWhiteSpace(pocket.Name))
-                throw new BudgetException(invalid);
+                throw new BudgetException(BudgetError.CorruptBackup, $"Invalid or duplicate pocket {pocket.Id}.");
         }
 
         if (backup.Movements.Any(m => !ids.Contains(m.PocketId) || !Enum.IsDefined(m.Kind)))
-            throw new BudgetException(invalid);
+            throw new BudgetException(BudgetError.CorruptBackup, "A movement references an unknown pocket or kind.");
     }
 }

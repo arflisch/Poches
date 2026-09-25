@@ -1,4 +1,24 @@
 namespace Poches.Core.Models;
 
-/// <summary>A business rule was violated; the message is user-facing (French).</summary>
-public sealed class BudgetException(string message) : Exception(message);
+/// <summary>Why a budget operation was refused. The app translates each code for the user.</summary>
+public enum BudgetError
+{
+    EmptyName,
+    InvalidInitialAmount,
+    InvalidAmount,
+    AmountTooLarge,
+    InsufficientFunds,
+    SamePocket,
+    PocketNotFound,
+    MovementNotFound,
+    BalanceWouldBeNegative,
+    InvalidBackupFile,
+    BackupFromNewerVersion,
+    CorruptBackup,
+}
+
+/// <summary>A business rule was violated. <see cref="Exception.Message"/> is for logs; show <see cref="Error"/> translated.</summary>
+public sealed class BudgetException(BudgetError error, string message) : Exception(message)
+{
+    public BudgetError Error { get; } = error;
+}

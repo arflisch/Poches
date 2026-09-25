@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Common_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Pocket_One" xml:space="preserve">
+    <value>pocket</value>
+  </data>
+  <data name="Pocket_Many" xml:space="preserve">
+    <value>pockets</value>
+  </data>
+  <data name="Movement_One" xml:space="preserve">
+    <value>transaction</value>
+  </data>
+  <data name="Movement_Many" xml:space="preserve">
+    <value>transactions</value>
+  </data>
+  <data name="Main_Title" xml:space="preserve">
+    <value>My pockets</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Main_TotalBalance" xml:space="preserve">
+    <value>Total balance</value>
+  </data>
+  <data name="Main_TogglePrivacy" xml:space="preserve">
+    <value>Show or hide amounts</value>
+  </data>
+  <data name="Main_ThisMonth" xml:space="preserve">
+    <value>{0} this month</value>
+  </data>
+  <data name="Main_BackupTitle" xml:space="preserve">
+    <value>Back up your data</value>
+  </data>
+  <data name="Main_BackupNever" xml:space="preserve">
+    <value>So you don't lose anything if you change phones</value>
+  </data>
+  <data name="Main_BackupLast" xml:space="preserve">
+    <value>Last backup {0}</value>
+  </data>
+  <data name="Main_EmptyTitle" xml:space="preserve">
+    <value>No pockets yet</value>
+  </data>
+  <data name="Main_EmptyText" xml:space="preserve">
+    <value>Create pockets to organise your money: holidays, emergency fund, investments…</value>
+  </data>
+  <data name="Main_CreateFirst" xml:space="preserve">
+    <value>Create my first pocket</value>
+  </data>
+  <data name="Main_ExploreSamples" xml:space="preserve">
+    <value>Explore with examples</value>
+  </data>
+  <data name="Main_Distribution" xml:space="preserve">
+    <value>Breakdown</value>
+  </data>
+  <data name="Main_NewPocket" xml:space="preserve">
+    <value>+ New pocket</value>
+  </data>
+  <data name="Main_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Main_AddMoney" xml:space="preserve">
+    <value>Add money</value>
+  </data>
+  <data name="Main_Others" xml:space="preserve">
+    <value>Others ({0})</value>
+  </data>
+  <data name="Main_GoalProgress" xml:space="preserve">
+    <value>{0} of {1}</value>
+  </data>
+  <data name="Main_ShareOfTotal" xml:space="preserve">
+    <value>{0} of total</value>
+  </data>
+  <data name="Detail_Edit" xml:space="preserve">
+    <value>Edit pocket</value>
+  </data>
+  <data name="Detail_Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Detail_History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="Detail_NoMovements" xml:space="preserve">
+    <value>No transactions yet. Start by adding money to this pocket.</value>
+  </data>
+  <data name="Detail_Goal" xml:space="preserve">
+    <value>Goal {0}</value>
+  </data>
+  <data name="Detail_GoalReached" xml:space="preserve">
+    <value>Goal reached, well done! 🎉</value>
+  </data>
+  <data name="Detail_GoalRemaining" xml:space="preserve">
+    <value>{0} left to save</value>
+  </data>
+  <data name="Detail_DeletedPocket" xml:space="preserve">
+    <value>a deleted pocket</value>
+  </data>
+  <data name="Detail_DeleteMovement" xml:space="preserve">
+    <value>Delete this transaction</value>
+  </data>
+  <data name="Detail_DeleteFailed" xml:space="preserve">
+    <value>Can't delete</value>
+  </data>
+  <data name="Detail_EmptyTitle" xml:space="preserve">
+    <value>Empty pocket</value>
+  </data>
+  <data name="Detail_EmptyWithdraw" xml:space="preserve">
+    <value>There's nothing to withdraw from this pocket yet.</value>
+  </data>
+  <data name="Detail_EmptyTransfer" xml:space="preserve">
+    <value>Add money to this pocket first to be able to transfer it.</value>
+  </data>
+  <data name="Detail_OnlyPocketTitle" xml:space="preserve">
+    <value>Only one pocket</value>
+  </data>
+  <data name="Detail_OnlyPocketText" xml:space="preserve">
+    <value>Create another pocket to transfer money to it.</value>
+  </data>
+  <data name="Action_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Action_Withdraw" xml:space="preserve">
+    <value>Withdraw</value>
+  </data>
+  <data name="Action_Transfer" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="Kind_Deposit" xml:space="preserve">
+    <value>Deposit</value>
+  </data>
+  <data name="Kind_Withdrawal" xml:space="preserve">
+    <value>Withdrawal</value>
+  </data>
+  <data name="Kind_From" xml:space="preserve">
+    <value>From {0}</value>
+  </data>
+  <data name="Kind_To" xml:space="preserve">
+    <value>To {0}</value>
+  </data>
+  <data name="Edit_NewTitle" xml:space="preserve">
+    <value>New pocket</value>
+  </data>
+  <data name="Edit_EditTitle" xml:space="preserve">
+    <value>Edit pocket</value>
+  </data>
+  <data name="Edit_Name" xml:space="preserve">
+    <value>NAME</value>
+  </data>
+  <data name="Edit_NamePlaceholder" xml:space="preserve">
+    <value>e.g. Holidays, Savings, Car…</value>
+  </data>
+  <data name="Edit_Icon" xml:space="preserve">
+    <value>ICON</value>
+  </data>
+  <data name="Edit_Color" xml:space="preserve">
+    <value>COLOUR</value>
+  </data>
+  <data name="Edit_Goal" xml:space="preserve">
+    <value>Savings goal</value>
+  </data>
+  <data name="Edit_GoalHint" xml:space="preserve">
+    <value>Track your progress towards a target amount</value>
+  </data>
+  <data name="Edit_InitialAmount" xml:space="preserve">
+    <value>STARTING AMOUNT (OPTIONAL)</value>
+  </data>
+  <data name="Edit_InitialNote" xml:space="preserve">
+    <value>Starting amount</value>
+  </data>
+  <data name="Edit_Delete" xml:space="preserve">
+    <value>Delete pocket</value>
+  </data>
+  <data name="Edit_InvalidGoal" xml:space="preserve">
+    <value>Enter a valid goal, for example 2000.</value>
+  </data>
+  <data name="Edit_DeleteTitle" xml:space="preserve">
+    <value>Delete “{0}”?</value>
+  </data>
+  <data name="Edit_DeleteText" xml:space="preserve">
+    <value>The pocket and its entire history will be permanently deleted.</value>
+  </data>
+  <data name="Edit_DeleteConfirm" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Movement_Title" xml:space="preserve">
+    <value>Transaction</value>
+  </data>
+  <data name="Movement_Into" xml:space="preserve">
+    <value>INTO POCKET</value>
+  </data>
+  <data name="Movement_OutOf" xml:space="preserve">
+    <value>FROM POCKET</value>
+  </data>
+  <data name="Movement_From" xml:space="preserve">
+    <value>FROM</value>
+  </data>
+  <data name="Movement_To" xml:space="preserve">
+    <value>TO</value>
+  </data>
+  <data name="Movement_AddNote" xml:space="preserve">
+    <value>Add a note</value>
+  </data>
+  <data name="Movement_Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Movement_NotePlaceholder" xml:space="preserve">
+    <value>e.g. bonus, birthday…</value>
+  </data>
+  <data name="Movement_Erase" xml:space="preserve">
+    <value>Erase</value>
+  </data>
+  <data name="Movement_EnterAmount" xml:space="preserve">
+    <value>Enter an amount.</value>
+  </data>
+  <data name="Movement_ChoosePocket" xml:space="preserve">
+    <value>Choose a pocket.</value>
+  </data>
+  <data name="Movement_ChooseTarget" xml:space="preserve">
+    <value>Choose the destination pocket.</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_Display" xml:space="preserve">
+    <value>DISPLAY</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Settings_CurrencyTitle" xml:space="preserve">
+    <value>Display currency</value>
+  </data>
+  <data name="Settings_HideAmounts" xml:space="preserve">
+    <value>Hide amounts</value>
+  </data>
+  <data name="Settings_HideAmountsHint" xml:space="preserve">
+    <value>Handy in public</value>
+  </data>
+  <data name="Settings_BackupSection" xml:space="preserve">
+    <value>BACKUP</value>
+  </data>
+  <data name="Settings_Backup" xml:space="preserve">
+    <value>Back up my data</value>
+  </data>
+  <data name="Settings_Restore" xml:space="preserve">
+    <value>Restore a backup</value>
+  </data>
+  <data name="Settings_RestoreHint" xml:space="preserve">
+    <value>Replaces the data on this phone</value>
+  </data>
+  <data name="Settings_BackupHint" xml:space="preserve">
+    <value>Save the file to iCloud Drive (“Save to Files”) or email it to yourself: you'll be able to restore it on another phone, even Android.</value>
+  </data>
+  <data name="Settings_DataSection" xml:space="preserve">
+    <value>DATA</value>
+  </data>
+  <data name="Settings_DeleteAll" xml:space="preserve">
+    <value>Delete everything</value>
+  </data>
+  <data name="Settings_DeleteAllHint" xml:space="preserve">
+    <value>Deletes all pockets and their history</value>
+  </data>
+  <data name="Settings_DeleteAllTitle" xml:space="preserve">
+    <value>Delete everything?</value>
+  </data>
+  <data name="Settings_DeleteAllText" xml:space="preserve">
+    <value>All your pockets and their history will be permanently deleted from this phone. Make a backup first if you want to be able to get them back.</value>
+  </data>
+  <data name="Settings_LastBackup" xml:space="preserve">
+    <value>Last backup: {0}</value>
+  </data>
+  <data name="Settings_NoBackup" xml:space="preserve">
+    <value>No backup yet</value>
+  </data>
+  <data name="Settings_BackupFailed" xml:space="preserve">
+    <value>Backup failed</value>
+  </data>
+  <data name="Settings_BackupFailedText" xml:space="preserve">
+    <value>The file could not be created. ({0})</value>
+  </data>
+  <data name="Settings_RestoreTitle" xml:space="preserve">
+    <value>Restore this backup?</value>
+  </data>
+  <data name="Settings_RestoreText" xml:space="preserve">
+    <value>Backup from {0}: {1}, {2}.
+
+Your current data will be replaced.</value>
+  </data>
+  <data name="Settings_RestoreConfirm" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="Settings_RestoreDone" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Settings_RestoreDoneText" xml:space="preserve">
+    <value>Your pockets have been restored.</value>
+  </data>
+  <data name="Settings_RestoreFailed" xml:space="preserve">
+    <value>Restore failed</value>
+  </data>
+  <data name="Settings_RestoreFailedText" xml:space="preserve">
+    <value>The file could not be read. ({0})</value>
+  </data>
+  <data name="Backup_ShareTitle" xml:space="preserve">
+    <value>Poches backup</value>
+  </data>
+  <data name="Date_Today" xml:space="preserve">
+    <value>today</value>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>yesterday</value>
+  </data>
+  <data name="Date_DaysAgo" xml:space="preserve">
+    <value>{0} days ago</value>
+  </data>
+  <data name="Date_On" xml:space="preserve">
+    <value>on {0}</value>
+  </data>
+  <data name="Error_EmptyName" xml:space="preserve">
+    <value>Give your pocket a name.</value>
+  </data>
+  <data name="Error_InvalidInitialAmount" xml:space="preserve">
+    <value>The starting amount is not valid.</value>
+  </data>
+  <data name="Error_InvalidAmount" xml:space="preserve">
+    <value>The amount must be greater than zero.</value>
+  </data>
+  <data name="Error_AmountTooLarge" xml:space="preserve">
+    <value>This amount is too large.</value>
+  </data>
+  <data name="Error_InsufficientFunds" xml:space="preserve">
+    <value>Not enough money in this pocket.</value>
+  </data>
+  <data name="Error_SamePocket" xml:space="preserve">
+    <value>Choose two different pockets.</value>
+  </data>
+  <data name="Error_PocketNotFound" xml:space="preserve">
+    <value>This pocket no longer exists.</value>
+  </data>
+  <data name="Error_MovementNotFound" xml:space="preserve">
+    <value>This transaction no longer exists.</value>
+  </data>
+  <data name="Error_BalanceWouldBeNegative" xml:space="preserve">
+    <value>Not possible: the pocket's balance would become negative.</value>
+  </data>
+  <data name="Error_InvalidBackupFile" xml:space="preserve">
+    <value>This file is not a valid Poches backup.</value>
+  </data>
+  <data name="Error_BackupFromNewerVersion" xml:space="preserve">
+    <value>This backup comes from a newer version of Poches. Update the app to restore it.</value>
+  </data>
+  <data name="Error_CorruptBackup" xml:space="preserve">
+    <value>This backup is incomplete or damaged and cannot be restored.</value>
+  </data>
+  <data name="Sample_Savings" xml:space="preserve">
+    <value>Emergency fund</value>
+  </data>
+  <data name="Sample_MonthlyTransfer" xml:space="preserve">
+    <value>Monthly transfer</value>
+  </data>
+  <data name="Sample_Investments" xml:space="preserve">
+    <value>Investments</value>
+  </data>
+  <data name="Sample_Stocks" xml:space="preserve">
+    <value>Stocks</value>
+  </data>
+  <data name="Sample_LifeInsurance" xml:space="preserve">
+    <value>Life insurance</value>
+  </data>
+  <data name="Sample_Holidays" xml:space="preserve">
+    <value>Holidays</value>
+  </data>
+  <data name="Sample_Bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="Sample_HolidayRental" xml:space="preserve">
+    <value>Biarritz rental</value>
+  </data>
+  <data name="Sample_NewCar" xml:space="preserve">
+    <value>New car</value>
+  </data>
+  <data name="Sample_Gifts" xml:space="preserve">
+    <value>Gifts</value>
+  </data>
+  <data name="Sample_Birthday" xml:space="preserve">
+    <value>Léa's birthday</value>
+  </data>
+</root>

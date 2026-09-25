@@ -21,7 +21,7 @@ public sealed class BackupService(BudgetStore store, AppSettings settings, IShar
 
         await share.RequestAsync(new ShareFileRequest
         {
-            Title = "Sauvegarde Poches",
+            Title = Localization.Loc.Get("Backup_ShareTitle"),
             File = new ShareFile(path, "application/json"),
         });
         settings.LastBackupAt = now;

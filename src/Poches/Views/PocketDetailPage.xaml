@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:PocketDetailViewModel"
     Shell.NavBarIsVisible="False"
@@ -32,7 +33,7 @@
             <Border
                 c:Touch.Command="{Binding GoBackCommand}"
                 Style="{StaticResource IconButton}"
-                SemanticProperties.Description="Retour">
+                SemanticProperties.Description="{l:Tr Common_Back}">
                 <c:IconView Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" Data="{x:Static c:Icons.ChevronLeft}" />
             </Border>
             <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="{Binding Name}" />
@@ -40,7 +41,7 @@
                 Grid.Column="2"
                 c:Touch.Command="{Binding EditCommand}"
                 Style="{StaticResource IconButton}"
-                SemanticProperties.Description="Modifier la poche">
+                SemanticProperties.Description="{l:Tr Detail_Edit}">
                 <c:IconView Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" Data="{x:Static c:Icons.Pencil}" />
             </Border>
         </Grid>
@@ -75,10 +76,15 @@
                                         VerticalOptions="Center" />
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
-                                    <Label FontSize="14" Text="Solde" TextColor="{StaticResource WhiteSoft}" />
+                                    <Label FontSize="14" Text="{l:Tr Detail_Balance}" TextColor="{StaticResource WhiteSoft}" />
                                     <Label LineBreakMode="NoWrap">
                                         <Label.FormattedText>
                                             <FormattedString>
+                                                <Span
+                                                    FontFamily="OpenSansSemibold"
+                                                    FontSize="19"
+                                                    Text="{Binding BalancePrefix}"
+                                                    TextColor="{StaticResource WhiteSoft}" />
                                                 <Span
                                                     FontFamily="OpenSansSemibold"
                                                     FontSize="34"
@@ -134,7 +140,7 @@
                                 <Border BackgroundColor="{Binding SoftColor}" Style="{StaticResource ActionIcon}">
                                     <c:IconView Color="{Binding Color}" Data="{x:Static c:Icons.Plus}" StrokeWidth="2.4" />
                                 </Border>
-                                <Label Style="{StaticResource ActionLabel}" Text="Ajouter" />
+                                <Label Style="{StaticResource ActionLabel}" Text="{l:Tr Action_Add}" />
                             </VerticalStackLayout>
                         </Border>
                         <Border
@@ -146,7 +152,7 @@
                                 <Border BackgroundColor="{Binding SoftColor}" Style="{StaticResource ActionIcon}">
                                     <c:IconView Color="{Binding Color}" Data="{x:Static c:Icons.Minus}" StrokeWidth="2.4" />
                                 </Border>
-                                <Label Style="{StaticResource ActionLabel}" Text="Retirer" />
+                                <Label Style="{StaticResource ActionLabel}" Text="{l:Tr Action_Withdraw}" />
                             </VerticalStackLayout>
                         </Border>
                         <Border
@@ -158,18 +164,18 @@
                                 <Border BackgroundColor="{Binding SoftColor}" Style="{StaticResource ActionIcon}">
                                     <c:IconView Color="{Binding Color}" Data="{x:Static c:Icons.Transfer}" />
                                 </Border>
-                                <Label Style="{StaticResource ActionLabel}" Text="Transférer" />
+                                <Label Style="{StaticResource ActionLabel}" Text="{l:Tr Action_Transfer}" />
                             </VerticalStackLayout>
                         </Border>
                     </Grid>
 
-                    <Label Margin="0,4,0,0" Style="{StaticResource SectionTitle}" Text="Historique" />
+                    <Label Margin="0,4,0,0" Style="{StaticResource SectionTitle}" Text="{l:Tr Detail_History}" />
 
                     <Border IsVisible="{Binding IsHistoryEmpty}" Style="{StaticResource Card}">
                         <Label
                             HorizontalTextAlignment="Center"
                             Style="{StaticResource Secondary}"
-                            Text="Aucun mouvement pour l'instant. Commence par ajouter de l'argent dans cette poche." />
+                            Text="{l:Tr Detail_NoMovements}" />
                     </Border>
                 </VerticalStackLayout>
             </CollectionView.Header>

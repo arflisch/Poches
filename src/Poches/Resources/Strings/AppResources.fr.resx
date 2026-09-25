@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="Common_Back" xml:space="preserve">
+    <value>Retour</value>
+  </data>
+  <data name="Pocket_One" xml:space="preserve">
+    <value>poche</value>
+  </data>
+  <data name="Pocket_Many" xml:space="preserve">
+    <value>poches</value>
+  </data>
+  <data name="Movement_One" xml:space="preserve">
+    <value>mouvement</value>
+  </data>
+  <data name="Movement_Many" xml:space="preserve">
+    <value>mouvements</value>
+  </data>
+  <data name="Main_Title" xml:space="preserve">
+    <value>Mes poches</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>Réglages</value>
+  </data>
+  <data name="Main_TotalBalance" xml:space="preserve">
+    <value>Solde total</value>
+  </data>
+  <data name="Main_TogglePrivacy" xml:space="preserve">
+    <value>Masquer ou afficher les montants</value>
+  </data>
+  <data name="Main_ThisMonth" xml:space="preserve">
+    <value>{0} ce mois-ci</value>
+  </data>
+  <data name="Main_BackupTitle" xml:space="preserve">
+    <value>Sauvegarde tes données</value>
+  </data>
+  <data name="Main_BackupNever" xml:space="preserve">
+    <value>Pour ne rien perdre si tu changes de téléphone</value>
+  </data>
+  <data name="Main_BackupLast" xml:space="preserve">
+    <value>Dernière sauvegarde {0}</value>
+  </data>
+  <data name="Main_EmptyTitle" xml:space="preserve">
+    <value>Aucune poche pour l'instant</value>
+  </data>
+  <data name="Main_EmptyText" xml:space="preserve">
+    <value>Crée des poches pour organiser ton argent : vacances, épargne de précaution, investissement…</value>
+  </data>
+  <data name="Main_CreateFirst" xml:space="preserve">
+    <value>Créer ma première poche</value>
+  </data>
+  <data name="Main_ExploreSamples" xml:space="preserve">
+    <value>Explorer avec des exemples</value>
+  </data>
+  <data name="Main_Distribution" xml:space="preserve">
+    <value>Répartition</value>
+  </data>
+  <data name="Main_NewPocket" xml:space="preserve">
+    <value>+ Nouvelle poche</value>
+  </data>
+  <data name="Main_Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="Main_AddMoney" xml:space="preserve">
+    <value>Ajouter de l'argent</value>
+  </data>
+  <data name="Main_Others" xml:space="preserve">
+    <value>Autres ({0})</value>
+  </data>
+  <data name="Main_GoalProgress" xml:space="preserve">
+    <value>{0} de {1}</value>
+  </data>
+  <data name="Main_ShareOfTotal" xml:space="preserve">
+    <value>{0} du total</value>
+  </data>
+  <data name="Detail_Edit" xml:space="preserve">
+    <value>Modifier la poche</value>
+  </data>
+  <data name="Detail_Balance" xml:space="preserve">
+    <value>Solde</value>
+  </data>
+  <data name="Detail_History" xml:space="preserve">
+    <value>Historique</value>
+  </data>
+  <data name="Detail_NoMovements" xml:space="preserve">
+    <value>Aucun mouvement pour l'instant. Commence par ajouter de l'argent dans cette poche.</value>
+  </data>
+  <data name="Detail_Goal" xml:space="preserve">
+    <value>Objectif {0}</value>
+  </data>
+  <data name="Detail_GoalReached" xml:space="preserve">
+    <value>Objectif atteint, bravo ! 🎉</value>
+  </data>
+  <data name="Detail_GoalRemaining" xml:space="preserve">
+    <value>Encore {0} à mettre de côté</value>
+  </data>
+  <data name="Detail_DeletedPocket" xml:space="preserve">
+    <value>une poche supprimée</value>
+  </data>
+  <data name="Detail_DeleteMovement" xml:space="preserve">
+    <value>Supprimer ce mouvement</value>
+  </data>
+  <data name="Detail_DeleteFailed" xml:space="preserve">
+    <value>Suppression impossible</value>
+  </data>
+  <data name="Detail_EmptyTitle" xml:space="preserve">
+    <value>Poche vide</value>
+  </data>
+  <data name="Detail_EmptyWithdraw" xml:space="preserve">
+    <value>Il n'y a rien à retirer de cette poche pour l'instant.</value>
+  </data>
+  <data name="Detail_EmptyTransfer" xml:space="preserve">
+    <value>Ajoute d'abord de l'argent dans cette poche pour pouvoir le transférer.</value>
+  </data>
+  <data name="Detail_OnlyPocketTitle" xml:space="preserve">
+    <value>Une seule poche</value>
+  </data>
+  <data name="Detail_OnlyPocketText" xml:space="preserve">
+    <value>Crée une autre poche pour pouvoir y transférer de l'argent.</value>
+  </data>
+  <data name="Action_Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="Action_Withdraw" xml:space="preserve">
+    <value>Retirer</value>
+  </data>
+  <data name="Action_Transfer" xml:space="preserve">
+    <value>Transférer</value>
+  </data>
+  <data name="Kind_Deposit" xml:space="preserve">
+    <value>Ajout</value>
+  </data>
+  <data name="Kind_Withdrawal" xml:space="preserve">
+    <value>Retrait</value>
+  </data>
+  <data name="Kind_From" xml:space="preserve">
+    <value>Depuis {0}</value>
+  </data>
+  <data name="Kind_To" xml:space="preserve">
+    <value>Vers {0}</value>
+  </data>
+  <data name="Edit_NewTitle" xml:space="preserve">
+    <value>Nouvelle poche</value>
+  </data>
+  <data name="Edit_EditTitle" xml:space="preserve">
+    <value>Modifier la poche</value>
+  </data>
+  <data name="Edit_Name" xml:space="preserve">
+    <value>NOM</value>
+  </data>
+  <data name="Edit_NamePlaceholder" xml:space="preserve">
+    <value>Ex : Vacances, Épargne, Voiture…</value>
+  </data>
+  <data name="Edit_Icon" xml:space="preserve">
+    <value>ICÔNE</value>
+  </data>
+  <data name="Edit_Color" xml:space="preserve">
+    <value>COULEUR</value>
+  </data>
+  <data name="Edit_Goal" xml:space="preserve">
+    <value>Objectif d'épargne</value>
+  </data>
+  <data name="Edit_GoalHint" xml:space="preserve">
+    <value>Suis ta progression vers un montant cible</value>
+  </data>
+  <data name="Edit_InitialAmount" xml:space="preserve">
+    <value>MONTANT DE DÉPART (FACULTATIF)</value>
+  </data>
+  <data name="Edit_InitialNote" xml:space="preserve">
+    <value>Montant de départ</value>
+  </data>
+  <data name="Edit_Delete" xml:space="preserve">
+    <value>Supprimer la poche</value>
+  </data>
+  <data name="Edit_InvalidGoal" xml:space="preserve">
+    <value>Indique un objectif valide, par exemple 2 000.</value>
+  </data>
+  <data name="Edit_DeleteTitle" xml:space="preserve">
+    <value>Supprimer « {0} » ?</value>
+  </data>
+  <data name="Edit_DeleteText" xml:space="preserve">
+    <value>La poche et tout son historique seront définitivement supprimés.</value>
+  </data>
+  <data name="Edit_DeleteConfirm" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Movement_Title" xml:space="preserve">
+    <value>Mouvement</value>
+  </data>
+  <data name="Movement_Into" xml:space="preserve">
+    <value>DANS LA POCHE</value>
+  </data>
+  <data name="Movement_OutOf" xml:space="preserve">
+    <value>DE LA POCHE</value>
+  </data>
+  <data name="Movement_From" xml:space="preserve">
+    <value>DEPUIS</value>
+  </data>
+  <data name="Movement_To" xml:space="preserve">
+    <value>VERS</value>
+  </data>
+  <data name="Movement_AddNote" xml:space="preserve">
+    <value>Ajouter une note</value>
+  </data>
+  <data name="Movement_Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Movement_NotePlaceholder" xml:space="preserve">
+    <value>Ex : prime, anniversaire…</value>
+  </data>
+  <data name="Movement_Erase" xml:space="preserve">
+    <value>Effacer</value>
+  </data>
+  <data name="Movement_EnterAmount" xml:space="preserve">
+    <value>Saisis un montant.</value>
+  </data>
+  <data name="Movement_ChoosePocket" xml:space="preserve">
+    <value>Choisis une poche.</value>
+  </data>
+  <data name="Movement_ChooseTarget" xml:space="preserve">
+    <value>Choisis la poche de destination.</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Réglages</value>
+  </data>
+  <data name="Settings_Display" xml:space="preserve">
+    <value>AFFICHAGE</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="Settings_Currency" xml:space="preserve">
+    <value>Devise</value>
+  </data>
+  <data name="Settings_CurrencyTitle" xml:space="preserve">
+    <value>Devise d'affichage</value>
+  </data>
+  <data name="Settings_HideAmounts" xml:space="preserve">
+    <value>Masquer les montants</value>
+  </data>
+  <data name="Settings_HideAmountsHint" xml:space="preserve">
+    <value>Pratique en public</value>
+  </data>
+  <data name="Settings_BackupSection" xml:space="preserve">
+    <value>SAUVEGARDE</value>
+  </data>
+  <data name="Settings_Backup" xml:space="preserve">
+    <value>Sauvegarder mes données</value>
+  </data>
+  <data name="Settings_Restore" xml:space="preserve">
+    <value>Restaurer une sauvegarde</value>
+  </data>
+  <data name="Settings_RestoreHint" xml:space="preserve">
+    <value>Remplace les données de ce téléphone</value>
+  </data>
+  <data name="Settings_BackupHint" xml:space="preserve">
+    <value>Enregistre le fichier dans iCloud Drive (« Enregistrer dans Fichiers ») ou envoie-le-toi par mail : tu pourras le restaurer sur un autre téléphone, même Android.</value>
+  </data>
+  <data name="Settings_DataSection" xml:space="preserve">
+    <value>DONNÉES</value>
+  </data>
+  <data name="Settings_DeleteAll" xml:space="preserve">
+    <value>Tout effacer</value>
+  </data>
+  <data name="Settings_DeleteAllHint" xml:space="preserve">
+    <value>Supprime toutes les poches et leur historique</value>
+  </data>
+  <data name="Settings_DeleteAllTitle" xml:space="preserve">
+    <value>Tout effacer ?</value>
+  </data>
+  <data name="Settings_DeleteAllText" xml:space="preserve">
+    <value>Toutes tes poches et leur historique seront définitivement supprimés de ce téléphone. Fais une sauvegarde avant si tu veux pouvoir les récupérer.</value>
+  </data>
+  <data name="Settings_LastBackup" xml:space="preserve">
+    <value>Dernière sauvegarde : {0}</value>
+  </data>
+  <data name="Settings_NoBackup" xml:space="preserve">
+    <value>Aucune sauvegarde pour l'instant</value>
+  </data>
+  <data name="Settings_BackupFailed" xml:space="preserve">
+    <value>Sauvegarde impossible</value>
+  </data>
+  <data name="Settings_BackupFailedText" xml:space="preserve">
+    <value>Le fichier n'a pas pu être créé. ({0})</value>
+  </data>
+  <data name="Settings_RestoreTitle" xml:space="preserve">
+    <value>Restaurer cette sauvegarde ?</value>
+  </data>
+  <data name="Settings_RestoreText" xml:space="preserve">
+    <value>Sauvegarde du {0} : {1}, {2}.
+
+Tes données actuelles seront remplacées.</value>
+  </data>
+  <data name="Settings_RestoreConfirm" xml:space="preserve">
+    <value>Restaurer</value>
+  </data>
+  <data name="Settings_RestoreDone" xml:space="preserve">
+    <value>C'est fait</value>
+  </data>
+  <data name="Settings_RestoreDoneText" xml:space="preserve">
+    <value>Tes poches ont été restaurées.</value>
+  </data>
+  <data name="Settings_RestoreFailed" xml:space="preserve">
+    <value>Restauration impossible</value>
+  </data>
+  <data name="Settings_RestoreFailedText" xml:space="preserve">
+    <value>Le fichier n'a pas pu être lu. ({0})</value>
+  </data>
+  <data name="Backup_ShareTitle" xml:space="preserve">
+    <value>Sauvegarde Poches</value>
+  </data>
+  <data name="Date_Today" xml:space="preserve">
+    <value>aujourd'hui</value>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>hier</value>
+  </data>
+  <data name="Date_DaysAgo" xml:space="preserve">
+    <value>il y a {0} jours</value>
+  </data>
+  <data name="Date_On" xml:space="preserve">
+    <value>le {0}</value>
+  </data>
+  <data name="Error_EmptyName" xml:space="preserve">
+    <value>Donne un nom à ta poche.</value>
+  </data>
+  <data name="Error_InvalidInitialAmount" xml:space="preserve">
+    <value>Le montant de départ n'est pas valide.</value>
+  </data>
+  <data name="Error_InvalidAmount" xml:space="preserve">
+    <value>Le montant doit être supérieur à zéro.</value>
+  </data>
+  <data name="Error_AmountTooLarge" xml:space="preserve">
+    <value>Ce montant est trop élevé.</value>
+  </data>
+  <data name="Error_InsufficientFunds" xml:space="preserve">
+    <value>Solde insuffisant dans cette poche.</value>
+  </data>
+  <data name="Error_SamePocket" xml:space="preserve">
+    <value>Choisis deux poches différentes.</value>
+  </data>
+  <data name="Error_PocketNotFound" xml:space="preserve">
+    <value>Cette poche n'existe plus.</value>
+  </data>
+  <data name="Error_MovementNotFound" xml:space="preserve">
+    <value>Ce mouvement n'existe plus.</value>
+  </data>
+  <data name="Error_BalanceWouldBeNegative" xml:space="preserve">
+    <value>Impossible : le solde de la poche deviendrait négatif.</value>
+  </data>
+  <data name="Error_InvalidBackupFile" xml:space="preserve">
+    <value>Ce fichier n'est pas une sauvegarde Poches valide.</value>
+  </data>
+  <data name="Error_BackupFromNewerVersion" xml:space="preserve">
+    <value>Cette sauvegarde vient d'une version plus récente de Poches. Mets l'app à jour pour la restaurer.</value>
+  </data>
+  <data name="Error_CorruptBackup" xml:space="preserve">
+    <value>Cette sauvegarde est incomplète ou abîmée, elle ne peut pas être restaurée.</value>
+  </data>
+  <data name="Sample_Savings" xml:space="preserve">
+    <value>Épargne de précaution</value>
+  </data>
+  <data name="Sample_MonthlyTransfer" xml:space="preserve">
+    <value>Virement mensuel</value>
+  </data>
+  <data name="Sample_Investments" xml:space="preserve">
+    <value>Investissement</value>
+  </data>
+  <data name="Sample_Stocks" xml:space="preserve">
+    <value>PEA</value>
+  </data>
+  <data name="Sample_LifeInsurance" xml:space="preserve">
+    <value>Assurance vie</value>
+  </data>
+  <data name="Sample_Holidays" xml:space="preserve">
+    <value>Vacances</value>
+  </data>
+  <data name="Sample_Bonus" xml:space="preserve">
+    <value>Prime</value>
+  </data>
+  <data name="Sample_HolidayRental" xml:space="preserve">
+    <value>Location Biarritz</value>
+  </data>
+  <data name="Sample_NewCar" xml:space="preserve">
+    <value>Nouvelle voiture</value>
+  </data>
+  <data name="Sample_Gifts" xml:space="preserve">
+    <value>Cadeaux</value>
+  </data>
+  <data name="Sample_Birthday" xml:space="preserve">
+    <value>Anniversaire Léa</value>
+  </data>
+</root>

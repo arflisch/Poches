@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:SettingsViewModel"
@@ -44,8 +45,8 @@
             <Label
                 c:Touch.Command="{Binding CloseCommand}"
                 Style="{StaticResource LinkLabel}"
-                Text="Fermer" />
-            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="Réglages" />
+                Text="{l:Tr Common_Close}" />
+            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="{l:Tr Settings_Title}" />
             <ActivityIndicator
                 Grid.Column="2"
                 HeightRequest="20"
@@ -59,9 +60,25 @@
             <VerticalStackLayout Padding="20,14,20,32" Spacing="10">
 
                 <!-- Display -->
-                <Label Style="{StaticResource FieldLabel}" Text="AFFICHAGE" />
+                <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_Display}" />
                 <Border Padding="16,0" Style="{StaticResource Card}">
                     <VerticalStackLayout>
+                        <Grid c:Touch.Command="{Binding ChooseLanguageCommand}" Style="{StaticResource Row}">
+                            <Border BackgroundColor="#260891B2" Style="{StaticResource RowIcon}">
+                                <c:IconView Color="#0891B2" Data="{x:Static c:Icons.Globe}" />
+                            </Border>
+                            <Label Grid.Column="1" Style="{StaticResource RowTitle}" Text="{l:Tr Settings_Language}" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center">
+                                <Label Style="{StaticResource Secondary}" Text="{Binding LanguageName}" VerticalOptions="Center" />
+                                <c:IconView
+                                    Color="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
+                                    Data="{x:Static c:Icons.ChevronRight}"
+                                    HeightRequest="16"
+                                    VerticalOptions="Center"
+                                    WidthRequest="16" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}" />
                         <Grid c:Touch.Command="{Binding ChooseCurrencyCommand}" Style="{StaticResource Row}">
                             <Border BackgroundColor="#26D97706" Style="{StaticResource RowIcon}" Padding="0">
                                 <Label
@@ -72,7 +89,7 @@
                                     TextColor="#D97706"
                                     VerticalOptions="Center" />
                             </Border>
-                            <Label Grid.Column="1" Style="{StaticResource RowTitle}" Text="Devise" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Style="{StaticResource RowTitle}" Text="{l:Tr Settings_Currency}" VerticalOptions="Center" />
                             <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center">
                                 <Label Style="{StaticResource Secondary}" Text="{Binding Currency}" VerticalOptions="Center" />
                                 <c:IconView
@@ -89,8 +106,8 @@
                                 <c:IconView Color="#8B5CF6" Data="{x:Static c:Icons.EyeOff}" />
                             </Border>
                             <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
-                                <Label Style="{StaticResource RowTitle}" Text="Masquer les montants" />
-                                <Label Style="{StaticResource Caption}" Text="Pratique en public" />
+                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Settings_HideAmounts}" />
+                                <Label Style="{StaticResource Caption}" Text="{l:Tr Settings_HideAmountsHint}" />
                             </VerticalStackLayout>
                             <Switch Grid.Column="2" IsToggled="{Binding HideAmounts}" VerticalOptions="Center" />
                         </Grid>
@@ -98,7 +115,7 @@
                 </Border>
 
                 <!-- Backup -->
-                <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="SAUVEGARDE" />
+                <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_BackupSection}" />
                 <Border Padding="16,0" Style="{StaticResource Card}">
                     <VerticalStackLayout>
                         <Grid c:Touch.Command="{Binding BackupCommand}" Style="{StaticResource Row}">
@@ -106,7 +123,7 @@
                                 <c:IconView Color="#10B981" Data="{x:Static c:Icons.Upload}" />
                             </Border>
                             <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
-                                <Label Style="{StaticResource RowTitle}" Text="Sauvegarder mes données" />
+                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Settings_Backup}" />
                                 <Label Style="{StaticResource Caption}" Text="{Binding LastBackupText}" />
                             </VerticalStackLayout>
                             <c:IconView
@@ -123,8 +140,8 @@
                                 <c:IconView Color="#3B82F6" Data="{x:Static c:Icons.Download}" />
                             </Border>
                             <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
-                                <Label Style="{StaticResource RowTitle}" Text="Restaurer une sauvegarde" />
-                                <Label Style="{StaticResource Caption}" Text="Remplace les données de ce téléphone" />
+                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Settings_Restore}" />
+                                <Label Style="{StaticResource Caption}" Text="{l:Tr Settings_RestoreHint}" />
                             </VerticalStackLayout>
                             <c:IconView
                                 Grid.Column="2"
@@ -139,10 +156,10 @@
                 <Label
                     Margin="4,2,4,0"
                     Style="{StaticResource Caption}"
-                    Text="Enregistre le fichier dans iCloud Drive (« Enregistrer dans Fichiers ») ou envoie-le-toi par mail : tu pourras le restaurer sur un autre téléphone, même Android." />
+                    Text="{l:Tr Settings_BackupHint}" />
 
                 <!-- Danger zone -->
-                <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="DONNÉES" />
+                <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_DataSection}" />
                 <Border Padding="16,0" Style="{StaticResource Card}">
                     <Grid c:Touch.Command="{Binding DeleteAllCommand}" Style="{StaticResource Row}">
                         <Border BackgroundColor="#26F43F5E" Style="{StaticResource RowIcon}">
@@ -151,9 +168,9 @@
                         <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
                             <Label
                                 Style="{StaticResource RowTitle}"
-                                Text="Tout effacer"
+                                Text="{l:Tr Settings_DeleteAll}"
                                 TextColor="{AppThemeBinding Light={StaticResource NegativeLight}, Dark={StaticResource NegativeDark}}" />
-                            <Label Style="{StaticResource Caption}" Text="Supprime toutes les poches et leur historique" />
+                            <Label Style="{StaticResource Caption}" Text="{l:Tr Settings_DeleteAllHint}" />
                         </VerticalStackLayout>
                     </Grid>
                 </Border>

@@ -1,8 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Poches.Core.Data;
-using Poches.Core.Formatting;
 using Poches.Core.Models;
+using Poches.Localization;
 using Poches.Services;
 
 namespace Poches.ViewModels;
@@ -21,6 +21,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _backup = backup;
         _dialogs = dialogs;
         _currency = settings.Currency;
+        _languageName = settings.Language.NativeName;
         _hideAmounts = settings.HideAmounts;
         RefreshBackupText();
     }
@@ -29,6 +30,9 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     [ObservableProperty]
     private string _currency;
+
+    [ObservableProperty]
+    private string _languageName;
 
     [ObservableProperty]
     private bool _hideAmounts;
@@ -42,10 +46,25 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnHideAmountsChanged(bool value) => _settings.HideAmounts = value;
 
     [RelayCommand]
+    private async Task ChooseLanguageAsync()
+    {
+        var current = _settings.Language;
+        var options = Localizer.Languages.Select(l => l == current ? $"{l.NativeName}  ✓" : l.NativeName).ToArray();
+        var choice = await _dialogs.ChooseAsync(Loc.Get("Settings_Language"), null, options);
+        var language = Localizer.Languages.FirstOrDefault(l => choice?.StartsWith(l.NativeName, StringComparison.Ordinal) == true);
+        if (language is null || language == current)
+            return;
+
+        _settings.Language = language;
+        LanguageName = language.NativeName;
+        RefreshBackupText();
+    }
+
+    [RelayCommand]
     private async Task ChooseCurrencyAsync()
     {
         var options = AppSettings.Currencies.Select(c => c == Currency ? $"{c}  ✓" : c).ToArray();
-        var choice = await _dialogs.ChooseAsync("Devise d'affichage", null, options);
+        var choice = await _dialogs.ChooseAsync(Loc.Get("Settings_CurrencyTitle"), null, options);
         if (choice is null)
             return;
         Currency = _settings.Currency = choice.Replace("✓", string.Empty).Trim();
@@ -62,7 +81,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await _dialogs.AlertAsync("Sauvegarde impossible", $"Le fichier n'a pas pu être créé. ({ex.Message})");
+            await _dialogs.AlertAsync(Loc.Get("Settings_BackupFailed"), Loc.Format("Settings_BackupFailedText", ex.Message));
         }
         finally
         {
@@ -80,10 +99,13 @@ public sealed partial class SettingsViewModel : ObservableObject
                 return;
 
             var confirmed = await _dialogs.ConfirmAsync(
-                "Restaurer cette sauvegarde ?",
-                $"Sauvegarde du {backup.ExportedAt:d MMMM yyyy} : {Plural(backup.Pockets.Count, "poche")}, " +
-                $"{Plural(backup.Movements.Count, "mouvement")}.\n\nTes données actuelles seront remplacées.",
-                "Restaurer");
+                Loc.Get("Settings_RestoreTitle"),
+                Loc.Format(
+                    "Settings_RestoreText",
+                    backup.ExportedAt.ToString("d MMMM yyyy", Localizer.Instance.Culture),
+                    Loc.Count(backup.Pockets.Count, "Pocket"),
+                    Loc.Count(backup.Movements.Count, "Movement")),
+                Loc.Get("Settings_RestoreConfirm"));
             if (!confirmed)
                 return;
 
@@ -92,15 +114,15 @@ public sealed partial class SettingsViewModel : ObservableObject
             Currency = _settings.Currency;
             IsBusy = false;
             Palette.Haptic();
-            await _dialogs.AlertAsync("C'est fait", "Tes poches ont été restaurées.");
+            await _dialogs.AlertAsync(Loc.Get("Settings_RestoreDone"), Loc.Get("Settings_RestoreDoneText"));
         }
         catch (BudgetException ex)
         {
-            await _dialogs.AlertAsync("Restauration impossible", ex.Message);
+            await _dialogs.AlertAsync(Loc.Get("Settings_RestoreFailed"), Loc.Error(ex));
         }
         catch (Exception ex)
         {
-            await _dialogs.AlertAsync("Restauration impossible", $"Le fichier n'a pas pu être lu. ({ex.Message})");
+            await _dialogs.AlertAsync(Loc.Get("Settings_RestoreFailed"), Loc.Format("Settings_RestoreFailedText", ex.Message));
         }
         finally
         {
@@ -112,10 +134,9 @@ public sealed partial class SettingsViewModel : ObservableObject
     private async Task DeleteAllAsync()
     {
         var confirmed = await _dialogs.ConfirmAsync(
-            "Tout effacer ?",
-            "Toutes tes poches et leur historique seront définitivement supprimés de ce téléphone. " +
-            "Fais une sauvegarde avant si tu veux pouvoir les récupérer.",
-            "Tout effacer");
+            Loc.Get("Settings_DeleteAllTitle"),
+            Loc.Get("Settings_DeleteAllText"),
+            Loc.Get("Settings_DeleteAll"));
         if (!confirmed)
             return;
 
@@ -129,8 +150,7 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     private void RefreshBackupText() =>
         LastBackupText = _settings.LastBackupAt is { } date
-            ? $"Dernière sauvegarde : {RelativeDate.Describe(date, DateTime.Now)}"
-            : "Aucune sauvegarde pour l'instant";
+            ? Loc.Format("Settings_LastBackup", Loc.RelativeDate(date))
+            : Loc.Get("Settings_NoBackup");
 
-    private static string Plural(int count, string word) => $"{count} {word}{(count > 1 ? "s" : string.Empty)}";
 }

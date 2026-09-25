@@ -1,10 +1,12 @@
+using Poches.Localization;
+
 namespace Poches.Services;
 
 public interface IDialogService
 {
     Task AlertAsync(string title, string message);
 
-    Task<bool> ConfirmAsync(string title, string message, string accept, string cancel = "Annuler");
+    Task<bool> ConfirmAsync(string title, string message, string accept, string? cancel = null);
 
     /// <summary>Shows an action sheet and returns the chosen option, or null when cancelled.</summary>
     Task<string?> ChooseAsync(string title, string? destructive, params string[] options);
@@ -15,31 +17,32 @@ public interface IDialogService
 
 public sealed class DialogService : IDialogService
 {
-    private const string Cancel = "Annuler";
+    private static string Cancel => Loc.Get("Common_Cancel");
 
     public async Task AlertAsync(string title, string message)
     {
         await WaitForPendingDismissalAsync();
-        await CurrentPage.DisplayAlertAsync(title, message, "OK");
+        await CurrentPage.DisplayAlertAsync(title, message, Loc.Get("Common_Ok"));
     }
 
-    public async Task<bool> ConfirmAsync(string title, string message, string accept, string cancel = Cancel)
+    public async Task<bool> ConfirmAsync(string title, string message, string accept, string? cancel = null)
     {
         await WaitForPendingDismissalAsync();
-        return await CurrentPage.DisplayAlertAsync(title, message, accept, cancel);
+        return await CurrentPage.DisplayAlertAsync(title, message, accept, cancel ?? Cancel);
     }
 
     public async Task<string?> ChooseAsync(string title, string? destructive, params string[] options)
     {
         await WaitForPendingDismissalAsync();
-        var choice = await CurrentPage.DisplayActionSheetAsync(title, Cancel, destructive, options);
-        return choice is null or Cancel ? null : choice;
+        var cancel = Cancel;
+        var choice = await CurrentPage.DisplayActionSheetAsync(title, cancel, destructive, options);
+        return choice is null || choice == cancel ? null : choice;
     }
 
     public async Task<string?> PromptAsync(string title, string placeholder, string initialValue, int maxLength)
     {
         await WaitForPendingDismissalAsync();
-        return await CurrentPage.DisplayPromptAsync(title, null, "OK", Cancel, placeholder, maxLength, Keyboard.Text, initialValue);
+        return await CurrentPage.DisplayPromptAsync(title, null, Loc.Get("Common_Ok"), Cancel, placeholder, maxLength, Keyboard.Text, initialValue);
     }
 
     /// <summary>The top-most page, including modal sheets, so dialogs appear above them.</summary>

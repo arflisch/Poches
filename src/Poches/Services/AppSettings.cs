@@ -1,4 +1,5 @@
 using Poches.Core.Formatting;
+using Poches.Localization;
 
 namespace Poches.Services;
 
@@ -10,12 +11,14 @@ public sealed class AppSettings
     private const string CurrencyKey = "currency";
     private const string HideAmountsKey = "hide_amounts";
     private const string LastBackupKey = "last_backup";
+    private const string LanguageKey = "language";
 
     private readonly IPreferences _preferences;
 
     public AppSettings(IPreferences preferences)
     {
         _preferences = preferences;
+        Localizer.Instance.SetLanguage(Language);
         Formatter = CreateFormatter();
     }
 
@@ -23,6 +26,17 @@ public sealed class AppSettings
     public event EventHandler? Changed;
 
     public MoneyFormatter Formatter { get; private set; }
+
+    /// <summary>The chosen language; defaults to the phone's language when supported.</summary>
+    public AppLanguage Language
+    {
+        get => Localizer.Find(_preferences.Get<string?>(LanguageKey, null)) ?? Localizer.DeviceLanguage;
+        set => Update(() =>
+        {
+            _preferences.Set(LanguageKey, value.Code);
+            Localizer.Instance.SetLanguage(value);
+        });
+    }
 
     public string Currency
     {
@@ -56,5 +70,5 @@ public sealed class AppSettings
         Changed?.Invoke(this, EventArgs.Empty);
     }
 
-    private MoneyFormatter CreateFormatter() => new(Currency, HideAmounts);
+    private MoneyFormatter CreateFormatter() => new(Currency, HideAmounts, Localizer.Instance.Culture);
 }

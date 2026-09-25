@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Poches.Core.Data;
 using Poches.Core.Formatting;
 using Poches.Core.Models;
+using Poches.Localization;
 using Poches.Services;
 
 namespace Poches.ViewModels;
@@ -34,7 +35,7 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
     public string Currency { get; }
 
     [ObservableProperty]
-    private string _title = "Nouvelle poche";
+    private string _title = Loc.Get("Edit_NewTitle");
 
     [ObservableProperty]
     private bool _isNew = true;
@@ -83,13 +84,13 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
 
         _pocket = summary.Pocket;
         IsNew = false;
-        Title = "Modifier la poche";
+        Title = Loc.Get("Edit_EditTitle");
         Name = _pocket.Name;
         SelectIcon(IconOptions.FirstOrDefault(o => o.Value == _pocket.Icon) ?? new SelectableOption(_pocket.Icon, 0, 1, _ => { }));
         SelectColor(ColorOptions.FirstOrDefault(o => o.Value.Equals(_pocket.ColorHex, StringComparison.OrdinalIgnoreCase))
             ?? new SelectableOption(_pocket.ColorHex, 0, 1, _ => { }));
         HasGoal = _pocket.Goal is not null;
-        GoalText = _pocket.Goal is { } goal ? goal.ToString("0.##", System.Globalization.CultureInfo.GetCultureInfo("fr-FR")) : string.Empty;
+        GoalText = _pocket.Goal is { } goal ? goal.ToString("0.##", Localizer.Instance.Culture) : string.Empty;
     }
 
     private void SelectIcon(SelectableOption option)
@@ -120,7 +121,7 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
         {
             if (!AmountParser.TryParse(GoalText, out var parsedGoal) || parsedGoal <= 0)
             {
-                ShowError("Indique un objectif valide, par exemple 2 000.");
+                ShowError(Loc.Get("Edit_InvalidGoal"));
                 return;
             }
             goal = parsedGoal;
@@ -129,7 +130,7 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
         var initialAmount = 0m;
         if (IsNew && !string.IsNullOrWhiteSpace(InitialAmountText) && !AmountParser.TryParse(InitialAmountText, out initialAmount))
         {
-            ShowError("Le montant de départ n'est pas valide.");
+            ShowError(Loc.Get("Error_InvalidInitialAmount"));
             return;
         }
 
@@ -140,13 +141,13 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
 
         try
         {
-            await _store.SavePocketAsync(_pocket, initialAmount);
+            await _store.SavePocketAsync(_pocket, initialAmount, Loc.Get("Edit_InitialNote"));
             Palette.Haptic();
             await Shell.Current.GoToAsync("..");
         }
         catch (BudgetException ex)
         {
-            ShowError(ex.Message);
+            ShowError(Loc.Error(ex));
         }
     }
 
@@ -154,9 +155,9 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
     private async Task DeleteAsync()
     {
         var confirmed = await _dialogs.ConfirmAsync(
-            $"Supprimer « {_pocket.Name} » ?",
-            "La poche et tout son historique seront définitivement supprimés.",
-            "Supprimer");
+            Loc.Format("Edit_DeleteTitle", _pocket.Name),
+            Loc.Get("Edit_DeleteText"),
+            Loc.Get("Edit_DeleteConfirm"));
         if (!confirmed)
             return;
 

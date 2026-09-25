@@ -1,21 +1,20 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Poches.Controls;
 using Poches.Core.Data;
 using Poches.Core.Formatting;
 using Poches.Core.Models;
+using Poches.Localization;
 using Poches.Services;
 
 namespace Poches.ViewModels;
 
 public sealed partial class MainViewModel : ReloadingViewModel
 {
-    /// <summary>Beyond this many pockets, the smallest ones are grouped as "Autres" in the chart.</summary>
+    /// <summary>Beyond this many pockets, the smallest ones are grouped as "Others" in the chart.</summary>
     private const int ChartSlicesMax = 5;
 
-    private static readonly CultureInfo French = CultureInfo.GetCultureInfo("fr-FR");
     private static readonly Color OthersColor = Color.FromArgb("#94A3B8");
 
     private readonly BudgetStore _store;
@@ -29,19 +28,21 @@ public sealed partial class MainViewModel : ReloadingViewModel
         _settings = settings;
         _backup = backup;
         _dialogs = dialogs;
-        var today = DateTime.Now.ToString("dddd d MMMM", French);
-        TodayText = char.ToUpper(today[0], French) + today[1..];
     }
 
     public ObservableCollection<PocketItemViewModel> Pockets { get; } = [];
 
-    public string TodayText { get; }
+    [ObservableProperty]
+    private string _todayText = string.Empty;
 
     [ObservableProperty]
     private IReadOnlyList<ChartSlice> _chartSlices = [];
 
     [ObservableProperty]
     private IReadOnlyList<LegendItem> _legend = [];
+
+    [ObservableProperty]
+    private string _totalPrefix = string.Empty;
 
     [ObservableProperty]
     private string _totalWhole = "0";
@@ -71,7 +72,7 @@ public sealed partial class MainViewModel : ReloadingViewModel
     private string _pocketCountText = "0";
 
     [ObservableProperty]
-    private string _pocketCountLabel = "poche";
+    private string _pocketCountLabel = string.Empty;
 
     [ObservableProperty]
     private string _privacyIcon = Icons.Eye;
@@ -87,9 +88,10 @@ public sealed partial class MainViewModel : ReloadingViewModel
         var overview = await _store.GetOverviewAsync(DateTime.Now);
         var formatter = _settings.Formatter;
 
-        (TotalWhole, TotalFraction) = formatter.Split(overview.Total);
+        TodayText = Loc.Date(DateTime.Now, "dddd d MMMM");
+        (TotalPrefix, TotalWhole, TotalFraction) = formatter.Split(overview.Total);
         HasMonthDelta = overview.MonthDeltaCents != 0 && !formatter.HideAmounts;
-        MonthDeltaText = $"{formatter.FormatSigned(overview.MonthDelta)} ce mois-ci";
+        MonthDeltaText = Loc.Format("Main_ThisMonth", formatter.FormatSigned(overview.MonthDelta));
         PrivacyIcon = formatter.HideAmounts ? Icons.EyeOff : Icons.Eye;
 
         Pockets.Clear();
@@ -98,9 +100,9 @@ public sealed partial class MainViewModel : ReloadingViewModel
 
         HasPockets = Pockets.Count > 0;
         IsEmpty = !HasPockets;
-        PocketCountText = Pockets.Count.ToString(French);
-        PocketCountLabel = Pockets.Count > 1 ? "poches" : "poche";
-        BuildChart(overview);
+        PocketCountText = Pockets.Count.ToString(Localizer.Instance.Culture);
+        PocketCountLabel = Loc.Noun(Pockets.Count, "Pocket");
+        BuildChart(overview, formatter);
         UpdateBackupReminder();
         IsLoaded = true;
     }
@@ -110,11 +112,11 @@ public sealed partial class MainViewModel : ReloadingViewModel
         var lastBackup = _settings.LastBackupAt;
         ShowBackupReminder = HasPockets && (lastBackup is null || DateTime.Now - lastBackup > BackupService.ReminderAge);
         BackupReminderText = lastBackup is { } date
-            ? $"Dernière sauvegarde {RelativeDate.Describe(date, DateTime.Now)}"
-            : "Pour ne rien perdre si tu changes de téléphone";
+            ? Loc.Format("Main_BackupLast", Loc.RelativeDate(date))
+            : Loc.Get("Main_BackupNever");
     }
 
-    private void BuildChart(BudgetOverview overview)
+    private void BuildChart(BudgetOverview overview, MoneyFormatter formatter)
     {
         var funded = Pockets.Where(p => p.Balance > 0).ToList();
         HasChart = funded.Count > 0;
@@ -129,9 +131,9 @@ public sealed partial class MainViewModel : ReloadingViewModel
             var othersTotal = others.Sum(p => p.Balance);
             slices.Add(new ChartSlice((double)othersTotal, OthersColor));
             legend.Add(new LegendItem(
-                $"Autres ({others.Count})",
+                Loc.Format("Main_Others", others.Count),
                 OthersColor,
-                MoneyFormatter.FormatPercent(overview.TotalCents > 0 ? (double)(othersTotal / overview.Total) : 0)));
+                formatter.FormatPercent(overview.TotalCents > 0 ? (double)(othersTotal / overview.Total) : 0)));
         }
 
         ChartSlices = slices;
@@ -167,14 +169,14 @@ public sealed partial class MainViewModel : ReloadingViewModel
         }
         catch (Exception ex)
         {
-            await _dialogs.AlertAsync("Sauvegarde impossible", $"Le fichier n'a pas pu être créé. ({ex.Message})");
+            await _dialogs.AlertAsync(Loc.Get("Settings_BackupFailed"), Loc.Format("Settings_BackupFailedText", ex.Message));
         }
     }
 
     [RelayCommand]
     private async Task LoadSamplesAsync()
     {
-        await _store.SeedSampleDataAsync(DateTime.Now);
+        await _store.SeedSampleDataAsync(DateTime.Now, Loc.SampleTexts);
         Palette.Haptic();
     }
 }
@@ -193,12 +195,12 @@ public sealed class PocketItemViewModel
         SoftColor = Palette.Soft(Color);
         Balance = summary.Balance;
         BalanceText = formatter.Format(summary.Balance);
-        ShareText = MoneyFormatter.FormatPercent(share);
+        ShareText = formatter.FormatPercent(share);
         HasGoal = summary.GoalProgress is not null;
         GoalProgress = summary.GoalProgress ?? 0;
         Caption = pocket.Goal is { } goal
-            ? $"{MoneyFormatter.FormatPercent(GoalProgress)} de {formatter.FormatShort(goal)}"
-            : $"{ShareText} du total";
+            ? Loc.Format("Main_GoalProgress", formatter.FormatPercent(GoalProgress), formatter.FormatShort(goal))
+            : Loc.Format("Main_ShareOfTotal", ShareText);
         OpenCommand = new AsyncRelayCommand(() => open(Id));
     }
 

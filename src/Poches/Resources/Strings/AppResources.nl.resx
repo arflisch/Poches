@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Annuleren</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Opslaan</value>
+  </data>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="Common_Back" xml:space="preserve">
+    <value>Terug</value>
+  </data>
+  <data name="Pocket_One" xml:space="preserve">
+    <value>potje</value>
+  </data>
+  <data name="Pocket_Many" xml:space="preserve">
+    <value>potjes</value>
+  </data>
+  <data name="Movement_One" xml:space="preserve">
+    <value>transactie</value>
+  </data>
+  <data name="Movement_Many" xml:space="preserve">
+    <value>transacties</value>
+  </data>
+  <data name="Main_Title" xml:space="preserve">
+    <value>Mijn potjes</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Main_TotalBalance" xml:space="preserve">
+    <value>Totaal saldo</value>
+  </data>
+  <data name="Main_TogglePrivacy" xml:space="preserve">
+    <value>Bedragen tonen of verbergen</value>
+  </data>
+  <data name="Main_ThisMonth" xml:space="preserve">
+    <value>{0} deze maand</value>
+  </data>
+  <data name="Main_BackupTitle" xml:space="preserve">
+    <value>Maak een back-up van je gegevens</value>
+  </data>
+  <data name="Main_BackupNever" xml:space="preserve">
+    <value>Zodat je niets kwijtraakt als je van telefoon wisselt</value>
+  </data>
+  <data name="Main_BackupLast" xml:space="preserve">
+    <value>Laatste back-up {0}</value>
+  </data>
+  <data name="Main_EmptyTitle" xml:space="preserve">
+    <value>Nog geen potjes</value>
+  </data>
+  <data name="Main_EmptyText" xml:space="preserve">
+    <value>Maak potjes om je geld te ordenen: vakantie, noodfonds, beleggingen…</value>
+  </data>
+  <data name="Main_CreateFirst" xml:space="preserve">
+    <value>Mijn eerste potje maken</value>
+  </data>
+  <data name="Main_ExploreSamples" xml:space="preserve">
+    <value>Verkennen met voorbeelden</value>
+  </data>
+  <data name="Main_Distribution" xml:space="preserve">
+    <value>Verdeling</value>
+  </data>
+  <data name="Main_NewPocket" xml:space="preserve">
+    <value>+ Nieuw potje</value>
+  </data>
+  <data name="Main_Add" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Main_AddMoney" xml:space="preserve">
+    <value>Geld toevoegen</value>
+  </data>
+  <data name="Main_Others" xml:space="preserve">
+    <value>Overige ({0})</value>
+  </data>
+  <data name="Main_GoalProgress" xml:space="preserve">
+    <value>{0} van {1}</value>
+  </data>
+  <data name="Main_ShareOfTotal" xml:space="preserve">
+    <value>{0} van het totaal</value>
+  </data>
+  <data name="Detail_Edit" xml:space="preserve">
+    <value>Potje bewerken</value>
+  </data>
+  <data name="Detail_Balance" xml:space="preserve">
+    <value>Saldo</value>
+  </data>
+  <data name="Detail_History" xml:space="preserve">
+    <value>Geschiedenis</value>
+  </data>
+  <data name="Detail_NoMovements" xml:space="preserve">
+    <value>Nog geen transacties. Begin met geld in dit potje te stoppen.</value>
+  </data>
+  <data name="Detail_Goal" xml:space="preserve">
+    <value>Doel {0}</value>
+  </data>
+  <data name="Detail_GoalReached" xml:space="preserve">
+    <value>Doel bereikt, goed zo! 🎉</value>
+  </data>
+  <data name="Detail_GoalRemaining" xml:space="preserve">
+    <value>Nog {0} te sparen</value>
+  </data>
+  <data name="Detail_DeletedPocket" xml:space="preserve">
+    <value>een verwijderd potje</value>
+  </data>
+  <data name="Detail_DeleteMovement" xml:space="preserve">
+    <value>Deze transactie verwijderen</value>
+  </data>
+  <data name="Detail_DeleteFailed" xml:space="preserve">
+    <value>Verwijderen niet mogelijk</value>
+  </data>
+  <data name="Detail_EmptyTitle" xml:space="preserve">
+    <value>Leeg potje</value>
+  </data>
+  <data name="Detail_EmptyWithdraw" xml:space="preserve">
+    <value>Er valt nog niets op te nemen uit dit potje.</value>
+  </data>
+  <data name="Detail_EmptyTransfer" xml:space="preserve">
+    <value>Stop eerst geld in dit potje om het te kunnen overboeken.</value>
+  </data>
+  <data name="Detail_OnlyPocketTitle" xml:space="preserve">
+    <value>Maar één potje</value>
+  </data>
+  <data name="Detail_OnlyPocketText" xml:space="preserve">
+    <value>Maak nog een potje aan om er geld naar over te boeken.</value>
+  </data>
+  <data name="Action_Add" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Action_Withdraw" xml:space="preserve">
+    <value>Opnemen</value>
+  </data>
+  <data name="Action_Transfer" xml:space="preserve">
+    <value>Overboeken</value>
+  </data>
+  <data name="Kind_Deposit" xml:space="preserve">
+    <value>Storting</value>
+  </data>
+  <data name="Kind_Withdrawal" xml:space="preserve">
+    <value>Opname</value>
+  </data>
+  <data name="Kind_From" xml:space="preserve">
+    <value>Van {0}</value>
+  </data>
+  <data name="Kind_To" xml:space="preserve">
+    <value>Naar {0}</value>
+  </data>
+  <data name="Edit_NewTitle" xml:space="preserve">
+    <value>Nieuw potje</value>
+  </data>
+  <data name="Edit_EditTitle" xml:space="preserve">
+    <value>Potje bewerken</value>
+  </data>
+  <data name="Edit_Name" xml:space="preserve">
+    <value>NAAM</value>
+  </data>
+  <data name="Edit_NamePlaceholder" xml:space="preserve">
+    <value>Bv. Vakantie, Sparen, Auto…</value>
+  </data>
+  <data name="Edit_Icon" xml:space="preserve">
+    <value>ICOON</value>
+  </data>
+  <data name="Edit_Color" xml:space="preserve">
+    <value>KLEUR</value>
+  </data>
+  <data name="Edit_Goal" xml:space="preserve">
+    <value>Spaardoel</value>
+  </data>
+  <data name="Edit_GoalHint" xml:space="preserve">
+    <value>Volg je vooruitgang naar een streefbedrag</value>
+  </data>
+  <data name="Edit_InitialAmount" xml:space="preserve">
+    <value>STARTBEDRAG (OPTIONEEL)</value>
+  </data>
+  <data name="Edit_InitialNote" xml:space="preserve">
+    <value>Startbedrag</value>
+  </data>
+  <data name="Edit_Delete" xml:space="preserve">
+    <value>Potje verwijderen</value>
+  </data>
+  <data name="Edit_InvalidGoal" xml:space="preserve">
+    <value>Geef een geldig doel op, bijvoorbeeld 2000.</value>
+  </data>
+  <data name="Edit_DeleteTitle" xml:space="preserve">
+    <value>„{0}” verwijderen?</value>
+  </data>
+  <data name="Edit_DeleteText" xml:space="preserve">
+    <value>Het potje en de volledige geschiedenis worden definitief verwijderd.</value>
+  </data>
+  <data name="Edit_DeleteConfirm" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Movement_Title" xml:space="preserve">
+    <value>Transactie</value>
+  </data>
+  <data name="Movement_Into" xml:space="preserve">
+    <value>IN POTJE</value>
+  </data>
+  <data name="Movement_OutOf" xml:space="preserve">
+    <value>UIT POTJE</value>
+  </data>
+  <data name="Movement_From" xml:space="preserve">
+    <value>VAN</value>
+  </data>
+  <data name="Movement_To" xml:space="preserve">
+    <value>NAAR</value>
+  </data>
+  <data name="Movement_AddNote" xml:space="preserve">
+    <value>Notitie toevoegen</value>
+  </data>
+  <data name="Movement_Note" xml:space="preserve">
+    <value>Notitie</value>
+  </data>
+  <data name="Movement_NotePlaceholder" xml:space="preserve">
+    <value>Bv. premie, verjaardag…</value>
+  </data>
+  <data name="Movement_Erase" xml:space="preserve">
+    <value>Wissen</value>
+  </data>
+  <data name="Movement_EnterAmount" xml:space="preserve">
+    <value>Voer een bedrag in.</value>
+  </data>
+  <data name="Movement_ChoosePocket" xml:space="preserve">
+    <value>Kies een potje.</value>
+  </data>
+  <data name="Movement_ChooseTarget" xml:space="preserve">
+    <value>Kies het doelpotje.</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Settings_Display" xml:space="preserve">
+    <value>WEERGAVE</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Taal</value>
+  </data>
+  <data name="Settings_Currency" xml:space="preserve">
+    <value>Valuta</value>
+  </data>
+  <data name="Settings_CurrencyTitle" xml:space="preserve">
+    <value>Weergavevaluta</value>
+  </data>
+  <data name="Settings_HideAmounts" xml:space="preserve">
+    <value>Bedragen verbergen</value>
+  </data>
+  <data name="Settings_HideAmountsHint" xml:space="preserve">
+    <value>Handig in het openbaar</value>
+  </data>
+  <data name="Settings_BackupSection" xml:space="preserve">
+    <value>BACK-UP</value>
+  </data>
+  <data name="Settings_Backup" xml:space="preserve">
+    <value>Back-up van mijn gegevens maken</value>
+  </data>
+  <data name="Settings_Restore" xml:space="preserve">
+    <value>Back-up terugzetten</value>
+  </data>
+  <data name="Settings_RestoreHint" xml:space="preserve">
+    <value>Vervangt de gegevens op deze telefoon</value>
+  </data>
+  <data name="Settings_BackupHint" xml:space="preserve">
+    <value>Bewaar het bestand in iCloud Drive („Bewaar in Bestanden”) of mail het naar jezelf: je kunt het dan op een andere telefoon terugzetten, zelfs op Android.</value>
+  </data>
+  <data name="Settings_DataSection" xml:space="preserve">
+    <value>GEGEVENS</value>
+  </data>
+  <data name="Settings_DeleteAll" xml:space="preserve">
+    <value>Alles wissen</value>
+  </data>
+  <data name="Settings_DeleteAllHint" xml:space="preserve">
+    <value>Verwijdert alle potjes en hun geschiedenis</value>
+  </data>
+  <data name="Settings_DeleteAllTitle" xml:space="preserve">
+    <value>Alles wissen?</value>
+  </data>
+  <data name="Settings_DeleteAllText" xml:space="preserve">
+    <value>Al je potjes en hun geschiedenis worden definitief van deze telefoon verwijderd. Maak eerst een back-up als je ze wilt kunnen terughalen.</value>
+  </data>
+  <data name="Settings_LastBackup" xml:space="preserve">
+    <value>Laatste back-up: {0}</value>
+  </data>
+  <data name="Settings_NoBackup" xml:space="preserve">
+    <value>Nog geen back-up</value>
+  </data>
+  <data name="Settings_BackupFailed" xml:space="preserve">
+    <value>Back-up mislukt</value>
+  </data>
+  <data name="Settings_BackupFailedText" xml:space="preserve">
+    <value>Het bestand kon niet worden aangemaakt. ({0})</value>
+  </data>
+  <data name="Settings_RestoreTitle" xml:space="preserve">
+    <value>Deze back-up terugzetten?</value>
+  </data>
+  <data name="Settings_RestoreText" xml:space="preserve">
+    <value>Back-up van {0}: {1}, {2}.
+
+Je huidige gegevens worden vervangen.</value>
+  </data>
+  <data name="Settings_RestoreConfirm" xml:space="preserve">
+    <value>Terugzetten</value>
+  </data>
+  <data name="Settings_RestoreDone" xml:space="preserve">
+    <value>Klaar</value>
+  </data>
+  <data name="Settings_RestoreDoneText" xml:space="preserve">
+    <value>Je potjes zijn teruggezet.</value>
+  </data>
+  <data name="Settings_RestoreFailed" xml:space="preserve">
+    <value>Terugzetten mislukt</value>
+  </data>
+  <data name="Settings_RestoreFailedText" xml:space="preserve">
+    <value>Het bestand kon niet worden gelezen. ({0})</value>
+  </data>
+  <data name="Backup_ShareTitle" xml:space="preserve">
+    <value>Poches-back-up</value>
+  </data>
+  <data name="Date_Today" xml:space="preserve">
+    <value>vandaag</value>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>gisteren</value>
+  </data>
+  <data name="Date_DaysAgo" xml:space="preserve">
+    <value>{0} dagen geleden</value>
+  </data>
+  <data name="Date_On" xml:space="preserve">
+    <value>op {0}</value>
+  </data>
+  <data name="Error_EmptyName" xml:space="preserve">
+    <value>Geef je potje een naam.</value>
+  </data>
+  <data name="Error_InvalidInitialAmount" xml:space="preserve">
+    <value>Het startbedrag is ongeldig.</value>
+  </data>
+  <data name="Error_InvalidAmount" xml:space="preserve">
+    <value>Het bedrag moet groter zijn dan nul.</value>
+  </data>
+  <data name="Error_AmountTooLarge" xml:space="preserve">
+    <value>Dit bedrag is te hoog.</value>
+  </data>
+  <data name="Error_InsufficientFunds" xml:space="preserve">
+    <value>Onvoldoende saldo in dit potje.</value>
+  </data>
+  <data name="Error_SamePocket" xml:space="preserve">
+    <value>Kies twee verschillende potjes.</value>
+  </data>
+  <data name="Error_PocketNotFound" xml:space="preserve">
+    <value>Dit potje bestaat niet meer.</value>
+  </data>
+  <data name="Error_MovementNotFound" xml:space="preserve">
+    <value>Deze transactie bestaat niet meer.</value>
+  </data>
+  <data name="Error_BalanceWouldBeNegative" xml:space="preserve">
+    <value>Niet mogelijk: het saldo van het potje zou negatief worden.</value>
+  </data>
+  <data name="Error_InvalidBackupFile" xml:space="preserve">
+    <value>Dit bestand is geen geldige Poches-back-up.</value>
+  </data>
+  <data name="Error_BackupFromNewerVersion" xml:space="preserve">
+    <value>Deze back-up komt van een nieuwere versie van Poches. Werk de app bij om ze terug te zetten.</value>
+  </data>
+  <data name="Error_CorruptBackup" xml:space="preserve">
+    <value>Deze back-up is onvolledig of beschadigd en kan niet worden teruggezet.</value>
+  </data>
+  <data name="Sample_Savings" xml:space="preserve">
+    <value>Noodfonds</value>
+  </data>
+  <data name="Sample_MonthlyTransfer" xml:space="preserve">
+    <value>Maandelijkse overschrijving</value>
+  </data>
+  <data name="Sample_Investments" xml:space="preserve">
+    <value>Beleggingen</value>
+  </data>
+  <data name="Sample_Stocks" xml:space="preserve">
+    <value>Aandelen</value>
+  </data>
+  <data name="Sample_LifeInsurance" xml:space="preserve">
+    <value>Levensverzekering</value>
+  </data>
+  <data name="Sample_Holidays" xml:space="preserve">
+    <value>Vakantie</value>
+  </data>
+  <data name="Sample_Bonus" xml:space="preserve">
+    <value>Premie</value>
+  </data>
+  <data name="Sample_HolidayRental" xml:space="preserve">
+    <value>Huur Biarritz</value>
+  </data>
+  <data name="Sample_NewCar" xml:space="preserve">
+    <value>Nieuwe auto</value>
+  </data>
+  <data name="Sample_Gifts" xml:space="preserve">
+    <value>Cadeaus</value>
+  </data>
+  <data name="Sample_Birthday" xml:space="preserve">
+    <value>Verjaardag Léa</value>
+  </data>
+</root>

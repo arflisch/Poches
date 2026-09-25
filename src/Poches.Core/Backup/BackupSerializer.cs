@@ -25,13 +25,13 @@ public static class BackupSerializer
         }
         catch (JsonException)
         {
-            throw new BudgetException("Ce fichier n'est pas une sauvegarde Poches valide.");
+            throw new BudgetException(BudgetError.InvalidBackupFile, "Not a Poches backup file.");
         }
 
         if (document is null || document.Format != BackupDocument.FormatName)
-            throw new BudgetException("Ce fichier n'est pas une sauvegarde Poches valide.");
+            throw new BudgetException(BudgetError.InvalidBackupFile, "Not a Poches backup file.");
         if (document.Version > BackupDocument.CurrentVersion)
-            throw new BudgetException("Cette sauvegarde vient d'une version plus récente de Poches. Mets l'app à jour pour la restaurer.");
+            throw new BudgetException(BudgetError.BackupFromNewerVersion, $"Backup version {document.Version} is newer than supported version {BackupDocument.CurrentVersion}.");
         return document;
     }
 }

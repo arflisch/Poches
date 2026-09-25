@@ -89,7 +89,7 @@ public sealed class BackupTests : IAsyncLifetime
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(content));
 
         var error = await Assert.ThrowsAsync<BudgetException>(() => BackupSerializer.ReadAsync(stream));
-        Assert.Contains("pas une sauvegarde Poches", error.Message);
+        Assert.Equal(BudgetError.InvalidBackupFile, error.Error);
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public sealed class BackupTests : IAsyncLifetime
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes("{\"format\": \"poches-backup\", \"version\": 99}"));
 
         var error = await Assert.ThrowsAsync<BudgetException>(() => BackupSerializer.ReadAsync(stream));
-        Assert.Contains("plus récente", error.Message);
+        Assert.Equal(BudgetError.BackupFromNewerVersion, error.Error);
     }
 
     [Fact]
@@ -111,7 +111,8 @@ public sealed class BackupTests : IAsyncLifetime
             Movements = [new BackupMovement(42, 1000, MovementKind.Deposit, null, DateTime.Now, null, null)],
         };
 
-        await Assert.ThrowsAsync<BudgetException>(() => _target.ImportAsync(broken));
+        var error = await Assert.ThrowsAsync<BudgetException>(() => _target.ImportAsync(broken));
+        Assert.Equal(BudgetError.CorruptBackup, error.Error);
 
         var remaining = Assert.Single(await _target.GetPocketSummariesAsync());
         Assert.Equal("À garder", remaining.Pocket.Name);
@@ -140,7 +141,19 @@ public sealed class BackupTests : IAsyncLifetime
     public void Describes_backup_age(int daysAgo, string expected)
     {
         var now = new DateTime(2026, 9, 25, 8, 0, 0);
-        Assert.Equal(expected, RelativeDate.Describe(now.AddDays(-daysAgo), now));
+        var french = System.Globalization.CultureInfo.GetCultureInfo("fr-FR");
+        Assert.Equal(expected, RelativeDate.Describe(now.AddDays(-daysAgo), now, RelativeDateTexts.French, french));
+    }
+
+    [Fact]
+    public void Describes_backup_age_in_another_language()
+    {
+        var now = new DateTime(2026, 9, 25, 8, 0, 0);
+        var dutch = new RelativeDateTexts("vandaag", "gisteren", "{0} dagen geleden", "op {0}");
+        var culture = System.Globalization.CultureInfo.GetCultureInfo("nl-NL");
+
+        Assert.Equal("3 dagen geleden", RelativeDate.Describe(now.AddDays(-3), now, dutch, culture));
+        Assert.Equal("op 11 augustus 2026", RelativeDate.Describe(now.AddDays(-45), now, dutch, culture));
     }
 
     private BudgetStore CreateStore()

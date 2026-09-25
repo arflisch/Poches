@@ -48,16 +48,19 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
             .ToListAsync();
     }
 
-    /// <summary>Creates or updates a pocket. A positive <paramref name="initialAmount"/> is recorded as a first deposit.</summary>
-    public async Task<Pocket> SavePocketAsync(Pocket pocket, decimal initialAmount = 0m)
+    /// <summary>
+    /// Creates or updates a pocket. A positive <paramref name="initialAmount"/> is recorded as a first deposit
+    /// labelled <paramref name="initialNote"/>.
+    /// </summary>
+    public async Task<Pocket> SavePocketAsync(Pocket pocket, decimal initialAmount = 0m, string? initialNote = null)
     {
         pocket.Name = pocket.Name.Trim();
         if (pocket.Name.Length == 0)
-            throw new BudgetException("Donne un nom à ta poche.");
+            throw new BudgetException(BudgetError.EmptyName, "A pocket needs a name.");
         if (pocket.GoalCents is <= 0)
             pocket.GoalCents = null;
         if (initialAmount < 0 || initialAmount > Money.MaxAmount)
-            throw new BudgetException("Le montant de départ n'est pas valide.");
+            throw new BudgetException(BudgetError.InvalidInitialAmount, $"Invalid initial amount {initialAmount}.");
 
         var db = await GetConnectionAsync();
         await db.RunInTransactionAsync(conn =>
@@ -73,7 +76,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
                         PocketId = pocket.Id,
                         AmountCents = Money.ToCents(initialAmount),
                         Kind = MovementKind.Deposit,
-                        Note = "Montant de départ",
+                        Note = Normalize(initialNote),
                         Date = DateTime.Now,
                     });
                 }
@@ -112,7 +115,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
 
         var cents = Money.ToCents(amount);
         if (kind == MovementKind.Withdrawal && await GetBalanceCentsAsync(db, pocketId) < cents)
-            throw new BudgetException("Solde insuffisant dans cette poche.");
+            throw new BudgetException(BudgetError.InsufficientFunds, $"Pocket {pocketId} cannot cover a withdrawal of {amount}.");
 
         var movement = new Movement
         {
@@ -130,7 +133,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
     public async Task TransferAsync(int fromPocketId, int toPocketId, decimal amount, string? note, DateTime date)
     {
         if (fromPocketId == toPocketId)
-            throw new BudgetException("Choisis deux poches différentes.");
+            throw new BudgetException(BudgetError.SamePocket, "A transfer needs two different pockets.");
         EnsureValidAmount(amount);
 
         var db = await GetConnectionAsync();
@@ -139,7 +142,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
 
         var cents = Money.ToCents(amount);
         if (await GetBalanceCentsAsync(db, fromPocketId) < cents)
-            throw new BudgetException("Solde insuffisant dans la poche de départ.");
+            throw new BudgetException(BudgetError.InsufficientFunds, $"Pocket {fromPocketId} cannot cover a transfer of {amount}.");
 
         var group = Guid.NewGuid().ToString("N");
         await db.RunInTransactionAsync(conn =>
@@ -173,7 +176,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
     {
         var db = await GetConnectionAsync();
         var movement = await db.FindAsync<Movement>(movementId)
-            ?? throw new BudgetException("Ce mouvement n'existe plus.");
+            ?? throw new BudgetException(BudgetError.MovementNotFound, $"Movement {movementId} does not exist.");
 
         var legs = movement.TransferGroup is { } group
             ? await db.Table<Movement>().Where(m => m.TransferGroup == group).ToListAsync()
@@ -182,7 +185,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
         foreach (var leg in legs.Where(l => l.AmountCents > 0))
         {
             if (await GetBalanceCentsAsync(db, leg.PocketId) - leg.AmountCents < 0)
-                throw new BudgetException("Impossible : le solde de la poche deviendrait négatif.");
+                throw new BudgetException(BudgetError.BalanceWouldBeNegative, $"Deleting would make pocket {leg.PocketId} negative.");
         }
 
         await db.RunInTransactionAsync(conn =>
@@ -261,15 +264,15 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
     private static async Task EnsurePocketExistsAsync(SQLiteAsyncConnection db, int pocketId)
     {
         if (await db.FindAsync<Pocket>(pocketId) is null)
-            throw new BudgetException("Cette poche n'existe plus.");
+            throw new BudgetException(BudgetError.PocketNotFound, $"Pocket {pocketId} does not exist.");
     }
 
     private static void EnsureValidAmount(decimal amount)
     {
         if (amount <= 0)
-            throw new BudgetException("Le montant doit être supérieur à zéro.");
+            throw new BudgetException(BudgetError.InvalidAmount, $"Amount {amount} must be positive.");
         if (amount > Money.MaxAmount)
-            throw new BudgetException("Ce montant est trop élevé.");
+            throw new BudgetException(BudgetError.AmountTooLarge, $"Amount {amount} is too large.");
     }
 
     private static string? Normalize(string? note) =>

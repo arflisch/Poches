@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Poches.Core.Data;
 using Poches.Core.Formatting;
 using Poches.Core.Models;
+using Poches.Localization;
 using Poches.Services;
 
 namespace Poches.ViewModels;
@@ -23,6 +24,7 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
     private readonly BudgetStore _store;
     private readonly IDialogService _dialogs;
     private readonly MoneyFormatter _formatter;
+    private readonly AppSettings _settings;
     private List<PocketChoice> _pockets = [];
     private int? _requestedPocketId;
 
@@ -31,13 +33,14 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
         _store = store;
         _dialogs = dialogs;
         // Amounts being typed are always shown, even in privacy mode.
-        _formatter = new MoneyFormatter(settings.Currency);
+        _formatter = new MoneyFormatter(settings.Currency, culture: Localizer.Instance.Culture);
+        _settings = settings;
         Currency = settings.Currency;
         Modes =
         [
-            new SelectableOption(nameof(MovementMode.Deposit), 0, 3, SelectMode) { Label = "Ajouter", IsSelected = true },
-            new SelectableOption(nameof(MovementMode.Withdrawal), 1, 3, SelectMode) { Label = "Retirer" },
-            new SelectableOption(nameof(MovementMode.Transfer), 2, 3, SelectMode) { Label = "Transférer" },
+            new SelectableOption(nameof(MovementMode.Deposit), 0, 3, SelectMode) { Label = Loc.Get("Action_Add"), IsSelected = true },
+            new SelectableOption(nameof(MovementMode.Withdrawal), 1, 3, SelectMode) { Label = Loc.Get("Action_Withdraw") },
+            new SelectableOption(nameof(MovementMode.Transfer), 2, 3, SelectMode) { Label = Loc.Get("Action_Transfer") },
         ];
         UpdateTexts();
     }
@@ -68,7 +71,15 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
 
     public bool HasNote => !string.IsNullOrWhiteSpace(Note);
 
-    public string NoteDisplay => HasNote ? Note : "Ajouter une note";
+    public string NoteDisplay => HasNote ? Note : Loc.Get("Movement_AddNote");
+
+    /// <summary>Label of the keypad's decimal key: "," in French and Dutch, "." in English.</summary>
+    public string DecimalSeparator => _formatter.DecimalSeparator;
+
+    /// <summary>Whether the currency symbol goes before the typed amount ("€ 12" in Dutch and English).</summary>
+    public bool SymbolBefore => _formatter.Split(0).Prefix.Length > 0;
+
+    public bool SymbolAfter => !SymbolBefore;
 
     [ObservableProperty]
     private DateTime? _date = DateTime.Today;
@@ -110,7 +121,7 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
 
     private async Task LoadPocketsAsync()
     {
-        var formatter = new MoneyFormatter(Currency);
+        var formatter = _settings.Formatter;
         var summaries = await _store.GetPocketSummariesAsync();
         // The pocket we came from is listed first so it is visible without scrolling.
         _pockets = summaries
@@ -173,7 +184,7 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
     [RelayCommand]
     private async Task EditNoteAsync()
     {
-        var note = await _dialogs.PromptAsync("Note", "Ex : prime, anniversaire…", Note, 60);
+        var note = await _dialogs.PromptAsync(Loc.Get("Movement_Note"), Loc.Get("Movement_NotePlaceholder"), Note, 60);
         if (note is not null)
             Note = note.Trim();
     }
@@ -183,17 +194,17 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
     {
         if (!AmountParser.TryParse(AmountInput, out var amount) || amount <= 0)
         {
-            ShowError("Saisis un montant.");
+            ShowError(Loc.Get("Movement_EnterAmount"));
             return;
         }
         if (Source is null)
         {
-            ShowError("Choisis une poche.");
+            ShowError(Loc.Get("Movement_ChoosePocket"));
             return;
         }
         if (Mode == MovementMode.Transfer && Target is null)
         {
-            ShowError("Choisis la poche de destination.");
+            ShowError(Loc.Get("Movement_ChooseTarget"));
             return;
         }
 
@@ -217,7 +228,7 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
         }
         catch (BudgetException ex)
         {
-            ShowError(ex.Message);
+            ShowError(Loc.Error(ex));
         }
     }
 
@@ -254,29 +265,29 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
     {
         var verb = Mode switch
         {
-            MovementMode.Deposit => "Ajouter",
-            MovementMode.Withdrawal => "Retirer",
-            _ => "Transférer",
+            MovementMode.Deposit => Loc.Get("Action_Add"),
+            MovementMode.Withdrawal => Loc.Get("Action_Withdraw"),
+            _ => Loc.Get("Action_Transfer"),
         };
         SourceLabel = Mode switch
         {
-            MovementMode.Deposit => "DANS LA POCHE",
-            MovementMode.Withdrawal => "DE LA POCHE",
-            _ => "DEPUIS",
+            MovementMode.Deposit => Loc.Get("Movement_Into"),
+            MovementMode.Withdrawal => Loc.Get("Movement_OutOf"),
+            _ => Loc.Get("Movement_From"),
         };
         ConfirmText = HasAmount && AmountParser.TryParse(AmountInput, out var amount)
             ? $"{verb} {_formatter.Format(amount)}"
             : verb;
     }
 
-    /// <summary>"1234,5" → "1 234,5" while typing, keeping what the user entered after the comma.</summary>
-    private static string FormatInput(string input)
+    /// <summary>"1234,5" → "1 234,5" (or "1,234.5" in English) while typing, keeping what was entered after the separator.</summary>
+    private string FormatInput(string input)
     {
         if (input.Length == 0)
             return "0";
         var parts = input.Split(',');
-        var whole = long.TryParse(parts[0], out var n) ? n.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("fr-FR")).Replace(' ', ' ') : parts[0];
-        return parts.Length > 1 ? $"{whole},{parts[1]}" : whole;
+        var whole = long.TryParse(parts[0], out var n) ? _formatter.FormatWhole(n) : parts[0];
+        return parts.Length > 1 ? $"{whole}{_formatter.DecimalSeparator}{parts[1]}" : whole;
     }
 
     private static DateTime MergeWithCurrentTime(DateTime day) =>

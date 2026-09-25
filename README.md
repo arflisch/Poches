@@ -13,7 +13,8 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - **Mouvements** : ajout, retrait, **transfert entre poches**, note et date, avec un pavé numérique intégré. Un retrait ne peut pas dépasser le solde.
 - **Détail d'une poche** : courbe d'évolution du solde, barre de progression vers l'objectif, historique groupé par mois (appui sur une ligne pour la supprimer).
 - **Mode discret** (icône œil) : masque tous les montants, utile en public.
-- **Réglages** (bouton en haut à droite) : devise d'affichage (€, CHF, $, £), mode discret, sauvegarde, restauration et « Tout effacer ».
+- **Langues** : français, néerlandais et anglais, au choix dans les réglages (par défaut : la langue du téléphone). Le changement est immédiat, et les montants et dates suivent les conventions de la langue (« 1 234,56 € », « € 1.234,56 », « €1,234.56 »).
+- **Réglages** (bouton en haut à droite) : langue, devise d'affichage (€, CHF, $, £), mode discret, sauvegarde, restauration et « Tout effacer ».
 - **Sauvegarde / restauration** : exporte toutes les poches dans un fichier JSON via la feuille de partage (iCloud Drive, mail, AirDrop…) et le restaure sur n'importe quel téléphone, iPhone ou Android. Un rappel apparaît sur l'accueil si la dernière sauvegarde date de plus de 30 jours.
 - **Thème clair / sombre** automatique.
 - **Exemples** : sur l'écran vide, « Explorer avec des exemples » crée 5 poches de démonstration.
@@ -40,6 +41,14 @@ Poches.slnx
 │   └── Resources/Styles/    couleurs et styles (clair/sombre)
 └── tests/Poches.Core.Tests  tests xUnit de la logique métier (SQLite réel en fichier temporaire)
 ```
+
+### Traductions
+
+Les textes sont dans `src/Poches/Resources/Strings/` : `AppResources.resx` (anglais, langue par défaut), `AppResources.fr.resx` et `AppResources.nl.resx` (l'éditeur de ressources de Rider les affiche côte à côte).
+- En XAML : `Text="{l:Tr Main_Title}"` ; en C# : `Loc.Get("Main_Title")` ou `Loc.Format("Main_ThisMonth", montant)`.
+- Les erreurs métier de `Poches.Core` sont des codes (`BudgetError`) traduits via les clés `Error_*`.
+- Les tests `TranslationTests` échouent si une langue n'a pas les mêmes clés ou les mêmes `{0}`, si une clé utilisée dans le code n'existe pas, ou si une clé n'est plus utilisée.
+- Pour ajouter une langue : créer `AppResources.xx.resx`, l'ajouter à `Localizer.Languages` et à `CFBundleLocalizations` (Info.plist iOS).
 
 Les graphiques et icônes sont dessinés avec `Microsoft.Maui.Graphics` : aucune bibliothèque de graphiques tierce, rendu identique sur iOS et Android.
 

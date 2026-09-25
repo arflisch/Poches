@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:MovementViewModel"
@@ -37,8 +38,8 @@
             <Label
                 c:Touch.Command="{Binding CancelCommand}"
                 Style="{StaticResource LinkLabel}"
-                Text="Annuler" />
-            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="Mouvement" />
+                Text="{l:Tr Common_Cancel}" />
+            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="{l:Tr Movement_Title}" />
         </Grid>
 
         <ScrollView Grid.Row="1">
@@ -76,6 +77,14 @@
                 <VerticalStackLayout Spacing="4">
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
                         <Label
+                            Margin="0,0,0,9"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="26"
+                            IsVisible="{Binding SymbolBefore}"
+                            Style="{StaticResource Secondary}"
+                            Text="{Binding Currency}"
+                            VerticalOptions="End" />
+                        <Label
                             FontFamily="OpenSansSemibold"
                             FontSize="46"
                             LineBreakMode="NoWrap"
@@ -94,6 +103,7 @@
                             Margin="0,0,0,9"
                             FontFamily="OpenSansSemibold"
                             FontSize="26"
+                            IsVisible="{Binding SymbolAfter}"
                             Style="{StaticResource Secondary}"
                             Text="{Binding Currency}"
                             VerticalOptions="End" />
@@ -132,7 +142,7 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout IsVisible="{Binding IsTransfer}" Spacing="10">
-                    <Label Style="{StaticResource FieldLabel}" Text="VERS" />
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Movement_To}" />
                     <ScrollView Margin="-20,0" Orientation="Horizontal">
                         <HorizontalStackLayout
                             Padding="20,2"
@@ -295,7 +305,7 @@
                     c:Touch.Command="{Binding KeyCommand}"
                     c:Touch.CommandParameter=","
                     Style="{StaticResource Key}">
-                    <Label Style="{StaticResource KeyText}" Text="," />
+                    <Label Style="{StaticResource KeyText}" Text="{Binding DecimalSeparator}" />
                 </Border>
                 <Border
                     Grid.Row="3"
@@ -311,7 +321,7 @@
                     c:Touch.Command="{Binding KeyCommand}"
                     c:Touch.CommandParameter="back"
                     Style="{StaticResource Key}"
-                    SemanticProperties.Description="Effacer">
+                    SemanticProperties.Description="{l:Tr Movement_Erase}">
                     <c:IconView
                         Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
                         Data="{x:Static c:Icons.Backspace}"

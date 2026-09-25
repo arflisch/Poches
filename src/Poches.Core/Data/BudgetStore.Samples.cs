@@ -2,11 +2,32 @@ using Poches.Core.Models;
 
 namespace Poches.Core.Data;
 
+/// <summary>Names and notes of the sample data, in the user's language.</summary>
+public sealed record SampleTexts(
+    string Savings,
+    string StartingAmount,
+    string MonthlyTransfer,
+    string Investments,
+    string Stocks,
+    string LifeInsurance,
+    string Holidays,
+    string Bonus,
+    string HolidayRental,
+    string NewCar,
+    string Gifts,
+    string Birthday)
+{
+    public static SampleTexts French { get; } = new(
+        "Épargne de précaution", "Montant de départ", "Virement mensuel", "Investissement", "PEA", "Assurance vie",
+        "Vacances", "Prime", "Location Biarritz", "Nouvelle voiture", "Cadeaux", "Anniversaire Léa");
+}
+
 public sealed partial class BudgetStore
 {
     /// <summary>Fills an empty database with a few realistic pockets so the app can be explored right away.</summary>
-    public async Task SeedSampleDataAsync(DateTime now)
+    public async Task SeedSampleDataAsync(DateTime now, SampleTexts? texts = null)
     {
+        var t = texts ?? SampleTexts.French;
         var db = await GetConnectionAsync();
         if (await db.Table<Pocket>().CountAsync() > 0)
             return;
@@ -36,37 +57,37 @@ public sealed partial class BudgetStore
                 });
             }
 
-            var safety = Add("Épargne de précaution", "🛟", "#10B981", 6000m, 6);
-            Move(safety, 2000m, 6, 2, "Montant de départ");
+            var safety = Add(t.Savings, "🛟", "#10B981", 6000m, 6);
+            Move(safety, 2000m, 6, 2, t.StartingAmount);
             for (var m = 5; m >= 0; m--)
-                Move(safety, 250m, m, 3, "Virement mensuel");
+                Move(safety, 250m, m, 3, t.MonthlyTransfer);
 
-            var invest = Add("Investissement", "📈", "#6366F1", null, 6);
-            Move(invest, 1500m, 6, 5, "PEA");
-            Move(invest, 400m, 4, 5, "PEA");
-            Move(invest, 400m, 3, 5, "PEA");
-            Move(invest, 600m, 2, 5, "Assurance vie");
-            Move(invest, 400m, 1, 5, "PEA");
-            Move(invest, 400m, 0, 5, "PEA");
+            var invest = Add(t.Investments, "📈", "#6366F1", null, 6);
+            Move(invest, 1500m, 6, 5, t.Stocks);
+            Move(invest, 400m, 4, 5, t.Stocks);
+            Move(invest, 400m, 3, 5, t.Stocks);
+            Move(invest, 600m, 2, 5, t.LifeInsurance);
+            Move(invest, 400m, 1, 5, t.Stocks);
+            Move(invest, 400m, 0, 5, t.Stocks);
 
-            var holidays = Add("Vacances", "🏖️", "#F97316", 2500m, 5);
+            var holidays = Add(t.Holidays, "🏖️", "#F97316", 2500m, 5);
             Move(holidays, 300m, 5, 10);
             Move(holidays, 300m, 4, 10);
-            Move(holidays, 450m, 3, 10, "Prime");
-            Move(holidays, -620m, 2, 18, "Location Biarritz");
+            Move(holidays, 450m, 3, 10, t.Bonus);
+            Move(holidays, -620m, 2, 18, t.HolidayRental);
             Move(holidays, 300m, 1, 10);
             Move(holidays, 300m, 0, 10);
 
-            var car = Add("Nouvelle voiture", "🚗", "#0891B2", 8000m, 4);
+            var car = Add(t.NewCar, "🚗", "#0891B2", 8000m, 4);
             Move(car, 500m, 4, 12);
             Move(car, 200m, 3, 12);
             Move(car, 200m, 2, 12);
             Move(car, 200m, 1, 12);
             Move(car, 200m, 0, 12);
 
-            var gifts = Add("Cadeaux", "🎁", "#EC4899", null, 3);
+            var gifts = Add(t.Gifts, "🎁", "#EC4899", null, 3);
             Move(gifts, 150m, 3, 20);
-            Move(gifts, -45m, 2, 22, "Anniversaire Léa");
+            Move(gifts, -45m, 2, 22, t.Birthday);
             Move(gifts, 100m, 0, 20);
         });
 

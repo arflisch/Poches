@@ -19,7 +19,7 @@ public sealed class BackupFilePicker(IFilePicker filePicker)
         var path = await PickJsonCopyAsync();
         return path is null ? null : File.OpenRead(path);
 #else
-        var file = await filePicker.PickAsync(new PickOptions { PickerTitle = "Choisis une sauvegarde Poches", FileTypes = JsonFiles });
+        var file = await filePicker.PickAsync(new PickOptions { FileTypes = JsonFiles });
         return file is null ? null : await file.OpenReadAsync();
 #endif
     }

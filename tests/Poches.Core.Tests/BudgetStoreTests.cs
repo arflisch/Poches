@@ -64,7 +64,7 @@ public sealed class BudgetStoreTests : IAsyncLifetime
         var error = await Assert.ThrowsAsync<BudgetException>(
             () => _store.AddMovementAsync(pocket.Id, MovementKind.Withdrawal, 30.01m, null, DateTime.Now));
 
-        Assert.Contains("insuffisant", error.Message);
+        Assert.Equal(BudgetError.InsufficientFunds, error.Error);
     }
 
     [Fact]
@@ -95,7 +95,8 @@ public sealed class BudgetStoreTests : IAsyncLifetime
         var deposit = await _store.AddMovementAsync(pocket.Id, MovementKind.Deposit, 100m, null, DateTime.Now);
         await _store.AddMovementAsync(pocket.Id, MovementKind.Withdrawal, 80m, null, DateTime.Now);
 
-        await Assert.ThrowsAsync<BudgetException>(() => _store.DeleteMovementAsync(deposit.Id));
+        var error = await Assert.ThrowsAsync<BudgetException>(() => _store.DeleteMovementAsync(deposit.Id));
+        Assert.Equal(BudgetError.BalanceWouldBeNegative, error.Error);
     }
 
     [Fact]
@@ -119,8 +120,10 @@ public sealed class BudgetStoreTests : IAsyncLifetime
         var changes = 0;
         _store.Changed += (_, _) => changes++;
 
-        var pocket = await _store.SavePocketAsync(new Pocket { Name = "  Voiture  ", Goal = 8000m }, 2000m);
+        var pocket = await _store.SavePocketAsync(new Pocket { Name = "  Voiture  ", Goal = 8000m }, 2000m, "Startbedrag");
         var summary = (await _store.GetPocketSummaryAsync(pocket.Id))!;
+
+        Assert.Equal("Startbedrag", (await _store.GetMovementsAsync(pocket.Id)).Single().Note);
 
         Assert.Equal("Voiture", summary.Pocket.Name);
         Assert.Equal(0.25, summary.GoalProgress);
@@ -130,20 +133,23 @@ public sealed class BudgetStoreTests : IAsyncLifetime
     [Fact]
     public async Task Empty_name_is_refused()
     {
-        await Assert.ThrowsAsync<BudgetException>(() => _store.SavePocketAsync(new Pocket { Name = "   " }));
+        var error = await Assert.ThrowsAsync<BudgetException>(() => _store.SavePocketAsync(new Pocket { Name = "   " }));
+        Assert.Equal(BudgetError.EmptyName, error.Error);
     }
 
     [Fact]
     public async Task Sample_data_is_only_seeded_into_an_empty_database()
     {
         var now = new DateTime(2026, 9, 23, 12, 0, 0);
-        await _store.SeedSampleDataAsync(now);
+        var english = SampleTexts.French with { Holidays = "Holidays" };
+        await _store.SeedSampleDataAsync(now, english);
         var first = await _store.GetOverviewAsync(now);
 
         await _store.SeedSampleDataAsync(now);
         var second = await _store.GetOverviewAsync(now);
 
         Assert.Equal(5, first.Pockets.Count);
+        Assert.Contains(first.Pockets, p => p.Pocket.Name == "Holidays");
         Assert.Equal(first.TotalCents, second.TotalCents);
         Assert.All(first.Pockets, p => Assert.True(p.BalanceCents >= 0));
     }

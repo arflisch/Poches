@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Poches.Controls;
 using Poches.Core.Data;
 using Poches.Core.Formatting;
 using Poches.Core.Models;
+using Poches.Localization;
 using Poches.Services;
 
 namespace Poches.ViewModels;
@@ -13,7 +13,6 @@ namespace Poches.ViewModels;
 public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings settings, IDialogService dialogs)
     : ReloadingViewModel, IQueryAttributable
 {
-    private static readonly CultureInfo French = CultureInfo.GetCultureInfo("fr-FR");
     private static readonly Color Positive = Color.FromArgb("#10B981");
     private static readonly Color Negative = Color.FromArgb("#F43F5E");
     private static readonly Color Neutral = Color.FromArgb("#6366F1");
@@ -38,6 +37,9 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
 
     [ObservableProperty]
     private Brush _heroBrush = Palette.HeroBrush(Neutral);
+
+    [ObservableProperty]
+    private string _balancePrefix = string.Empty;
 
     [ObservableProperty]
     private string _balanceWhole = string.Empty;
@@ -96,17 +98,17 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
         Color = Color.FromArgb(pocket.ColorHex);
         SoftColor = Palette.Soft(Color);
         HeroBrush = Palette.HeroBrush(Color);
-        (BalanceWhole, BalanceFraction) = formatter.Split(summary.Balance);
+        (BalancePrefix, BalanceWhole, BalanceFraction) = formatter.Split(summary.Balance);
 
         HasGoal = pocket.Goal is not null;
         GoalProgress = summary.GoalProgress ?? 0;
         if (pocket.Goal is { } goal)
         {
-            GoalLabel = $"Objectif {formatter.FormatShort(goal)}";
-            GoalPercentText = MoneyFormatter.FormatPercent(GoalProgress);
+            GoalLabel = Loc.Format("Detail_Goal", formatter.FormatShort(goal));
+            GoalPercentText = formatter.FormatPercent(GoalProgress);
             GoalStatusText = summary.Balance >= goal
-                ? "Objectif atteint, bravo ! 🎉"
-                : $"Encore {formatter.FormatShort(goal - summary.Balance)} à mettre de côté";
+                ? Loc.Get("Detail_GoalReached")
+                : Loc.Format("Detail_GoalRemaining", formatter.FormatShort(goal - summary.Balance));
         }
 
         var pockets = await store.GetPocketSummariesAsync();
@@ -121,25 +123,25 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
         Groups.Clear();
         foreach (var month in movements.GroupBy(m => new DateTime(m.Date.Year, m.Date.Month, 1)))
         {
-            var title = month.Key.ToString("MMMM yyyy", French);
+            var title = Loc.Date(month.Key, "MMMM yyyy");
             Groups.Add(new MovementGroup(
-                char.ToUpper(title[0], French) + title[1..],
+                title,
                 month.Select(m => CreateItem(m, names, formatter))));
         }
     }
 
     private MovementItemViewModel CreateItem(Movement movement, Dictionary<int, string> names, MoneyFormatter formatter)
     {
-        var counterpart = movement.CounterpartPocketId is { } id && names.TryGetValue(id, out var n) ? n : "une poche supprimée";
+        var counterpart = movement.CounterpartPocketId is { } id && names.TryGetValue(id, out var n) ? n : Loc.Get("Detail_DeletedPocket");
         var (kindLabel, iconData, color) = movement.Kind switch
         {
-            MovementKind.Deposit => ("Ajout", Icons.ArrowDown, Positive),
-            MovementKind.Withdrawal => ("Retrait", Icons.ArrowUp, Negative),
-            MovementKind.TransferIn => ($"Depuis {counterpart}", Icons.Transfer, Neutral),
-            _ => ($"Vers {counterpart}", Icons.Transfer, Neutral),
+            MovementKind.Deposit => (Loc.Get("Kind_Deposit"), Icons.ArrowDown, Positive),
+            MovementKind.Withdrawal => (Loc.Get("Kind_Withdrawal"), Icons.ArrowUp, Negative),
+            MovementKind.TransferIn => (Loc.Format("Kind_From", counterpart), Icons.Transfer, Neutral),
+            _ => (Loc.Format("Kind_To", counterpart), Icons.Transfer, Neutral),
         };
 
-        var date = movement.Date.ToString("d MMM", French);
+        var date = movement.Date.ToString("d MMM", Localizer.Instance.Culture);
         var title = movement.Note ?? kindLabel;
         var subtitle = movement.Note is null ? date : $"{kindLabel} · {date}";
 
@@ -157,7 +159,7 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
 
     private async Task OnMovementTappedAsync(MovementItemViewModel item)
     {
-        var choice = await dialogs.ChooseAsync($"{item.Title} · {item.AmountText}", "Supprimer ce mouvement");
+        var choice = await dialogs.ChooseAsync($"{item.Title} · {item.AmountText}", Loc.Get("Detail_DeleteMovement"));
         if (choice is null)
             return;
 
@@ -168,7 +170,7 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
         }
         catch (BudgetException ex)
         {
-            await dialogs.AlertAsync("Suppression impossible", ex.Message);
+            await dialogs.AlertAsync(Loc.Get("Detail_DeleteFailed"), Loc.Error(ex));
         }
     }
 
@@ -186,7 +188,7 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
     {
         if (_balance <= 0)
         {
-            await dialogs.AlertAsync("Poche vide", "Il n'y a rien à retirer de cette poche pour l'instant.");
+            await dialogs.AlertAsync(Loc.Get("Detail_EmptyTitle"), Loc.Get("Detail_EmptyWithdraw"));
             return;
         }
         await OpenMovementAsync(MovementMode.Withdrawal);
@@ -197,12 +199,12 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
     {
         if (_pocketCount < 2)
         {
-            await dialogs.AlertAsync("Une seule poche", "Crée une autre poche pour pouvoir y transférer de l'argent.");
+            await dialogs.AlertAsync(Loc.Get("Detail_OnlyPocketTitle"), Loc.Get("Detail_OnlyPocketText"));
             return;
         }
         if (_balance <= 0)
         {
-            await dialogs.AlertAsync("Poche vide", "Ajoute d'abord de l'argent dans cette poche pour pouvoir le transférer.");
+            await dialogs.AlertAsync(Loc.Get("Detail_EmptyTitle"), Loc.Get("Detail_EmptyTransfer"));
             return;
         }
         await OpenMovementAsync(MovementMode.Transfer);
