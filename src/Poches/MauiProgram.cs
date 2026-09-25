@@ -29,7 +29,11 @@ public static class MauiProgram
 
         builder.Services.AddSingleton(_ => new BudgetStore(Path.Combine(FileSystem.AppDataDirectory, "poches.db3")));
         builder.Services.AddSingleton(Preferences.Default);
+        builder.Services.AddSingleton(Share.Default);
+        builder.Services.AddSingleton(FilePicker.Default);
         builder.Services.AddSingleton<AppSettings>();
+        builder.Services.AddSingleton<BackupFilePicker>();
+        builder.Services.AddSingleton<BackupService>();
         builder.Services.AddSingleton<IDialogService, DialogService>();
         builder.Services.AddSingleton<AppShell>();
 
@@ -41,6 +45,8 @@ public static class MauiProgram
         builder.Services.AddTransient<EditPocketPage>();
         builder.Services.AddTransient<MovementViewModel>();
         builder.Services.AddTransient<MovementPage>();
+        builder.Services.AddTransient<SettingsViewModel>();
+        builder.Services.AddTransient<SettingsPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

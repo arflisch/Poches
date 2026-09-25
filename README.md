@@ -13,7 +13,8 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - **Mouvements** : ajout, retrait, **transfert entre poches**, note et date, avec un pavé numérique intégré. Un retrait ne peut pas dépasser le solde.
 - **Détail d'une poche** : courbe d'évolution du solde, barre de progression vers l'objectif, historique groupé par mois (appui sur une ligne pour la supprimer).
 - **Mode discret** (icône œil) : masque tous les montants, utile en public.
-- **Devise** d'affichage : €, CHF, $, £ (bouton réglages en haut à droite).
+- **Réglages** (bouton en haut à droite) : devise d'affichage (€, CHF, $, £), mode discret, sauvegarde, restauration et « Tout effacer ».
+- **Sauvegarde / restauration** : exporte toutes les poches dans un fichier JSON via la feuille de partage (iCloud Drive, mail, AirDrop…) et le restaure sur n'importe quel téléphone, iPhone ou Android. Un rappel apparaît sur l'accueil si la dernière sauvegarde date de plus de 30 jours.
 - **Thème clair / sombre** automatique.
 - **Exemples** : sur l'écran vide, « Explorer avec des exemples » crée 5 poches de démonstration.
 
@@ -24,6 +25,7 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - Les montants sont stockés en **centimes (`long`)** pour éviter les erreurs d'arrondi.
 - Le solde d'une poche n'est **jamais stocké** : c'est toujours la somme de ses mouvements, il ne peut donc pas se désynchroniser.
 - Un transfert crée deux mouvements liés, supprimés ensemble.
+- La sauvegarde est un fichier JSON versionné (`format: "poches-backup"`), indépendant du schéma SQLite. La restauration est atomique : un fichier incohérent est refusé sans toucher aux données.
 
 ## Architecture
 
@@ -82,7 +84,7 @@ dotnet test tests/Poches.Core.Tests
 
 - Virements récurrents automatiques (ex. +200 € chaque mois sur « Épargne »).
 - Verrouillage par Face ID / empreinte.
-- Export CSV et sauvegarde iCloud / Google Drive.
+- Synchronisation automatique entre appareils (CloudKit, nécessite un compte Apple Developer payant).
 - Suivi de la valeur des investissements (plus-values) en plus des versements.
 - Statistiques mensuelles (entrées/sorties par mois) et date cible pour les objectifs.
 - Widget d'écran d'accueil avec le solde total.

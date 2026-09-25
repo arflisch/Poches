@@ -9,6 +9,7 @@ public sealed class AppSettings
 
     private const string CurrencyKey = "currency";
     private const string HideAmountsKey = "hide_amounts";
+    private const string LastBackupKey = "last_backup";
 
     private readonly IPreferences _preferences;
 
@@ -18,7 +19,7 @@ public sealed class AppSettings
         Formatter = CreateFormatter();
     }
 
-    /// <summary>Raised when the currency or the privacy mode changes.</summary>
+    /// <summary>Raised when any setting changes.</summary>
     public event EventHandler? Changed;
 
     public MoneyFormatter Formatter { get; private set; }
@@ -33,6 +34,19 @@ public sealed class AppSettings
     {
         get => _preferences.Get(HideAmountsKey, false);
         set => Update(() => _preferences.Set(HideAmountsKey, value));
+    }
+
+    /// <summary>When the user last exported a backup file, or null if never.</summary>
+    public DateTime? LastBackupAt
+    {
+        get => _preferences.ContainsKey(LastBackupKey) ? _preferences.Get(LastBackupKey, DateTime.MinValue) : null;
+        set => Update(() =>
+        {
+            if (value is { } date)
+                _preferences.Set(LastBackupKey, date);
+            else
+                _preferences.Remove(LastBackupKey);
+        });
     }
 
     private void Update(Action write)

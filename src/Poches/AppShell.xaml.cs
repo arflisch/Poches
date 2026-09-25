@@ -11,5 +11,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(Routes.Pocket, typeof(PocketDetailPage));
         Routing.RegisterRoute(Routes.EditPocket, typeof(EditPocketPage));
         Routing.RegisterRoute(Routes.Movement, typeof(MovementPage));
+        Routing.RegisterRoute(Routes.Settings, typeof(SettingsPage));
     }
 }

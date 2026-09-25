@@ -108,6 +108,36 @@
                     </Grid>
                 </Border>
 
+                <!-- Backup reminder -->
+                <Border
+                    Padding="14"
+                    c:Touch.Command="{Binding BackupNowCommand}"
+                    IsVisible="{Binding ShowBackupReminder}"
+                    Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="40,*,Auto" ColumnSpacing="12">
+                        <Border
+                            Padding="9"
+                            BackgroundColor="#2610B981"
+                            HeightRequest="40"
+                            StrokeShape="RoundRectangle 13"
+                            StrokeThickness="0"
+                            WidthRequest="40">
+                            <c:IconView Color="#10B981" Data="{x:Static c:Icons.Upload}" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                            <Label FontSize="15" Style="{StaticResource Strong}" Text="Sauvegarde tes données" />
+                            <Label Style="{StaticResource Caption}" Text="{Binding BackupReminderText}" />
+                        </VerticalStackLayout>
+                        <c:IconView
+                            Grid.Column="2"
+                            Color="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
+                            Data="{x:Static c:Icons.ChevronRight}"
+                            HeightRequest="18"
+                            VerticalOptions="Center"
+                            WidthRequest="18" />
+                    </Grid>
+                </Border>
+
                 <!-- Empty state -->
                 <Border IsVisible="{Binding IsEmpty}" Style="{StaticResource Card}" Padding="24,28">
                     <VerticalStackLayout Spacing="12">

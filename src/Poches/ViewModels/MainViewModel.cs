@@ -20,12 +20,14 @@ public sealed partial class MainViewModel : ReloadingViewModel
 
     private readonly BudgetStore _store;
     private readonly AppSettings _settings;
+    private readonly BackupService _backup;
     private readonly IDialogService _dialogs;
 
-    public MainViewModel(BudgetStore store, AppSettings settings, IDialogService dialogs)
+    public MainViewModel(BudgetStore store, AppSettings settings, BackupService backup, IDialogService dialogs)
     {
         _store = store;
         _settings = settings;
+        _backup = backup;
         _dialogs = dialogs;
         var today = DateTime.Now.ToString("dddd d MMMM", French);
         TodayText = char.ToUpper(today[0], French) + today[1..];
@@ -74,6 +76,12 @@ public sealed partial class MainViewModel : ReloadingViewModel
     [ObservableProperty]
     private string _privacyIcon = Icons.Eye;
 
+    [ObservableProperty]
+    private bool _showBackupReminder;
+
+    [ObservableProperty]
+    private string _backupReminderText = string.Empty;
+
     protected override async Task LoadCoreAsync()
     {
         var overview = await _store.GetOverviewAsync(DateTime.Now);
@@ -93,7 +101,17 @@ public sealed partial class MainViewModel : ReloadingViewModel
         PocketCountText = Pockets.Count.ToString(French);
         PocketCountLabel = Pockets.Count > 1 ? "poches" : "poche";
         BuildChart(overview);
+        UpdateBackupReminder();
         IsLoaded = true;
+    }
+
+    private void UpdateBackupReminder()
+    {
+        var lastBackup = _settings.LastBackupAt;
+        ShowBackupReminder = HasPockets && (lastBackup is null || DateTime.Now - lastBackup > BackupService.ReminderAge);
+        BackupReminderText = lastBackup is { } date
+            ? $"Dernière sauvegarde {RelativeDate.Describe(date, DateTime.Now)}"
+            : "Pour ne rien perdre si tu changes de téléphone";
     }
 
     private void BuildChart(BudgetOverview overview)
@@ -138,13 +156,19 @@ public sealed partial class MainViewModel : ReloadingViewModel
     }
 
     [RelayCommand]
-    private async Task OpenSettingsAsync()
+    private Task OpenSettingsAsync() => Shell.Current.GoToAsync(Routes.Settings);
+
+    [RelayCommand]
+    private async Task BackupNowAsync()
     {
-        var current = _settings.Currency;
-        var options = AppSettings.Currencies.Select(c => c == current ? $"{c}  ✓" : c).ToArray();
-        var choice = await _dialogs.ChooseAsync("Devise d'affichage", null, options);
-        if (choice is not null)
-            _settings.Currency = choice.Replace("✓", string.Empty).Trim();
+        try
+        {
+            await _backup.ShareBackupAsync();
+        }
+        catch (Exception ex)
+        {
+            await _dialogs.AlertAsync("Sauvegarde impossible", $"Le fichier n'a pas pu être créé. ({ex.Message})");
+        }
     }
 
     [RelayCommand]
