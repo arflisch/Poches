@@ -4,12 +4,12 @@ namespace Poches.Services;
 
 /// <summary>
 /// Hides the app behind a lock screen when it opens and whenever it comes back from the background, until the
-/// owner authenticates. Covering the app as it leaves also keeps amounts out of the app switcher.
+/// owner taps the unlock button and authenticates. Covering the app as it leaves also keeps amounts out of
+/// the app switcher.
 /// </summary>
 public sealed class AppLock(AppSettings settings, DeviceAuthentication authentication)
 {
     private Window? _window;
-    private bool _promptPending;
     private bool _authenticating;
 
     /// <summary>Whether the lock screen is currently shown.</summary>
@@ -23,18 +23,11 @@ public sealed class AppLock(AppSettings settings, DeviceAuthentication authentic
         _window = window;
         window.Created += (_, _) => LockIfEnabled();
         window.Stopped += (_, _) => LockIfEnabled();
-        // Ask right away when the app comes to the front; the Face ID sheet itself deactivates the app, so
-        // only once per return (afterwards, the button on the lock screen asks again).
-        window.Activated += (_, _) =>
-        {
-            if (IsLocked && _promptPending)
-                _ = UnlockAsync();
-        };
     }
 
+    /// <summary>Called by the lock screen's button: Face ID is only asked for when the owner wants it.</summary>
     public async Task UnlockAsync()
     {
-        _promptPending = false;
         if (_authenticating)
             return;
 
@@ -55,11 +48,7 @@ public sealed class AppLock(AppSettings settings, DeviceAuthentication authentic
 
     private void LockIfEnabled()
     {
-        if (!IsEnabled || _window is null)
-            return;
-
-        _promptPending = true;
-        if (IsLocked)
+        if (!IsEnabled || _window is null || IsLocked)
             return;
 
         IsLocked = true;
