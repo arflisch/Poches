@@ -13,6 +13,7 @@ public sealed class AppSettings
     private const string LastBackupKey = "last_backup";
     private const string LanguageKey = "language";
     private const string ReminderKey = "reminder_days_before";
+    private const string LockKey = "app_lock";
 
     /// <summary>Reminder choices, in days before a payment (null = no reminder).</summary>
     public static readonly IReadOnlyList<int?> ReminderChoices = [null, 0, 1, 3, 7];
@@ -65,6 +66,13 @@ public sealed class AppSettings
             else
                 _preferences.Remove(LastBackupKey);
         });
+    }
+
+    /// <summary>Whether Face ID / Touch ID (or the passcode) is required to open the app.</summary>
+    public bool LockEnabled
+    {
+        get => _preferences.Get(LockKey, false);
+        set => Update(() => _preferences.Set(LockKey, value));
     }
 
     /// <summary>How many days before a subscription payment to send a reminder; null disables reminders.</summary>

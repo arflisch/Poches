@@ -614,4 +614,34 @@ Je huidige gegevens worden vervangen.</value>
   <data name="Settings_BackupHintMac" xml:space="preserve">
     <value>Het bestand wordt versleuteld met een wachtwoord dat je zelf kiest. Bewaar het in iCloud Drive: je kunt het dan terugzetten op je iPhone, een Android-telefoon of een andere Mac.</value>
   </data>
+  <data name="Settings_SecuritySection" xml:space="preserve">
+    <value>BEVEILIGING</value>
+  </data>
+  <data name="Lock_Title" xml:space="preserve">
+    <value>Vergrendelen met {0}</value>
+  </data>
+  <data name="Lock_TitleGeneric" xml:space="preserve">
+    <value>App vergrendelen</value>
+  </data>
+  <data name="Lock_Hint" xml:space="preserve">
+    <value>Gevraagd telkens je de app opent</value>
+  </data>
+  <data name="Lock_Unavailable" xml:space="preserve">
+    <value>Stel eerst een code in op dit toestel</value>
+  </data>
+  <data name="Lock_LockedTitle" xml:space="preserve">
+    <value>Poches is vergrendeld</value>
+  </data>
+  <data name="Lock_LockedText" xml:space="preserve">
+    <value>Ontgrendel om je potjes en abonnementen te zien.</value>
+  </data>
+  <data name="Lock_Unlock" xml:space="preserve">
+    <value>Ontgrendelen</value>
+  </data>
+  <data name="Lock_Reason" xml:space="preserve">
+    <value>Poches ontgrendelen</value>
+  </data>
+  <data name="Lock_EnableReason" xml:space="preserve">
+    <value>App-vergrendeling inschakelen</value>
+  </data>
 </root>

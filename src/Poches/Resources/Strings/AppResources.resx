@@ -614,4 +614,34 @@ Your current data will be replaced.</value>
   <data name="Settings_BackupHintMac" xml:space="preserve">
     <value>The file is encrypted with a password you choose. Save it to iCloud Drive: you'll be able to restore it on your iPhone, an Android phone or another Mac.</value>
   </data>
+  <data name="Settings_SecuritySection" xml:space="preserve">
+    <value>SECURITY</value>
+  </data>
+  <data name="Lock_Title" xml:space="preserve">
+    <value>Lock with {0}</value>
+  </data>
+  <data name="Lock_TitleGeneric" xml:space="preserve">
+    <value>Lock the app</value>
+  </data>
+  <data name="Lock_Hint" xml:space="preserve">
+    <value>Asked each time you open the app</value>
+  </data>
+  <data name="Lock_Unavailable" xml:space="preserve">
+    <value>Set up a code on this device first</value>
+  </data>
+  <data name="Lock_LockedTitle" xml:space="preserve">
+    <value>Poches is locked</value>
+  </data>
+  <data name="Lock_LockedText" xml:space="preserve">
+    <value>Unlock to see your pockets and subscriptions.</value>
+  </data>
+  <data name="Lock_Unlock" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="Lock_Reason" xml:space="preserve">
+    <value>Unlock Poches</value>
+  </data>
+  <data name="Lock_EnableReason" xml:space="preserve">
+    <value>Turn on the app lock</value>
+  </data>
 </root>

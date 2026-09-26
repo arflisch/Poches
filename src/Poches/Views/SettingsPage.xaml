@@ -114,6 +114,27 @@
                     </VerticalStackLayout>
                 </Border>
 
+                <!-- Security -->
+                <VerticalStackLayout IsVisible="{Binding IsLockSupported}" Spacing="8">
+                    <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_SecuritySection}" />
+                    <Border Padding="16,0" Style="{StaticResource Card}">
+                        <Grid Style="{StaticResource Row}">
+                            <Border BackgroundColor="#264F46E5" Style="{StaticResource RowIcon}">
+                                <c:IconView Color="#4F46E5" Data="{x:Static c:Icons.Lock}" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
+                                <Label Style="{StaticResource RowTitle}" Text="{Binding LockTitle}" />
+                                <Label Style="{StaticResource Caption}" Text="{Binding LockHint}" />
+                            </VerticalStackLayout>
+                            <Switch
+                                Grid.Column="2"
+                                IsEnabled="{Binding CanLock}"
+                                IsToggled="{Binding IsLockEnabled}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
                 <!-- Subscriptions -->
                 <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_SubscriptionsSection}" />
                 <Border Padding="16,0" Style="{StaticResource Card}">

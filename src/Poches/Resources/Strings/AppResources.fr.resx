@@ -614,4 +614,34 @@ Tes données actuelles seront remplacées.</value>
   <data name="Settings_BackupHintMac" xml:space="preserve">
     <value>Le fichier est chiffré avec un mot de passe que tu choisis. Enregistre-le dans iCloud Drive : tu pourras le restaurer sur ton iPhone, un téléphone Android ou un autre Mac.</value>
   </data>
+  <data name="Settings_SecuritySection" xml:space="preserve">
+    <value>SÉCURITÉ</value>
+  </data>
+  <data name="Lock_Title" xml:space="preserve">
+    <value>Verrouiller avec {0}</value>
+  </data>
+  <data name="Lock_TitleGeneric" xml:space="preserve">
+    <value>Verrouiller l'app</value>
+  </data>
+  <data name="Lock_Hint" xml:space="preserve">
+    <value>Demandé à chaque ouverture de l'app</value>
+  </data>
+  <data name="Lock_Unavailable" xml:space="preserve">
+    <value>Configure d'abord un code sur cet appareil</value>
+  </data>
+  <data name="Lock_LockedTitle" xml:space="preserve">
+    <value>Poches est verrouillée</value>
+  </data>
+  <data name="Lock_LockedText" xml:space="preserve">
+    <value>Déverrouille pour accéder à tes poches et à tes abonnements.</value>
+  </data>
+  <data name="Lock_Unlock" xml:space="preserve">
+    <value>Déverrouiller</value>
+  </data>
+  <data name="Lock_Reason" xml:space="preserve">
+    <value>Déverrouiller Poches</value>
+  </data>
+  <data name="Lock_EnableReason" xml:space="preserve">
+    <value>Activer le verrouillage de l'app</value>
+  </data>
 </root>

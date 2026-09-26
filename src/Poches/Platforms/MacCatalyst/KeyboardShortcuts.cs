@@ -110,7 +110,7 @@ internal static class KeyboardShortcuts
 
     /// <summary>The sheet in front, unless something else (an alert, a file panel) is presented over it.</summary>
     private static ISheetViewModel? TopSheet() =>
-        Platform.GetCurrentUIViewController() is UIAlertController or UIDocumentPickerViewController
+        Services.AppLock.IsLocked || Platform.GetCurrentUIViewController() is UIAlertController or UIDocumentPickerViewController
             ? null
             : TopSheetPage()?.BindingContext as ISheetViewModel;
 

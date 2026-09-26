@@ -29,6 +29,8 @@
 	<!-- Languages the app is translated into (also enables the per-app language option in iOS Settings). -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Poches uses Face ID to keep your pockets and subscriptions private.</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>

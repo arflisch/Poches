@@ -18,6 +18,7 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - **Langues** : français, néerlandais et anglais, au choix dans les réglages (par défaut : la langue du téléphone). Le changement est immédiat, et les montants et dates suivent les conventions de la langue (« 1 234,56 € », « € 1.234,56 », « €1,234.56 »).
 - **Réglages** (bouton en haut à droite) : langue, devise d'affichage (€, CHF, $, £), mode discret, sauvegarde, restauration et « Tout effacer ».
 - **Sauvegarde / restauration** : exporte toutes les poches dans un fichier **chiffré par un mot de passe** choisi à chaque sauvegarde, via la feuille de partage (iCloud Drive, mail, AirDrop…), et le restaure sur n'importe quel téléphone, iPhone ou Android. Un rappel apparaît sur l'accueil si la dernière sauvegarde date de plus de 30 jours.
+- **Verrouillage Face ID / Touch ID** (iPhone et Mac, option dans Réglages › Sécurité) : demandé à l'ouverture et à chaque retour dans l'app, avec le code de l'appareil (ou le mot de passe du Mac) en secours. L'écran de verrouillage recouvre tout, y compris l'aperçu dans le sélecteur d'apps. Pas encore disponible sur Android.
 - **Thème clair / sombre** automatique.
 - **Exemples** : sur l'écran vide, « Explorer avec des exemples » crée 5 poches de démonstration.
 

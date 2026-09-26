@@ -16,10 +16,22 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
     private readonly BackupService _backup;
     private readonly IDialogService _dialogs;
     private readonly SubscriptionReminders _reminders;
+    private readonly DeviceAuthentication _authentication;
+    private bool _revertingLock;
 
     public SettingsViewModel(
-        BudgetStore store, AppSettings settings, BackupService backup, IDialogService dialogs, SubscriptionReminders reminders)
+        BudgetStore store,
+        AppSettings settings,
+        BackupService backup,
+        IDialogService dialogs,
+        SubscriptionReminders reminders,
+        DeviceAuthentication authentication)
     {
+        _authentication = authentication;
+        CanLock = authentication.IsSupported && authentication.IsAvailable;
+        LockTitle = authentication.BiometryName is { } biometry ? Loc.Format("Lock_Title", biometry) : Loc.Get("Lock_TitleGeneric");
+        LockHint = CanLock ? Loc.Get("Lock_Hint") : Loc.Get("Lock_Unavailable");
+        _isLockEnabled = CanLock && settings.LockEnabled;
         _store = store;
         _settings = settings;
         _backup = backup;
@@ -33,6 +45,18 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
     }
 
     public string AppVersion => $"Poches {AppInfo.Current.VersionString}";
+
+    public bool IsLockSupported => _authentication.IsSupported;
+
+    /// <summary>False when the device has no passcode: the lock could never be opened.</summary>
+    public bool CanLock { get; }
+
+    public string LockTitle { get; }
+
+    public string LockHint { get; }
+
+    [ObservableProperty]
+    private bool _isLockEnabled;
 
     [ObservableProperty]
     private string _currency;
@@ -53,6 +77,26 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
     private bool _isBusy;
 
     partial void OnHideAmountsChanged(bool value) => _settings.HideAmounts = value;
+
+    partial void OnIsLockEnabledChanged(bool value)
+    {
+        if (!_revertingLock)
+            _ = ApplyLockAsync(value);
+    }
+
+    private async Task ApplyLockAsync(bool enable)
+    {
+        // Prove it works (and that it is the owner) before relying on it.
+        if (enable && !await _authentication.AuthenticateAsync(Loc.Get("Lock_EnableReason")))
+        {
+            _revertingLock = true;
+            IsLockEnabled = false;
+            _revertingLock = false;
+            return;
+        }
+        _settings.LockEnabled = enable;
+        Palette.Haptic();
+    }
 
     [RelayCommand]
     private async Task ChooseLanguageAsync()
