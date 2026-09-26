@@ -307,13 +307,13 @@
     <value>Delete everything</value>
   </data>
   <data name="Settings_DeleteAllHint" xml:space="preserve">
-    <value>Deletes all pockets, subscriptions and history</value>
+    <value>Deletes all pockets, bills and history</value>
   </data>
   <data name="Settings_DeleteAllTitle" xml:space="preserve">
     <value>Delete everything?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>All your pockets, subscriptions and their history will be permanently deleted from this device. Make a backup first if you want to be able to get them back.</value>
+    <value>All your pockets, bills and their history will be permanently deleted from this device. Make a backup first if you want to be able to get them back.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Last backup: {0}</value>
@@ -438,7 +438,7 @@ Your current data will be replaced.</value>
     <value>Pockets</value>
   </data>
   <data name="Subs_Title" xml:space="preserve">
-    <value>Subscriptions</value>
+    <value>Bills</value>
   </data>
   <data name="Subs_PerMonth" xml:space="preserve">
     <value>Per month</value>
@@ -450,13 +450,13 @@ Your current data will be replaced.</value>
     <value>Next payment</value>
   </data>
   <data name="Subs_EmptyTitle" xml:space="preserve">
-    <value>No subscriptions yet</value>
+    <value>No bills yet</value>
   </data>
   <data name="Subs_EmptyText" xml:space="preserve">
-    <value>Add your subscriptions (streaming, gym, insurance…) to see what they cost you each month and get a reminder before each payment.</value>
+    <value>Add everything you pay at a fixed price (subscriptions, health and car insurance, rent, loans…) to see what it costs you each month and get a reminder before each payment.</value>
   </data>
   <data name="Subs_AddFirst" xml:space="preserve">
-    <value>Add a subscription</value>
+    <value>Add a bill</value>
   </data>
   <data name="Subs_Upcoming" xml:space="preserve">
     <value>Upcoming payments</value>
@@ -465,10 +465,10 @@ Your current data will be replaced.</value>
     <value>Paused</value>
   </data>
   <data name="Subscription_One" xml:space="preserve">
-    <value>subscription</value>
+    <value>bill</value>
   </data>
   <data name="Subscription_Many" xml:space="preserve">
-    <value>subscriptions</value>
+    <value>bills</value>
   </data>
   <data name="When_Tomorrow" xml:space="preserve">
     <value>tomorrow</value>
@@ -501,10 +501,10 @@ Your current data will be replaced.</value>
     <value>/year</value>
   </data>
   <data name="SubEdit_NewTitle" xml:space="preserve">
-    <value>New subscription</value>
+    <value>New bill</value>
   </data>
   <data name="SubEdit_NamePlaceholder" xml:space="preserve">
-    <value>e.g. Netflix, Spotify, gym…</value>
+    <value>e.g. Netflix, health insurance, car insurance…</value>
   </data>
   <data name="SubEdit_Price" xml:space="preserve">
     <value>PRICE</value>
@@ -516,7 +516,7 @@ Your current data will be replaced.</value>
     <value>NEXT PAYMENT</value>
   </data>
   <data name="SubEdit_Active" xml:space="preserve">
-    <value>Active subscription</value>
+    <value>Active</value>
   </data>
   <data name="SubEdit_ActiveHint" xml:space="preserve">
     <value>Turn it off if it's paused or cancelled</value>
@@ -531,13 +531,13 @@ Your current data will be replaced.</value>
     <value>Enter a valid price, for example 9.99.</value>
   </data>
   <data name="SubEdit_Delete" xml:space="preserve">
-    <value>Delete subscription</value>
+    <value>Delete bill</value>
   </data>
   <data name="SubEdit_DeleteText" xml:space="preserve">
     <value>It will only be removed from Poches, not cancelled with the provider.</value>
   </data>
   <data name="Settings_SubscriptionsSection" xml:space="preserve">
-    <value>SUBSCRIPTIONS</value>
+    <value>BILLS</value>
   </data>
   <data name="Settings_Reminder" xml:space="preserve">
     <value>Payment reminder</value>
@@ -564,7 +564,7 @@ Your current data will be replaced.</value>
     <value>{0} will be charged {1}.</value>
   </data>
   <data name="Error_EmptySubscriptionName" xml:space="preserve">
-    <value>Give your subscription a name.</value>
+    <value>Give this bill a name.</value>
   </data>
   <data name="Sample_Gym" xml:space="preserve">
     <value>Gym</value>
@@ -633,7 +633,7 @@ Your current data will be replaced.</value>
     <value>Poches is locked</value>
   </data>
   <data name="Lock_LockedText" xml:space="preserve">
-    <value>Unlock to see your pockets and subscriptions.</value>
+    <value>Unlock to see your pockets and bills.</value>
   </data>
   <data name="Lock_Unlock" xml:space="preserve">
     <value>Unlock</value>
@@ -643,5 +643,38 @@ Your current data will be replaced.</value>
   </data>
   <data name="Lock_EnableReason" xml:space="preserve">
     <value>Turn on the app lock</value>
+  </data>
+  <data name="SubEdit_Category" xml:space="preserve">
+    <value>CATEGORY</value>
+  </data>
+  <data name="Category_Subscription" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="Category_Insurance" xml:space="preserve">
+    <value>Insurance</value>
+  </data>
+  <data name="Category_Housing" xml:space="preserve">
+    <value>Housing</value>
+  </data>
+  <data name="Category_Loan" xml:space="preserve">
+    <value>Loans</value>
+  </data>
+  <data name="Category_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Period_Semester" xml:space="preserve">
+    <value>6 months</value>
+  </data>
+  <data name="Period_PerSemester" xml:space="preserve">
+    <value>/6 months</value>
+  </data>
+  <data name="Sample_HealthInsurance" xml:space="preserve">
+    <value>Health insurance</value>
+  </data>
+  <data name="Sample_CarInsurance" xml:space="preserve">
+    <value>Car insurance</value>
+  </data>
+  <data name="Sample_CarLoan" xml:space="preserve">
+    <value>Car loan</value>
   </data>
 </root>

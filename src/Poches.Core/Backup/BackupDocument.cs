@@ -9,8 +9,8 @@ namespace Poches.Core.Backup;
 public sealed record BackupDocument
 {
     public const string FormatName = "poches-backup";
-    /// <summary>Version 2 added <see cref="Subscriptions"/>.</summary>
-    public const int CurrentVersion = 2;
+    /// <summary>Version 2 added <see cref="Subscriptions"/>; version 3 their category and the 6-month period.</summary>
+    public const int CurrentVersion = 3;
 
     public string Format { get; init; } = FormatName;
 
@@ -53,4 +53,5 @@ public sealed record BackupSubscription(
     BillingPeriod Period,
     DateTime BillingAnchor,
     bool IsActive,
-    DateTime CreatedAt);
+    DateTime CreatedAt,
+    ChargeCategory Category = ChargeCategory.Subscription);

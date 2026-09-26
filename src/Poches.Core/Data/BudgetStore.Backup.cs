@@ -22,7 +22,7 @@ public sealed partial class BudgetStore
                 .Select(m => new BackupMovement(m.PocketId, m.AmountCents, m.Kind, m.Note, m.Date, m.TransferGroup, m.CounterpartPocketId))
                 .ToList(),
             Subscriptions = subscriptions
-                .Select(s => new BackupSubscription(s.Name, s.Icon, s.ColorHex, s.AmountCents, s.Period, s.BillingAnchor, s.IsActive, s.CreatedAt))
+                .Select(s => new BackupSubscription(s.Name, s.Icon, s.ColorHex, s.AmountCents, s.Period, s.BillingAnchor, s.IsActive, s.CreatedAt, s.Category))
                 .ToList(),
         };
     }
@@ -84,6 +84,7 @@ public sealed partial class BudgetStore
                         ColorHex = string.IsNullOrWhiteSpace(s.ColorHex) ? "#6366F1" : s.ColorHex,
                         AmountCents = s.AmountCents,
                         Period = s.Period,
+                        Category = s.Category,
                         BillingAnchor = s.BillingAnchor.Date,
                         IsActive = s.IsActive,
                         CreatedAt = s.CreatedAt,
@@ -120,7 +121,7 @@ public sealed partial class BudgetStore
         if (backup.Movements.Any(m => !ids.Contains(m.PocketId) || !Enum.IsDefined(m.Kind)))
             throw new BudgetException(BudgetError.CorruptBackup, "A movement references an unknown pocket or kind.");
 
-        if (backup.Subscriptions.Any(s => string.IsNullOrWhiteSpace(s.Name) || s.AmountCents <= 0 || !Enum.IsDefined(s.Period)))
+        if (backup.Subscriptions.Any(s => string.IsNullOrWhiteSpace(s.Name) || s.AmountCents <= 0 || !Enum.IsDefined(s.Period) || !Enum.IsDefined(s.Category)))
             throw new BudgetException(BudgetError.CorruptBackup, "A subscription is incomplete.");
     }
 }

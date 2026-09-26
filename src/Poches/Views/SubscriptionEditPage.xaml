@@ -54,6 +54,47 @@
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr SubEdit_Category}" />
+                    <Border
+                        Padding="4"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                        StrokeShape="RoundRectangle 16"
+                        StrokeThickness="0">
+                        <Grid
+                            BindableLayout.ItemsSource="{Binding Categories}"
+                            ColumnDefinitions="*,*,*"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="4">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SelectableOption">
+                                    <Grid
+                                        Grid.Row="{Binding Row}"
+                                        Grid.Column="{Binding Column}"
+                                        c:Touch.Command="{Binding SelectCommand}"
+                                        HeightRequest="58">
+                                        <Border
+                                            Padding="0"
+                                            IsVisible="{Binding IsSelected}"
+                                            StrokeShape="RoundRectangle 12"
+                                            Style="{StaticResource Card}" />
+                                        <Label
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="12"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="2"
+                                            Opacity="{Binding LabelOpacity}"
+                                            Text="{Binding Label}"
+                                            VerticalOptions="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
                     <Label Style="{StaticResource FieldLabel}" Text="{l:Tr SubEdit_Price}" />
                     <Border Style="{StaticResource InputField}">
                         <Grid ColumnDefinitions="*,Auto">
@@ -79,7 +120,7 @@
                         BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
                         StrokeShape="RoundRectangle 16"
                         StrokeThickness="0">
-                        <Grid BindableLayout.ItemsSource="{Binding Periods}" ColumnDefinitions="*,*,*,*">
+                        <Grid BindableLayout.ItemsSource="{Binding Periods}" ColumnDefinitions="*,*,*,*,*">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="vm:SelectableOption">
                                     <Grid Grid.Column="{Binding Column}" c:Touch.Command="{Binding SelectCommand}" HeightRequest="40">
@@ -90,7 +131,7 @@
                                             Style="{StaticResource Card}" />
                                         <Label
                                             FontFamily="OpenSansSemibold"
-                                            FontSize="13"
+                                            FontSize="12"
                                             HorizontalOptions="Center"
                                             LineBreakMode="TailTruncation"
                                             Opacity="{Binding LabelOpacity}"

@@ -113,9 +113,15 @@ public sealed partial class SubscriptionsViewModel(BudgetStore store, AppSetting
         HasChart = overview.MonthlyTotal > 0;
         ChartCenterValue = Active.Count.ToString(Localizer.Instance.Culture);
         ChartCenterLabel = Loc.Noun(Active.Count, "Subscription");
-        (ChartSlices, Legend) = Breakdown.Build(
-            overview.Active.Select(s => (s.Subscription.Name, Color.FromArgb(s.Subscription.ColorHex), s.MonthlyCost)),
-            formatter);
+        // By category as soon as there are several; with a single one, by charge is more telling.
+        var byCategory = overview.ByCategory;
+        (ChartSlices, Legend) = byCategory.Count > 1
+            ? Breakdown.Build(
+                byCategory.Select(c => (ChargeCategories.Name(c.Category), ChargeCategories.Color(c.Category), c.MonthlyCost)),
+                formatter)
+            : Breakdown.Build(
+                overview.Active.Select(s => (s.Subscription.Name, Color.FromArgb(s.Subscription.ColorHex), s.MonthlyCost)),
+                formatter);
 
         IsLoaded = true;
     }
@@ -141,7 +147,12 @@ public sealed partial class SubscriptionsViewModel(BudgetStore store, AppSetting
     {
         await store.SeedSampleSubscriptionsAsync(
             DateTime.Today,
-            new SampleSubscriptionTexts(Loc.Get("Sample_Gym"), Loc.Get("Sample_HomeInsurance")));
+            new SampleSubscriptionTexts(
+                Loc.Get("Sample_Gym"),
+                Loc.Get("Sample_HomeInsurance"),
+                Loc.Get("Sample_HealthInsurance"),
+                Loc.Get("Sample_CarInsurance"),
+                Loc.Get("Sample_CarLoan")));
         Palette.Haptic();
     }
 }
@@ -162,7 +173,7 @@ public sealed class SubscriptionItemViewModel
         AmountText = formatter.Format(subscription.Amount);
         PeriodText = PerPeriod(subscription.Period);
         IsActive = subscription.IsActive;
-        Subtitle = IsActive ? DueText(summary.NextPayment, today) : Loc.Get("Subs_Paused");
+        Subtitle = $"{(IsActive ? DueText(summary.NextPayment, today) : Loc.Get("Subs_Paused"))} · {ChargeCategories.Name(subscription.Category)}";
         IsDueSoon = IsActive && (summary.NextPayment - today.Date).Days <= SoonDays;
         OpenCommand = new AsyncRelayCommand(() => open(Id));
     }
@@ -198,6 +209,7 @@ public sealed class SubscriptionItemViewModel
         BillingPeriod.Weekly => Loc.Get("Period_PerWeek"),
         BillingPeriod.Monthly => Loc.Get("Period_PerMonth"),
         BillingPeriod.Quarterly => Loc.Get("Period_PerQuarter"),
+        BillingPeriod.Semiannual => Loc.Get("Period_PerSemester"),
         _ => Loc.Get("Period_PerYear"),
     };
 

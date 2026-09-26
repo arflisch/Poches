@@ -33,6 +33,7 @@ public static class BillingSchedule
         BillingPeriod.Weekly => anchor.AddDays(7 * count),
         BillingPeriod.Monthly => anchor.AddMonths(count),
         BillingPeriod.Quarterly => anchor.AddMonths(3 * count),
+        BillingPeriod.Semiannual => anchor.AddMonths(6 * count),
         BillingPeriod.Yearly => anchor.AddYears(count),
         _ => throw new ArgumentOutOfRangeException(nameof(period)),
     };
@@ -45,6 +46,7 @@ public static class BillingSchedule
         BillingPeriod.Weekly => amount * 52m,
         BillingPeriod.Monthly => amount * 12m,
         BillingPeriod.Quarterly => amount * 4m,
+        BillingPeriod.Semiannual => amount * 2m,
         BillingPeriod.Yearly => amount,
         _ => throw new ArgumentOutOfRangeException(nameof(period)),
     };
@@ -57,6 +59,7 @@ public static class BillingSchedule
             BillingPeriod.Weekly => (from - anchor).Days / 7,
             BillingPeriod.Monthly => months,
             BillingPeriod.Quarterly => months / 3,
+            BillingPeriod.Semiannual => months / 6,
             BillingPeriod.Yearly => from.Year - anchor.Year,
             _ => throw new ArgumentOutOfRangeException(nameof(period)),
         };

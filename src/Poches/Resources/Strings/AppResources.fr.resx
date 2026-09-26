@@ -307,13 +307,13 @@
     <value>Tout effacer</value>
   </data>
   <data name="Settings_DeleteAllHint" xml:space="preserve">
-    <value>Supprime toutes les poches, les abonnements et l'historique</value>
+    <value>Supprime toutes les poches, les charges fixes et l'historique</value>
   </data>
   <data name="Settings_DeleteAllTitle" xml:space="preserve">
     <value>Tout effacer ?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>Toutes tes poches, tes abonnements et leur historique seront définitivement supprimés de cet appareil. Fais une sauvegarde avant si tu veux pouvoir les récupérer.</value>
+    <value>Toutes tes poches, tes charges fixes et leur historique seront définitivement supprimés de cet appareil. Fais une sauvegarde avant si tu veux pouvoir les récupérer.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Dernière sauvegarde : {0}</value>
@@ -438,7 +438,7 @@ Tes données actuelles seront remplacées.</value>
     <value>Poches</value>
   </data>
   <data name="Subs_Title" xml:space="preserve">
-    <value>Abonnements</value>
+    <value>Charges fixes</value>
   </data>
   <data name="Subs_PerMonth" xml:space="preserve">
     <value>Par mois</value>
@@ -450,13 +450,13 @@ Tes données actuelles seront remplacées.</value>
     <value>Prochain prélèvement</value>
   </data>
   <data name="Subs_EmptyTitle" xml:space="preserve">
-    <value>Aucun abonnement</value>
+    <value>Aucune charge fixe</value>
   </data>
   <data name="Subs_EmptyText" xml:space="preserve">
-    <value>Ajoute tes abonnements (streaming, sport, assurances…) pour savoir combien ils te coûtent chaque mois et être prévenu avant chaque prélèvement.</value>
+    <value>Ajoute tout ce que tu paies à prix fixe (abonnements, mutuelle, assurances, loyer, crédits…) pour savoir combien ça te coûte chaque mois et être prévenu avant chaque prélèvement.</value>
   </data>
   <data name="Subs_AddFirst" xml:space="preserve">
-    <value>Ajouter un abonnement</value>
+    <value>Ajouter une charge</value>
   </data>
   <data name="Subs_Upcoming" xml:space="preserve">
     <value>Prochains prélèvements</value>
@@ -465,10 +465,10 @@ Tes données actuelles seront remplacées.</value>
     <value>En pause</value>
   </data>
   <data name="Subscription_One" xml:space="preserve">
-    <value>abonnement</value>
+    <value>charge</value>
   </data>
   <data name="Subscription_Many" xml:space="preserve">
-    <value>abonnements</value>
+    <value>charges</value>
   </data>
   <data name="When_Tomorrow" xml:space="preserve">
     <value>demain</value>
@@ -501,10 +501,10 @@ Tes données actuelles seront remplacées.</value>
     <value>/an</value>
   </data>
   <data name="SubEdit_NewTitle" xml:space="preserve">
-    <value>Nouvel abonnement</value>
+    <value>Nouvelle charge</value>
   </data>
   <data name="SubEdit_NamePlaceholder" xml:space="preserve">
-    <value>Ex : Netflix, Spotify, salle de sport…</value>
+    <value>Ex : Netflix, mutuelle, assurance auto…</value>
   </data>
   <data name="SubEdit_Price" xml:space="preserve">
     <value>PRIX</value>
@@ -516,10 +516,10 @@ Tes données actuelles seront remplacées.</value>
     <value>PROCHAIN PRÉLÈVEMENT</value>
   </data>
   <data name="SubEdit_Active" xml:space="preserve">
-    <value>Abonnement actif</value>
+    <value>Charge active</value>
   </data>
   <data name="SubEdit_ActiveHint" xml:space="preserve">
-    <value>Désactive-le s'il est en pause ou résilié</value>
+    <value>Désactive-la si elle est en pause ou résiliée</value>
   </data>
   <data name="SubEdit_CostPerYear" xml:space="preserve">
     <value>Soit {0} par an</value>
@@ -531,13 +531,13 @@ Tes données actuelles seront remplacées.</value>
     <value>Indique un prix valide, par exemple 9,99.</value>
   </data>
   <data name="SubEdit_Delete" xml:space="preserve">
-    <value>Supprimer l'abonnement</value>
+    <value>Supprimer la charge</value>
   </data>
   <data name="SubEdit_DeleteText" xml:space="preserve">
-    <value>Il sera seulement retiré de Poches, pas résilié chez le fournisseur.</value>
+    <value>Elle sera seulement retirée de Poches, pas résiliée chez le fournisseur.</value>
   </data>
   <data name="Settings_SubscriptionsSection" xml:space="preserve">
-    <value>ABONNEMENTS</value>
+    <value>CHARGES FIXES</value>
   </data>
   <data name="Settings_Reminder" xml:space="preserve">
     <value>Rappel avant prélèvement</value>
@@ -564,7 +564,7 @@ Tes données actuelles seront remplacées.</value>
     <value>Prélèvement de {0} {1}.</value>
   </data>
   <data name="Error_EmptySubscriptionName" xml:space="preserve">
-    <value>Donne un nom à ton abonnement.</value>
+    <value>Donne un nom à cette charge.</value>
   </data>
   <data name="Sample_Gym" xml:space="preserve">
     <value>Salle de sport</value>
@@ -633,7 +633,7 @@ Tes données actuelles seront remplacées.</value>
     <value>Poches est verrouillée</value>
   </data>
   <data name="Lock_LockedText" xml:space="preserve">
-    <value>Déverrouille pour accéder à tes poches et à tes abonnements.</value>
+    <value>Déverrouille pour accéder à tes poches et à tes charges fixes.</value>
   </data>
   <data name="Lock_Unlock" xml:space="preserve">
     <value>Déverrouiller</value>
@@ -643,5 +643,38 @@ Tes données actuelles seront remplacées.</value>
   </data>
   <data name="Lock_EnableReason" xml:space="preserve">
     <value>Activer le verrouillage de l'app</value>
+  </data>
+  <data name="SubEdit_Category" xml:space="preserve">
+    <value>CATÉGORIE</value>
+  </data>
+  <data name="Category_Subscription" xml:space="preserve">
+    <value>Abonnements</value>
+  </data>
+  <data name="Category_Insurance" xml:space="preserve">
+    <value>Assurances</value>
+  </data>
+  <data name="Category_Housing" xml:space="preserve">
+    <value>Logement</value>
+  </data>
+  <data name="Category_Loan" xml:space="preserve">
+    <value>Crédits</value>
+  </data>
+  <data name="Category_Other" xml:space="preserve">
+    <value>Autres</value>
+  </data>
+  <data name="Period_Semester" xml:space="preserve">
+    <value>Semestre</value>
+  </data>
+  <data name="Period_PerSemester" xml:space="preserve">
+    <value>/6 mois</value>
+  </data>
+  <data name="Sample_HealthInsurance" xml:space="preserve">
+    <value>Mutuelle santé</value>
+  </data>
+  <data name="Sample_CarInsurance" xml:space="preserve">
+    <value>Assurance auto</value>
+  </data>
+  <data name="Sample_CarLoan" xml:space="preserve">
+    <value>Crédit auto</value>
   </data>
 </root>

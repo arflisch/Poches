@@ -23,6 +23,7 @@ public static class Palette
         "💻", "📱", "🎮", "📰", "📚", "🏋️",
         "🏠", "🛡️", "💡", "📶", "🚗", "🚲",
         "🐶", "💊", "🍽️", "📦", "💳", "🎁",
+        "🏥", "🦷", "🏦", "🧾", "🎓", "🚆",
     ];
 
     public static Color Soft(Color color) => color.WithAlpha(0.16f);

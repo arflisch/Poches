@@ -12,7 +12,7 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - **Poches** : nom, emoji, couleur, objectif d'épargne facultatif, montant de départ.
 - **Mouvements** : ajout, retrait, **transfert entre poches**, note et date, avec un pavé numérique intégré. Un retrait ne peut pas dépasser le solde.
 - **Détail d'une poche** : courbe d'évolution du solde, barre de progression vers l'objectif, historique groupé par mois (appui sur une ligne pour la supprimer).
-- **Abonnements** (second onglet) : Netflix, salle de sport, assurances… avec leur prix et leur fréquence (semaine, mois, trimestre, année). Coût total par mois et par an, prochain prélèvement, répartition en anneau, liste triée par échéance (en orange quand c'est dans moins de 3 jours), abonnements en pause ou résiliés à part.
+- **Charges fixes** (second onglet) : tout ce qui revient à prix fixe — abonnements, mutuelle, assurances, loyer, crédits… — avec leur catégorie, leur prix et leur fréquence (semaine, mois, trimestre, semestre, année). Coût total par mois et par an, prochain prélèvement, répartition en anneau par catégorie (ou par charge s'il n'y a qu'une catégorie), liste triée par échéance (en orange quand c'est dans moins de 3 jours), charges en pause ou résiliées à part. Les factures dont le montant varie (gaz, électricité) n'ont pas leur place ici.
 - **Rappels** : une notification à 9 h la veille de chaque prélèvement (ou le jour même, 3 jours ou une semaine avant, réglable dans les réglages). Les rappels des prochaines échéances sont replanifiés à chaque ouverture de l'app.
 - **Mode discret** (icône œil) : masque tous les montants, utile en public.
 - **Langues** : français, néerlandais et anglais, au choix dans les réglages (par défaut : la langue du téléphone). Le changement est immédiat, et les montants et dates suivent les conventions de la langue (« 1 234,56 € », « € 1.234,56 », « €1,234.56 »).
@@ -29,9 +29,9 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - Les montants sont stockés en **centimes (`long`)** pour éviter les erreurs d'arrondi.
 - Le solde d'une poche n'est **jamais stocké** : c'est toujours la somme de ses mouvements, il ne peut donc pas se désynchroniser.
 - Un transfert crée deux mouvements liés, supprimés ensemble.
-- La sauvegarde est un fichier JSON versionné (`format: "poches-backup"`, version 2 depuis l'ajout des abonnements), indépendant du schéma SQLite. La restauration est atomique : un fichier incohérent est refusé sans toucher aux données. Une sauvegarde de version 1 ne touche pas aux abonnements existants.
+- La sauvegarde est un fichier JSON versionné (`format: "poches-backup"`, version 2 depuis l'ajout des abonnements, version 3 depuis leurs catégories et le semestre), indépendant du schéma SQLite. La restauration est atomique : un fichier incohérent est refusé sans toucher aux données. Une sauvegarde de version 1 ne touche pas aux abonnements existants.
 - Le fichier écrit est une enveloppe JSON (`format: "poches-backup-encrypted"`) : clé dérivée du mot de passe par PBKDF2-HMAC-SHA256 (600 000 itérations, sel aléatoire de 16 octets, mot de passe normalisé en Unicode NFC), puis AES-256-GCM (nonce de 12 octets, tag de 16 octets) sur le JSON ci-dessus. Le tag détecte un mauvais mot de passe comme un fichier modifié. Le mot de passe n'est stocké nulle part : perdu, la sauvegarde est irrécupérable. Les anciennes sauvegardes non chiffrées restent restaurables.
-- Un abonnement stocke une date de référence et une fréquence : les échéances sont recalculées à partir de cette date (un prélèvement le 31 revient au 31 après février).
+- Une charge fixe stocke une date de référence et une fréquence : les échéances sont recalculées à partir de cette date (un prélèvement le 31 revient au 31 après février).
 
 ## Architecture
 
@@ -87,7 +87,7 @@ Prérequis communs : SDK .NET 10 et workload MAUI (`dotnet workload install maui
 La même app tourne sur Mac, adaptée au bureau :
 
 - fenêtre de 560 × 820 points à l'ouverture (taille mémorisée si tu la changes), contenu en colonne centrée quand la fenêtre est large ;
-- les feuilles (réglages, ajout, poche, abonnement, mot de passe) s'affichent en carte centrée sur fond assombri : sur Mac, MAUI 10 ne termine jamais la navigation vers une vraie *PageSheet*, ce qui bloquerait l'app ;
+- les feuilles (réglages, ajout, poche, charge fixe, mot de passe) s'affichent en carte centrée sur fond assombri : sur Mac, MAUI 10 ne termine jamais la navigation vers une vraie *PageSheet*, ce qui bloquerait l'app ;
 - clavier : `Échap` ferme la feuille ouverte ; dans « Ajouter », le montant se tape au clavier (chiffres, `,` ou `.`, `⌫`, `Entrée` pour valider) ;
 - la sauvegarde s'enregistre via le panneau « Enregistrer » du Mac au lieu de la feuille de partage ;
 - survol des éléments cliquables à la souris, onglet sélectionné aux couleurs de l'app.
@@ -117,7 +117,7 @@ dotnet test tests/Poches.Core.Tests
 - Virements récurrents automatiques vers une poche (ex. +200 € chaque mois sur « Épargne »).
 - Verrouillage par Face ID / empreinte.
 - Synchronisation automatique entre appareils (CloudKit, nécessite un compte Apple Developer payant).
-- Lier un abonnement à une poche pour débiter automatiquement chaque prélèvement.
+- Lier une charge fixe à une poche pour débiter automatiquement chaque prélèvement.
 - Suivi de la valeur des investissements (plus-values) en plus des versements.
 - Statistiques mensuelles (entrées/sorties par mois) et date cible pour les objectifs.
 - Widget d'écran d'accueil avec le solde total.

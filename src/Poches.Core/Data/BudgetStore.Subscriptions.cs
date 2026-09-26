@@ -3,10 +3,11 @@ using Poches.Core.Subscriptions;
 
 namespace Poches.Core.Data;
 
-/// <summary>Localised names of the sample subscriptions that are not brand names.</summary>
-public sealed record SampleSubscriptionTexts(string Gym, string HomeInsurance)
+/// <summary>Localised names of the sample charges that are not brand names.</summary>
+public sealed record SampleSubscriptionTexts(string Gym, string HomeInsurance, string HealthInsurance, string CarInsurance, string CarLoan)
 {
-    public static SampleSubscriptionTexts French { get; } = new("Salle de sport", "Assurance habitation");
+    public static SampleSubscriptionTexts French { get; } =
+        new("Salle de sport", "Assurance habitation", "Mutuelle santé", "Assurance auto", "Crédit auto");
 }
 
 public sealed partial class BudgetStore
@@ -42,6 +43,8 @@ public sealed partial class BudgetStore
         EnsureValidAmount(subscription.Amount);
         if (!Enum.IsDefined(subscription.Period))
             throw new ArgumentOutOfRangeException(nameof(subscription), "Unknown billing period.");
+        if (!Enum.IsDefined(subscription.Category))
+            throw new ArgumentOutOfRangeException(nameof(subscription), "Unknown category.");
         subscription.BillingAnchor = subscription.BillingAnchor.Date;
 
         var db = await GetConnectionAsync();
@@ -66,7 +69,7 @@ public sealed partial class BudgetStore
         OnChanged();
     }
 
-    /// <summary>Adds a few typical subscriptions when there are none yet, so the tab can be explored.</summary>
+    /// <summary>Adds a few typical fixed costs when there are none yet, so the tab can be explored.</summary>
     public async Task SeedSampleSubscriptionsAsync(DateTime today, SampleSubscriptionTexts? texts = null)
     {
         var db = await GetConnectionAsync();
@@ -75,7 +78,9 @@ public sealed partial class BudgetStore
 
         var t = texts ?? SampleSubscriptionTexts.French;
         today = today.Date;
-        Subscription Sample(string name, string icon, string color, decimal amount, BillingPeriod period, int dueInDays, bool active = true) =>
+        Subscription Sample(
+            string name, string icon, string color, decimal amount, BillingPeriod period, int dueInDays,
+            ChargeCategory category = ChargeCategory.Subscription, bool active = true) =>
             new()
             {
                 Name = name,
@@ -83,6 +88,7 @@ public sealed partial class BudgetStore
                 ColorHex = color,
                 Amount = amount,
                 Period = period,
+                Category = category,
                 BillingAnchor = today.AddDays(dueInDays),
                 IsActive = active,
                 CreatedAt = DateTime.Now,
@@ -95,7 +101,10 @@ public sealed partial class BudgetStore
             Sample("Spotify", "🎵", "#10B981", 11.12m, BillingPeriod.Monthly, 9),
             Sample("iCloud+", "☁️", "#3B82F6", 2.99m, BillingPeriod.Monthly, 16),
             Sample("Amazon Prime", "📦", "#0891B2", 69.90m, BillingPeriod.Yearly, 120),
-            Sample(t.HomeInsurance, "🏠", "#8B5CF6", 180m, BillingPeriod.Yearly, 200),
+            Sample(t.HomeInsurance, "🏠", "#8B5CF6", 180m, BillingPeriod.Yearly, 200, ChargeCategory.Insurance),
+            Sample(t.HealthInsurance, "🏥", "#0D9488", 42.50m, BillingPeriod.Monthly, 6, ChargeCategory.Insurance),
+            Sample(t.CarInsurance, "🚗", "#3B82F6", 246m, BillingPeriod.Semiannual, 45, ChargeCategory.Insurance),
+            Sample(t.CarLoan, "🏦", "#475569", 189m, BillingPeriod.Monthly, 3, ChargeCategory.Loan),
             Sample("Disney+", "🍿", "#6366F1", 9.99m, BillingPeriod.Monthly, 12, active: false),
         });
         OnChanged();

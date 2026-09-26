@@ -21,4 +21,13 @@ public sealed record SubscriptionOverview(IReadOnlyList<SubscriptionSummary> Act
 
     public double ShareOf(SubscriptionSummary subscription) =>
         MonthlyTotal > 0 ? (double)(subscription.MonthlyCost / MonthlyTotal) : 0d;
+
+    /// <summary>Monthly cost of the active charges per category, most expensive first.</summary>
+    public IReadOnlyList<CategoryTotal> ByCategory =>
+        Active.GroupBy(s => s.Subscription.Category)
+            .Select(g => new CategoryTotal(g.Key, g.Sum(s => s.MonthlyCost), g.Count()))
+            .OrderByDescending(c => c.MonthlyCost)
+            .ToList();
 }
+
+public sealed record CategoryTotal(ChargeCategory Category, decimal MonthlyCost, int Count);

@@ -32,17 +32,27 @@ public sealed partial class SubscriptionEditViewModel : ObservableObject, IQuery
         PricePlaceholder = 9.99m.ToString("0.00", Localizer.Instance.Culture);
         Periods =
         [
-            new SelectableOption(nameof(BillingPeriod.Weekly), 0, 4, SelectPeriod) { Label = Loc.Get("Period_Week") },
-            new SelectableOption(nameof(BillingPeriod.Monthly), 1, 4, SelectPeriod) { Label = Loc.Get("Period_Month") },
-            new SelectableOption(nameof(BillingPeriod.Quarterly), 2, 4, SelectPeriod) { Label = Loc.Get("Period_Quarter") },
-            new SelectableOption(nameof(BillingPeriod.Yearly), 3, 4, SelectPeriod) { Label = Loc.Get("Period_Year") },
+            new SelectableOption(nameof(BillingPeriod.Weekly), 0, 5, SelectPeriod) { Label = Loc.Get("Period_Week") },
+            new SelectableOption(nameof(BillingPeriod.Monthly), 1, 5, SelectPeriod) { Label = Loc.Get("Period_Month") },
+            new SelectableOption(nameof(BillingPeriod.Quarterly), 2, 5, SelectPeriod) { Label = Loc.Get("Period_Quarter") },
+            new SelectableOption(nameof(BillingPeriod.Semiannual), 3, 5, SelectPeriod) { Label = Loc.Get("Period_Semester") },
+            new SelectableOption(nameof(BillingPeriod.Yearly), 4, 5, SelectPeriod) { Label = Loc.Get("Period_Year") },
         ];
+        Categories = ChargeCategories.All
+            .Select((c, i) => new SelectableOption(c.ToString(), i, 3, SelectCategory)
+            {
+                Label = $"{ChargeCategories.Icon(c)}\n{ChargeCategories.Name(c)}",
+            })
+            .ToList();
         OnPeriodChanged(Period);
+        OnCategoryChanged(ChargeCategory.Subscription, Category);
     }
 
     public AppearanceSelection Appearance { get; } = new(Palette.SubscriptionEmojis);
 
     public IReadOnlyList<SelectableOption> Periods { get; }
+
+    public IReadOnlyList<SelectableOption> Categories { get; }
 
     public string Currency { get; }
 
@@ -62,6 +72,9 @@ public sealed partial class SubscriptionEditViewModel : ObservableObject, IQuery
 
     [ObservableProperty]
     private BillingPeriod _period = BillingPeriod.Monthly;
+
+    [ObservableProperty]
+    private ChargeCategory _category = ChargeCategory.Subscription;
 
     [ObservableProperty]
     private DateTime? _nextPayment = DateTime.Today;
@@ -102,12 +115,24 @@ public sealed partial class SubscriptionEditViewModel : ObservableObject, IQuery
         Name = subscription.Name;
         PriceText = subscription.Amount.ToString("0.00", Localizer.Instance.Culture);
         Period = subscription.Period;
+        Category = subscription.Category;
         NextPayment = _loadedNextPayment;
         IsActive = subscription.IsActive;
         Appearance.Show(subscription.Icon, subscription.ColorHex);
     }
 
     private void SelectPeriod(SelectableOption option) => Period = Enum.Parse<BillingPeriod>(option.Value);
+
+    private void SelectCategory(SelectableOption option) => Category = Enum.Parse<ChargeCategory>(option.Value);
+
+    partial void OnCategoryChanged(ChargeCategory oldValue, ChargeCategory newValue)
+    {
+        foreach (var option in Categories)
+            option.IsSelected = option.Value == newValue.ToString();
+        // Suggest the category's icon for a new charge, unless the user already picked another one.
+        if (IsNew && Appearance.Icon == ChargeCategories.Icon(oldValue))
+            Appearance.Show(ChargeCategories.Icon(newValue), Appearance.ColorHex);
+    }
 
     partial void OnPeriodChanged(BillingPeriod value)
     {
@@ -149,6 +174,7 @@ public sealed partial class SubscriptionEditViewModel : ObservableObject, IQuery
         _subscription.Icon = Appearance.Icon;
         _subscription.ColorHex = Appearance.ColorHex;
         _subscription.Amount = price;
+        _subscription.Category = Category;
         _subscription.IsActive = IsActive;
         // Keep the original anchor when the schedule is untouched, so a payment on the 31st stays on the 31st.
         if (IsNew || Period != _loadedPeriod || nextPayment != _loadedNextPayment)

@@ -307,13 +307,13 @@
     <value>Alles wissen</value>
   </data>
   <data name="Settings_DeleteAllHint" xml:space="preserve">
-    <value>Verwijdert alle potjes, abonnementen en de geschiedenis</value>
+    <value>Verwijdert alle potjes, vaste kosten en de geschiedenis</value>
   </data>
   <data name="Settings_DeleteAllTitle" xml:space="preserve">
     <value>Alles wissen?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>Al je potjes, abonnementen en hun geschiedenis worden definitief van dit apparaat verwijderd. Maak eerst een back-up als je ze wilt kunnen terughalen.</value>
+    <value>Al je potjes, vaste kosten en hun geschiedenis worden definitief van dit apparaat verwijderd. Maak eerst een back-up als je ze wilt kunnen terughalen.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Laatste back-up: {0}</value>
@@ -438,7 +438,7 @@ Je huidige gegevens worden vervangen.</value>
     <value>Potjes</value>
   </data>
   <data name="Subs_Title" xml:space="preserve">
-    <value>Abonnementen</value>
+    <value>Vaste kosten</value>
   </data>
   <data name="Subs_PerMonth" xml:space="preserve">
     <value>Per maand</value>
@@ -450,13 +450,13 @@ Je huidige gegevens worden vervangen.</value>
     <value>Volgende afschrijving</value>
   </data>
   <data name="Subs_EmptyTitle" xml:space="preserve">
-    <value>Nog geen abonnementen</value>
+    <value>Nog geen vaste kosten</value>
   </data>
   <data name="Subs_EmptyText" xml:space="preserve">
-    <value>Voeg je abonnementen toe (streaming, sport, verzekeringen…) om te zien wat ze je per maand kosten en een herinnering te krijgen vóór elke afschrijving.</value>
+    <value>Voeg alles toe wat je aan een vaste prijs betaalt (abonnementen, ziekenfonds, verzekeringen, huur, leningen…) om te zien wat het je per maand kost en een herinnering te krijgen vóór elke afschrijving.</value>
   </data>
   <data name="Subs_AddFirst" xml:space="preserve">
-    <value>Abonnement toevoegen</value>
+    <value>Vaste kost toevoegen</value>
   </data>
   <data name="Subs_Upcoming" xml:space="preserve">
     <value>Komende afschrijvingen</value>
@@ -465,10 +465,10 @@ Je huidige gegevens worden vervangen.</value>
     <value>Gepauzeerd</value>
   </data>
   <data name="Subscription_One" xml:space="preserve">
-    <value>abonnement</value>
+    <value>vaste kost</value>
   </data>
   <data name="Subscription_Many" xml:space="preserve">
-    <value>abonnementen</value>
+    <value>vaste kosten</value>
   </data>
   <data name="When_Tomorrow" xml:space="preserve">
     <value>morgen</value>
@@ -501,10 +501,10 @@ Je huidige gegevens worden vervangen.</value>
     <value>/jaar</value>
   </data>
   <data name="SubEdit_NewTitle" xml:space="preserve">
-    <value>Nieuw abonnement</value>
+    <value>Nieuwe vaste kost</value>
   </data>
   <data name="SubEdit_NamePlaceholder" xml:space="preserve">
-    <value>Bv. Netflix, Spotify, sportschool…</value>
+    <value>Bv. Netflix, ziekenfonds, autoverzekering…</value>
   </data>
   <data name="SubEdit_Price" xml:space="preserve">
     <value>PRIJS</value>
@@ -516,7 +516,7 @@ Je huidige gegevens worden vervangen.</value>
     <value>VOLGENDE AFSCHRIJVING</value>
   </data>
   <data name="SubEdit_Active" xml:space="preserve">
-    <value>Actief abonnement</value>
+    <value>Actief</value>
   </data>
   <data name="SubEdit_ActiveHint" xml:space="preserve">
     <value>Zet het uit als het gepauzeerd of opgezegd is</value>
@@ -531,13 +531,13 @@ Je huidige gegevens worden vervangen.</value>
     <value>Geef een geldige prijs op, bijvoorbeeld 9,99.</value>
   </data>
   <data name="SubEdit_Delete" xml:space="preserve">
-    <value>Abonnement verwijderen</value>
+    <value>Vaste kost verwijderen</value>
   </data>
   <data name="SubEdit_DeleteText" xml:space="preserve">
     <value>Het wordt alleen uit Poches verwijderd, niet opgezegd bij de aanbieder.</value>
   </data>
   <data name="Settings_SubscriptionsSection" xml:space="preserve">
-    <value>ABONNEMENTEN</value>
+    <value>VASTE KOSTEN</value>
   </data>
   <data name="Settings_Reminder" xml:space="preserve">
     <value>Herinnering vóór afschrijving</value>
@@ -564,7 +564,7 @@ Je huidige gegevens worden vervangen.</value>
     <value>{0} wordt {1} afgeschreven.</value>
   </data>
   <data name="Error_EmptySubscriptionName" xml:space="preserve">
-    <value>Geef je abonnement een naam.</value>
+    <value>Geef deze vaste kost een naam.</value>
   </data>
   <data name="Sample_Gym" xml:space="preserve">
     <value>Sportschool</value>
@@ -633,7 +633,7 @@ Je huidige gegevens worden vervangen.</value>
     <value>Poches is vergrendeld</value>
   </data>
   <data name="Lock_LockedText" xml:space="preserve">
-    <value>Ontgrendel om je potjes en abonnementen te zien.</value>
+    <value>Ontgrendel om je potjes en vaste kosten te zien.</value>
   </data>
   <data name="Lock_Unlock" xml:space="preserve">
     <value>Ontgrendelen</value>
@@ -643,5 +643,38 @@ Je huidige gegevens worden vervangen.</value>
   </data>
   <data name="Lock_EnableReason" xml:space="preserve">
     <value>App-vergrendeling inschakelen</value>
+  </data>
+  <data name="SubEdit_Category" xml:space="preserve">
+    <value>CATEGORIE</value>
+  </data>
+  <data name="Category_Subscription" xml:space="preserve">
+    <value>Abonnementen</value>
+  </data>
+  <data name="Category_Insurance" xml:space="preserve">
+    <value>Verzekeringen</value>
+  </data>
+  <data name="Category_Housing" xml:space="preserve">
+    <value>Wonen</value>
+  </data>
+  <data name="Category_Loan" xml:space="preserve">
+    <value>Leningen</value>
+  </data>
+  <data name="Category_Other" xml:space="preserve">
+    <value>Overige</value>
+  </data>
+  <data name="Period_Semester" xml:space="preserve">
+    <value>Halfjaar</value>
+  </data>
+  <data name="Period_PerSemester" xml:space="preserve">
+    <value>/halfjaar</value>
+  </data>
+  <data name="Sample_HealthInsurance" xml:space="preserve">
+    <value>Ziekenfonds</value>
+  </data>
+  <data name="Sample_CarInsurance" xml:space="preserve">
+    <value>Autoverzekering</value>
+  </data>
+  <data name="Sample_CarLoan" xml:space="preserve">
+    <value>Autolening</value>
   </data>
 </root>

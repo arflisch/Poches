@@ -33,6 +33,9 @@ public sealed class BillingScheduleTests
     [Theory]
     [InlineData(BillingPeriod.Weekly, "2026-09-01", "2026-09-29")]
     [InlineData(BillingPeriod.Quarterly, "2026-01-10", "2026-10-10")]
+    [InlineData(BillingPeriod.Semiannual, "2026-04-10", "2026-10-10")]
+    [InlineData(BillingPeriod.Semiannual, "2025-03-31", "2026-09-30")] // month-end: September has 30 days
+    [InlineData(BillingPeriod.Semiannual, "2026-09-26", "2026-09-26")]
     [InlineData(BillingPeriod.Yearly, "2020-03-01", "2027-03-01")]
     [InlineData(BillingPeriod.Yearly, "2024-02-29", "2027-02-28")]
     public void Other_periods(BillingPeriod period, string anchor, string expected)
@@ -44,6 +47,7 @@ public sealed class BillingScheduleTests
     [InlineData(BillingPeriod.Weekly, 10, 43.333, 520)]
     [InlineData(BillingPeriod.Monthly, 13.49, 13.49, 161.88)]
     [InlineData(BillingPeriod.Quarterly, 30, 10, 120)]
+    [InlineData(BillingPeriod.Semiannual, 246, 41, 492)]
     [InlineData(BillingPeriod.Yearly, 69.90, 5.825, 69.90)]
     public void Costs_are_normalised(BillingPeriod period, double amount, double monthly, double yearly)
     {
@@ -118,13 +122,40 @@ public sealed class SubscriptionStoreTests : IAsyncLifetime
     [Fact]
     public async Task Samples_are_only_added_to_an_empty_list()
     {
-        await _store.SeedSampleSubscriptionsAsync(Today, new SampleSubscriptionTexts("Gym", "Home insurance"));
+        await _store.SeedSampleSubscriptionsAsync(
+            Today, new SampleSubscriptionTexts("Gym", "Home insurance", "Health insurance", "Car insurance", "Car loan"));
         await _store.SeedSampleSubscriptionsAsync(Today);
 
         var overview = await _store.GetSubscriptionOverviewAsync(Today);
-        Assert.Equal(6, overview.Active.Count);
+        Assert.Equal(9, overview.Active.Count);
         Assert.Single(overview.Inactive);
         Assert.Contains(overview.Active, s => s.Subscription.Name == "Gym");
+        Assert.Equal(
+            [ChargeCategory.Subscription, ChargeCategory.Insurance, ChargeCategory.Loan],
+            overview.ByCategory.Select(c => c.Category).Order());
+    }
+
+    [Fact]
+    public async Task Totals_are_grouped_by_category_most_expensive_first()
+    {
+        await Save("Netflix", 13.49m, BillingPeriod.Monthly, Today);
+        await Save("Spotify", 11.12m, BillingPeriod.Monthly, Today);
+        await Save("Mutuelle", 42.50m, BillingPeriod.Monthly, Today, category: ChargeCategory.Insurance);
+        await Save("Assurance auto", 246m, BillingPeriod.Semiannual, Today, category: ChargeCategory.Insurance);
+        await Save("Loyer", 850m, BillingPeriod.Monthly, Today, category: ChargeCategory.Housing, active: false);
+
+        var byCategory = (await _store.GetSubscriptionOverviewAsync(Today)).ByCategory;
+
+        Assert.Equal(
+            [(ChargeCategory.Insurance, 83.50m, 2), (ChargeCategory.Subscription, 24.61m, 2)],
+            byCategory.Select(c => (c.Category, c.MonthlyCost, c.Count)));
+    }
+
+    [Fact]
+    public async Task Unknown_categories_are_refused()
+    {
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(
+            () => Save("Mystère", 5m, BillingPeriod.Monthly, Today, category: (ChargeCategory)42));
     }
 
     [Fact]
@@ -132,15 +163,40 @@ public sealed class SubscriptionStoreTests : IAsyncLifetime
     {
         await Save("Netflix", 13.49m, BillingPeriod.Monthly, Today.AddDays(1));
         await Save("Disney+", 9.99m, BillingPeriod.Quarterly, Today, active: false);
+        await Save("Assurance auto", 246m, BillingPeriod.Semiannual, Today.AddDays(40), category: ChargeCategory.Insurance);
         var backup = await RoundTripAsync(await _store.ExportAsync(Today));
 
         await _store.DeleteAllAsync();
         await _store.ImportAsync(backup);
 
         var overview = await _store.GetSubscriptionOverviewAsync(Today);
-        var netflix = Assert.Single(overview.Active);
+        Assert.Equal(2, overview.Active.Count);
+        var netflix = overview.Active[0];
         Assert.Equal(("Netflix", 1349L, Today.AddDays(1)), (netflix.Subscription.Name, netflix.Subscription.AmountCents, netflix.NextPayment));
+        var car = overview.Active[1].Subscription;
+        Assert.Equal((BillingPeriod.Semiannual, ChargeCategory.Insurance), (car.Period, car.Category));
         Assert.Equal(BillingPeriod.Quarterly, Assert.Single(overview.Inactive).Subscription.Period);
+    }
+
+    [Fact]
+    public async Task Charges_from_a_backup_without_categories_are_subscriptions()
+    {
+        // Version 2 files have no "category" on their subscriptions.
+        const string versionTwo = """
+            {
+              "format": "poches-backup", "version": 2, "exportedAt": "2026-09-25T10:00:00", "currency": "€",
+              "pockets": [], "movements": [],
+              "subscriptions": [
+                { "name": "Netflix", "icon": "🎬", "colorHex": "#F43F5E", "amountCents": 1349, "period": "Monthly",
+                  "billingAnchor": "2026-09-27T00:00:00", "isActive": true, "createdAt": "2026-09-01T00:00:00" }
+              ]
+            }
+            """;
+
+        await _store.ImportAsync(BackupSerializer.Read(System.Text.Encoding.UTF8.GetBytes(versionTwo)));
+
+        var netflix = Assert.Single((await _store.GetSubscriptionOverviewAsync(Today)).Active).Subscription;
+        Assert.Equal(ChargeCategory.Subscription, netflix.Category);
     }
 
     [Fact]
@@ -166,8 +222,13 @@ public sealed class SubscriptionStoreTests : IAsyncLifetime
         Assert.Empty(overview.Inactive);
     }
 
-    private Task<Subscription> Save(string name, decimal amount, BillingPeriod period, DateTime anchor, bool active = true) =>
-        _store.SaveSubscriptionAsync(new Subscription { Name = name, Amount = amount, Period = period, BillingAnchor = anchor, IsActive = active });
+    private Task<Subscription> Save(
+        string name, decimal amount, BillingPeriod period, DateTime anchor, bool active = true,
+        ChargeCategory category = ChargeCategory.Subscription) =>
+        _store.SaveSubscriptionAsync(new Subscription
+        {
+            Name = name, Amount = amount, Period = period, BillingAnchor = anchor, IsActive = active, Category = category,
+        });
 
     private static async Task<BackupDocument> RoundTripAsync(BackupDocument document)
     {
