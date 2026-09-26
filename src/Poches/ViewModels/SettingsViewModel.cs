@@ -101,8 +101,8 @@ public sealed partial class SettingsViewModel : ObservableObject
         IsBusy = true;
         try
         {
-            await _backup.ShareBackupAsync();
-            RefreshBackupText();
+            if (await _backup.ShareBackupAsync())
+                RefreshBackupText();
         }
         catch (Exception ex)
         {

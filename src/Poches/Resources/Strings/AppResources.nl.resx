@@ -298,7 +298,7 @@
     <value>Vervangt de gegevens op deze telefoon</value>
   </data>
   <data name="Settings_BackupHint" xml:space="preserve">
-    <value>Bewaar het bestand in iCloud Drive („Bewaar in Bestanden”) of mail het naar jezelf: je kunt het dan op een andere telefoon terugzetten, zelfs op Android.</value>
+    <value>Het bestand wordt versleuteld met een wachtwoord dat je zelf kiest. Bewaar het in iCloud Drive („Bewaar in Bestanden”) of mail het naar jezelf: je kunt het dan op een andere telefoon terugzetten, zelfs op Android.</value>
   </data>
   <data name="Settings_DataSection" xml:space="preserve">
     <value>GEGEVENS</value>
@@ -571,5 +571,44 @@ Je huidige gegevens worden vervangen.</value>
   </data>
   <data name="Sample_HomeInsurance" xml:space="preserve">
     <value>Woningverzekering</value>
+  </data>
+  <data name="Error_WrongPassword" xml:space="preserve">
+    <value>Onjuist wachtwoord.</value>
+  </data>
+  <data name="Password_CreateTitle" xml:space="preserve">
+    <value>Back-up beveiligen</value>
+  </data>
+  <data name="Password_UnlockTitle" xml:space="preserve">
+    <value>Versleutelde back-up</value>
+  </data>
+  <data name="Password_CreateText" xml:space="preserve">
+    <value>Kies een wachtwoord van minstens {0} tekens. Het bestand wordt versleuteld: zonder dit wachtwoord kan niemand je bedragen lezen.</value>
+  </data>
+  <data name="Password_UnlockText" xml:space="preserve">
+    <value>Deze back-up is versleuteld. Geef het wachtwoord in dat je bij het maken koos.</value>
+  </data>
+  <data name="Password_Warning" xml:space="preserve">
+    <value>Bewaar dit wachtwoord goed: het kan niet worden hersteld, en zonder dit wachtwoord kan de back-up nooit worden teruggezet.</value>
+  </data>
+  <data name="Password_Label" xml:space="preserve">
+    <value>WACHTWOORD</value>
+  </data>
+  <data name="Password_ConfirmLabel" xml:space="preserve">
+    <value>BEVESTIG WACHTWOORD</value>
+  </data>
+  <data name="Password_Show" xml:space="preserve">
+    <value>Wachtwoord tonen of verbergen</value>
+  </data>
+  <data name="Password_CreateConfirm" xml:space="preserve">
+    <value>Versleutelen en bewaren</value>
+  </data>
+  <data name="Password_UnlockConfirm" xml:space="preserve">
+    <value>Ontgrendelen</value>
+  </data>
+  <data name="Password_TooShort" xml:space="preserve">
+    <value>Het wachtwoord moet minstens {0} tekens bevatten.</value>
+  </data>
+  <data name="Password_Mismatch" xml:space="preserve">
+    <value>De twee wachtwoorden komen niet overeen.</value>
   </data>
 </root>

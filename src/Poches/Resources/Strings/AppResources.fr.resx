@@ -298,7 +298,7 @@
     <value>Remplace les données de ce téléphone</value>
   </data>
   <data name="Settings_BackupHint" xml:space="preserve">
-    <value>Enregistre le fichier dans iCloud Drive (« Enregistrer dans Fichiers ») ou envoie-le-toi par mail : tu pourras le restaurer sur un autre téléphone, même Android.</value>
+    <value>Le fichier est chiffré avec un mot de passe que tu choisis. Enregistre-le dans iCloud Drive (« Enregistrer dans Fichiers ») ou envoie-le-toi par mail : tu pourras le restaurer sur un autre téléphone, même Android.</value>
   </data>
   <data name="Settings_DataSection" xml:space="preserve">
     <value>DONNÉES</value>
@@ -571,5 +571,44 @@ Tes données actuelles seront remplacées.</value>
   </data>
   <data name="Sample_HomeInsurance" xml:space="preserve">
     <value>Assurance habitation</value>
+  </data>
+  <data name="Error_WrongPassword" xml:space="preserve">
+    <value>Mot de passe incorrect.</value>
+  </data>
+  <data name="Password_CreateTitle" xml:space="preserve">
+    <value>Protéger la sauvegarde</value>
+  </data>
+  <data name="Password_UnlockTitle" xml:space="preserve">
+    <value>Sauvegarde chiffrée</value>
+  </data>
+  <data name="Password_CreateText" xml:space="preserve">
+    <value>Choisis un mot de passe d'au moins {0} caractères. Le fichier sera chiffré : sans ce mot de passe, personne ne pourra lire tes montants.</value>
+  </data>
+  <data name="Password_UnlockText" xml:space="preserve">
+    <value>Cette sauvegarde est chiffrée. Saisis le mot de passe choisi lors de sa création.</value>
+  </data>
+  <data name="Password_Warning" xml:space="preserve">
+    <value>Garde bien ce mot de passe : il ne peut pas être récupéré, et sans lui la sauvegarde ne pourra jamais être restaurée.</value>
+  </data>
+  <data name="Password_Label" xml:space="preserve">
+    <value>MOT DE PASSE</value>
+  </data>
+  <data name="Password_ConfirmLabel" xml:space="preserve">
+    <value>CONFIRME LE MOT DE PASSE</value>
+  </data>
+  <data name="Password_Show" xml:space="preserve">
+    <value>Afficher ou masquer le mot de passe</value>
+  </data>
+  <data name="Password_CreateConfirm" xml:space="preserve">
+    <value>Chiffrer et sauvegarder</value>
+  </data>
+  <data name="Password_UnlockConfirm" xml:space="preserve">
+    <value>Déverrouiller</value>
+  </data>
+  <data name="Password_TooShort" xml:space="preserve">
+    <value>Le mot de passe doit contenir au moins {0} caractères.</value>
+  </data>
+  <data name="Password_Mismatch" xml:space="preserve">
+    <value>Les deux mots de passe ne correspondent pas.</value>
   </data>
 </root>

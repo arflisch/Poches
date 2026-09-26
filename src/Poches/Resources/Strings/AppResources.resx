@@ -298,7 +298,7 @@
     <value>Replaces the data on this phone</value>
   </data>
   <data name="Settings_BackupHint" xml:space="preserve">
-    <value>Save the file to iCloud Drive (“Save to Files”) or email it to yourself: you'll be able to restore it on another phone, even Android.</value>
+    <value>The file is encrypted with a password you choose. Save it to iCloud Drive (“Save to Files”) or email it to yourself: you'll be able to restore it on another phone, even Android.</value>
   </data>
   <data name="Settings_DataSection" xml:space="preserve">
     <value>DATA</value>
@@ -571,5 +571,44 @@ Your current data will be replaced.</value>
   </data>
   <data name="Sample_HomeInsurance" xml:space="preserve">
     <value>Home insurance</value>
+  </data>
+  <data name="Error_WrongPassword" xml:space="preserve">
+    <value>Incorrect password.</value>
+  </data>
+  <data name="Password_CreateTitle" xml:space="preserve">
+    <value>Protect the backup</value>
+  </data>
+  <data name="Password_UnlockTitle" xml:space="preserve">
+    <value>Encrypted backup</value>
+  </data>
+  <data name="Password_CreateText" xml:space="preserve">
+    <value>Choose a password of at least {0} characters. The file will be encrypted: without the password, nobody can read your amounts.</value>
+  </data>
+  <data name="Password_UnlockText" xml:space="preserve">
+    <value>This backup is encrypted. Enter the password chosen when it was created.</value>
+  </data>
+  <data name="Password_Warning" xml:space="preserve">
+    <value>Keep this password safe: it cannot be recovered, and without it the backup can never be restored.</value>
+  </data>
+  <data name="Password_Label" xml:space="preserve">
+    <value>PASSWORD</value>
+  </data>
+  <data name="Password_ConfirmLabel" xml:space="preserve">
+    <value>CONFIRM PASSWORD</value>
+  </data>
+  <data name="Password_Show" xml:space="preserve">
+    <value>Show or hide the password</value>
+  </data>
+  <data name="Password_CreateConfirm" xml:space="preserve">
+    <value>Encrypt and save</value>
+  </data>
+  <data name="Password_UnlockConfirm" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="Password_TooShort" xml:space="preserve">
+    <value>The password must be at least {0} characters long.</value>
+  </data>
+  <data name="Password_Mismatch" xml:space="preserve">
+    <value>The two passwords don't match.</value>
   </data>
 </root>

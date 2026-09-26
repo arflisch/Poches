@@ -17,7 +17,7 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - **Mode discret** (icône œil) : masque tous les montants, utile en public.
 - **Langues** : français, néerlandais et anglais, au choix dans les réglages (par défaut : la langue du téléphone). Le changement est immédiat, et les montants et dates suivent les conventions de la langue (« 1 234,56 € », « € 1.234,56 », « €1,234.56 »).
 - **Réglages** (bouton en haut à droite) : langue, devise d'affichage (€, CHF, $, £), mode discret, sauvegarde, restauration et « Tout effacer ».
-- **Sauvegarde / restauration** : exporte toutes les poches dans un fichier JSON via la feuille de partage (iCloud Drive, mail, AirDrop…) et le restaure sur n'importe quel téléphone, iPhone ou Android. Un rappel apparaît sur l'accueil si la dernière sauvegarde date de plus de 30 jours.
+- **Sauvegarde / restauration** : exporte toutes les poches dans un fichier **chiffré par un mot de passe** choisi à chaque sauvegarde, via la feuille de partage (iCloud Drive, mail, AirDrop…), et le restaure sur n'importe quel téléphone, iPhone ou Android. Un rappel apparaît sur l'accueil si la dernière sauvegarde date de plus de 30 jours.
 - **Thème clair / sombre** automatique.
 - **Exemples** : sur l'écran vide, « Explorer avec des exemples » crée 5 poches de démonstration.
 
@@ -29,6 +29,7 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - Le solde d'une poche n'est **jamais stocké** : c'est toujours la somme de ses mouvements, il ne peut donc pas se désynchroniser.
 - Un transfert crée deux mouvements liés, supprimés ensemble.
 - La sauvegarde est un fichier JSON versionné (`format: "poches-backup"`, version 2 depuis l'ajout des abonnements), indépendant du schéma SQLite. La restauration est atomique : un fichier incohérent est refusé sans toucher aux données. Une sauvegarde de version 1 ne touche pas aux abonnements existants.
+- Le fichier écrit est une enveloppe JSON (`format: "poches-backup-encrypted"`) : clé dérivée du mot de passe par PBKDF2-HMAC-SHA256 (600 000 itérations, sel aléatoire de 16 octets, mot de passe normalisé en Unicode NFC), puis AES-256-GCM (nonce de 12 octets, tag de 16 octets) sur le JSON ci-dessus. Le tag détecte un mauvais mot de passe comme un fichier modifié. Le mot de passe n'est stocké nulle part : perdu, la sauvegarde est irrécupérable. Les anciennes sauvegardes non chiffrées restent restaurables.
 - Un abonnement stocke une date de référence et une fréquence : les échéances sont recalculées à partir de cette date (un prélèvement le 31 revient au 31 après février).
 
 ## Architecture

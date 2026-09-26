@@ -29,6 +29,7 @@ public static class MauiProgram
         builder.Services.AddSingleton(FilePicker.Default);
         builder.Services.AddSingleton<AppSettings>();
         builder.Services.AddSingleton<BackupFilePicker>();
+        builder.Services.AddSingleton<PasswordPrompt>();
         builder.Services.AddSingleton<BackupService>();
         builder.Services.AddSingleton<SubscriptionReminders>();
         builder.Services.AddSingleton<IDialogService, DialogService>();

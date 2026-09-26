@@ -133,6 +133,33 @@ public sealed class BackupTests : IAsyncLifetime
         Assert.Equal(1, changes);
     }
 
+    [Fact]
+    public async Task Backups_from_before_subscriptions_can_still_be_restored()
+    {
+        // Version 1 files have no "subscriptions" list at all.
+        const string versionOne = """
+            {
+              "format": "poches-backup",
+              "version": 1,
+              "exportedAt": "2026-09-25T21:26:21+02:00",
+              "currency": "€",
+              "pockets": [
+                { "id": 7, "name": "Vacances", "icon": "🏖️", "colorHex": "#F97316", "goalCents": null, "createdAt": "2026-03-25T21:25:51" }
+              ],
+              "movements": [
+                { "pocketId": 7, "amountCents": 45000, "kind": "Deposit", "note": null, "date": "2026-09-01T10:00:00", "transferGroup": null, "counterpartPocketId": null }
+              ]
+            }
+            """;
+
+        var document = BackupSerializer.Read(Encoding.UTF8.GetBytes(versionOne));
+        await _target.ImportAsync(document);
+
+        Assert.Empty(document.Subscriptions);
+        var pocket = Assert.Single(await _target.GetPocketSummariesAsync());
+        Assert.Equal(450m, pocket.Balance);
+    }
+
     [Theory]
     [InlineData(0, "aujourd'hui")]
     [InlineData(1, "hier")]

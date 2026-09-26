@@ -21,19 +21,19 @@ public sealed class DialogService : IDialogService
 
     public async Task AlertAsync(string title, string message)
     {
-        await WaitForPendingDismissalAsync();
+        await PresentationGuard.WaitUntilSettledAsync();
         await CurrentPage.DisplayAlertAsync(title, message, Loc.Get("Common_Ok"));
     }
 
     public async Task<bool> ConfirmAsync(string title, string message, string accept, string? cancel = null)
     {
-        await WaitForPendingDismissalAsync();
+        await PresentationGuard.WaitUntilSettledAsync();
         return await CurrentPage.DisplayAlertAsync(title, message, accept, cancel ?? Cancel);
     }
 
     public async Task<string?> ChooseAsync(string title, string? destructive, params string[] options)
     {
-        await WaitForPendingDismissalAsync();
+        await PresentationGuard.WaitUntilSettledAsync();
         var cancel = Cancel;
         var choice = await CurrentPage.DisplayActionSheetAsync(title, cancel, destructive, options);
         return choice is null || choice == cancel ? null : choice;
@@ -41,7 +41,7 @@ public sealed class DialogService : IDialogService
 
     public async Task<string?> PromptAsync(string title, string placeholder, string initialValue, int maxLength)
     {
-        await WaitForPendingDismissalAsync();
+        await PresentationGuard.WaitUntilSettledAsync();
         return await CurrentPage.DisplayPromptAsync(title, null, Loc.Get("Common_Ok"), Cancel, placeholder, maxLength, Keyboard.Text, initialValue);
     }
 
@@ -54,27 +54,5 @@ public sealed class DialogService : IDialogService
                 ?? throw new InvalidOperationException("No window is open.");
             return root.Navigation.ModalStack.LastOrDefault() ?? Shell.Current?.CurrentPage ?? root;
         }
-    }
-
-    /// <summary>
-    /// iOS silently drops an alert presented while another controller (file picker, share sheet)
-    /// is still animating away, leaving the awaiting code stuck forever. Wait for it to settle first.
-    /// </summary>
-    private static async Task WaitForPendingDismissalAsync()
-    {
-#if IOS || MACCATALYST
-        for (var attempt = 0; attempt < 40; attempt++)
-        {
-            var top = Platform.GetCurrentUIViewController();
-            // The document picker closes itself right after reporting the chosen file.
-            var settling = top is not null
-                && (top.IsBeingDismissed || top.IsBeingPresented || top is UIKit.UIDocumentPickerViewController);
-            if (!settling)
-                return;
-            await Task.Delay(50);
-        }
-#else
-        await Task.CompletedTask;
-#endif
     }
 }
