@@ -8,8 +8,10 @@ using Poches.Services;
 
 namespace Poches.ViewModels;
 
-public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttributable
+public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttributable, ISheetViewModel
 {
+    public System.Windows.Input.ICommand DismissCommand => CancelCommand;
+
     private readonly BudgetStore _store;
     private readonly IDialogService _dialogs;
     private Pocket _pocket = new();

@@ -79,7 +79,7 @@
     <value>Back up your data</value>
   </data>
   <data name="Main_BackupNever" xml:space="preserve">
-    <value>So you don't lose anything if you change phones</value>
+    <value>So you never lose your data</value>
   </data>
   <data name="Main_BackupLast" xml:space="preserve">
     <value>Last backup {0}</value>
@@ -295,7 +295,7 @@
     <value>Restore a backup</value>
   </data>
   <data name="Settings_RestoreHint" xml:space="preserve">
-    <value>Replaces the data on this phone</value>
+    <value>Replaces the current data</value>
   </data>
   <data name="Settings_BackupHint" xml:space="preserve">
     <value>The file is encrypted with a password you choose. Save it to iCloud Drive (“Save to Files”) or email it to yourself: you'll be able to restore it on another phone, even Android.</value>
@@ -313,7 +313,7 @@
     <value>Delete everything?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>All your pockets, subscriptions and their history will be permanently deleted from this phone. Make a backup first if you want to be able to get them back.</value>
+    <value>All your pockets, subscriptions and their history will be permanently deleted from this device. Make a backup first if you want to be able to get them back.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Last backup: {0}</value>
@@ -610,5 +610,8 @@ Your current data will be replaced.</value>
   </data>
   <data name="Password_Mismatch" xml:space="preserve">
     <value>The two passwords don't match.</value>
+  </data>
+  <data name="Settings_BackupHintMac" xml:space="preserve">
+    <value>The file is encrypted with a password you choose. Save it to iCloud Drive: you'll be able to restore it on your iPhone, an Android phone or another Mac.</value>
   </data>
 </root>

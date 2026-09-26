@@ -16,9 +16,12 @@ public enum PasswordPromptMode
 
 /// <param name="validate">Runs the slow crypto work; returns an error message to show, or null on success.</param>
 public sealed partial class BackupPasswordViewModel(
-    PasswordPromptMode mode, Func<string, Task<string?>> validate, TaskCompletionSource<string?> result) : ObservableObject
+    PasswordPromptMode mode, Func<string, Task<string?>> validate, TaskCompletionSource<string?> result)
+    : ObservableObject, ISheetViewModel
 {
     public const int MinLength = 8;
+
+    public System.Windows.Input.ICommand DismissCommand => CancelCommand;
 
     public bool IsCreate => mode == PasswordPromptMode.Create;
 

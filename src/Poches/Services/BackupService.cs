@@ -34,11 +34,19 @@ public sealed class BackupService(
         var path = Path.Combine(FileSystem.CacheDirectory, $"poches-{now:yyyy-MM-dd}.json");
         await File.WriteAllBytesAsync(path, encrypted);
 
+#if MACCATALYST
+        // On a Mac, a Save panel is expected rather than a share menu.
+        _ = share;
+        await PresentationGuard.WaitUntilSettledAsync();
+        if (!await filePicker.SaveAsync(path))
+            return false;
+#else
         await share.RequestAsync(new ShareFileRequest
         {
             Title = Localization.Loc.Get("Backup_ShareTitle"),
             File = new ShareFile(path, "application/json"),
         });
+#endif
         settings.LastBackupAt = now;
         return true;
     }

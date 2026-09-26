@@ -79,7 +79,7 @@
     <value>Maak een back-up van je gegevens</value>
   </data>
   <data name="Main_BackupNever" xml:space="preserve">
-    <value>Zodat je niets kwijtraakt als je van telefoon wisselt</value>
+    <value>Zodat je je gegevens nooit kwijtraakt</value>
   </data>
   <data name="Main_BackupLast" xml:space="preserve">
     <value>Laatste back-up {0}</value>
@@ -295,7 +295,7 @@
     <value>Back-up terugzetten</value>
   </data>
   <data name="Settings_RestoreHint" xml:space="preserve">
-    <value>Vervangt de gegevens op deze telefoon</value>
+    <value>Vervangt de huidige gegevens</value>
   </data>
   <data name="Settings_BackupHint" xml:space="preserve">
     <value>Het bestand wordt versleuteld met een wachtwoord dat je zelf kiest. Bewaar het in iCloud Drive („Bewaar in Bestanden”) of mail het naar jezelf: je kunt het dan op een andere telefoon terugzetten, zelfs op Android.</value>
@@ -313,7 +313,7 @@
     <value>Alles wissen?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>Al je potjes, abonnementen en hun geschiedenis worden definitief van deze telefoon verwijderd. Maak eerst een back-up als je ze wilt kunnen terughalen.</value>
+    <value>Al je potjes, abonnementen en hun geschiedenis worden definitief van dit apparaat verwijderd. Maak eerst een back-up als je ze wilt kunnen terughalen.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Laatste back-up: {0}</value>
@@ -610,5 +610,8 @@ Je huidige gegevens worden vervangen.</value>
   </data>
   <data name="Password_Mismatch" xml:space="preserve">
     <value>De twee wachtwoorden komen niet overeen.</value>
+  </data>
+  <data name="Settings_BackupHintMac" xml:space="preserve">
+    <value>Het bestand wordt versleuteld met een wachtwoord dat je zelf kiest. Bewaar het in iCloud Drive: je kunt het dan terugzetten op je iPhone, een Android-telefoon of een andere Mac.</value>
   </data>
 </root>

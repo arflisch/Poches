@@ -28,7 +28,7 @@
     </ContentPage.Resources>
 
     <!-- Top, left and right stay clear of the notch; the history scrolls under the home indicator. -->
-    <Grid RowDefinitions="Auto,*" SafeAreaEdges="Container,Container,Container,None">
+    <Grid RowDefinitions="Auto,*" SafeAreaEdges="Container,Container,Container,None" Style="{StaticResource PageColumn}">
         <!-- Top bar -->
         <Grid Padding="20,8,20,6" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
             <Border

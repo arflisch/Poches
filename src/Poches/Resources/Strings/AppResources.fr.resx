@@ -79,7 +79,7 @@
     <value>Sauvegarde tes données</value>
   </data>
   <data name="Main_BackupNever" xml:space="preserve">
-    <value>Pour ne rien perdre si tu changes de téléphone</value>
+    <value>Pour ne jamais perdre tes données</value>
   </data>
   <data name="Main_BackupLast" xml:space="preserve">
     <value>Dernière sauvegarde {0}</value>
@@ -295,7 +295,7 @@
     <value>Restaurer une sauvegarde</value>
   </data>
   <data name="Settings_RestoreHint" xml:space="preserve">
-    <value>Remplace les données de ce téléphone</value>
+    <value>Remplace les données actuelles</value>
   </data>
   <data name="Settings_BackupHint" xml:space="preserve">
     <value>Le fichier est chiffré avec un mot de passe que tu choisis. Enregistre-le dans iCloud Drive (« Enregistrer dans Fichiers ») ou envoie-le-toi par mail : tu pourras le restaurer sur un autre téléphone, même Android.</value>
@@ -313,7 +313,7 @@
     <value>Tout effacer ?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>Toutes tes poches, tes abonnements et leur historique seront définitivement supprimés de ce téléphone. Fais une sauvegarde avant si tu veux pouvoir les récupérer.</value>
+    <value>Toutes tes poches, tes abonnements et leur historique seront définitivement supprimés de cet appareil. Fais une sauvegarde avant si tu veux pouvoir les récupérer.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Dernière sauvegarde : {0}</value>
@@ -610,5 +610,8 @@ Tes données actuelles seront remplacées.</value>
   </data>
   <data name="Password_Mismatch" xml:space="preserve">
     <value>Les deux mots de passe ne correspondent pas.</value>
+  </data>
+  <data name="Settings_BackupHintMac" xml:space="preserve">
+    <value>Le fichier est chiffré avec un mot de passe que tu choisis. Enregistre-le dans iCloud Drive : tu pourras le restaurer sur ton iPhone, un téléphone Android ou un autre Mac.</value>
   </data>
 </root>

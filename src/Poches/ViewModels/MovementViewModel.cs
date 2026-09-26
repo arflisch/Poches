@@ -16,8 +16,10 @@ public enum MovementMode
     Transfer,
 }
 
-public sealed partial class MovementViewModel : ObservableObject, IQueryAttributable
+public sealed partial class MovementViewModel : ObservableObject, IQueryAttributable, ISheetViewModel
 {
+    public System.Windows.Input.ICommand DismissCommand => CancelCommand;
+
     private const int MaxIntegerDigits = 9;
     private static readonly Color DefaultAccent = Color.FromArgb("#4F46E5");
 

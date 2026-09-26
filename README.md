@@ -81,10 +81,28 @@ Prérequis communs : SDK .NET 10 et workload MAUI (`dotnet workload install maui
    dotnet build src/Poches -t:Run -f net10.0-android
    ```
 
-### Sur le Mac (pour tester rapidement l'interface)
+### Mac (Mac Catalyst)
+
+La même app tourne sur Mac, adaptée au bureau :
+
+- fenêtre de 560 × 820 points à l'ouverture (taille mémorisée si tu la changes), contenu en colonne centrée quand la fenêtre est large ;
+- les feuilles (réglages, ajout, poche, abonnement, mot de passe) s'affichent en carte centrée sur fond assombri : sur Mac, MAUI 10 ne termine jamais la navigation vers une vraie *PageSheet*, ce qui bloquerait l'app ;
+- clavier : `Échap` ferme la feuille ouverte ; dans « Ajouter », le montant se tape au clavier (chiffres, `,` ou `.`, `⌫`, `Entrée` pour valider) ;
+- la sauvegarde s'enregistre via le panneau « Enregistrer » du Mac au lieu de la feuille de partage ;
+- survol des éléments cliquables à la souris, onglet sélectionné aux couleurs de l'app.
+
+Les données du Mac sont séparées de celles du téléphone : pour passer de l'un à l'autre, faire une sauvegarde (chiffrée) dans iCloud Drive puis la restaurer de l'autre côté.
+
+Lancer depuis les sources :
 
 ```bash
 dotnet build src/Poches -t:Run -f net10.0-maccatalyst
+```
+
+Installer dans Applications (signature ad hoc, pour ce Mac uniquement, sans expiration) :
+
+```bash
+dotnet build src/Poches -f net10.0-maccatalyst -c Release -r maccatalyst-arm64 && ditto src/Poches/bin/Release/net10.0-maccatalyst/maccatalyst-arm64/Poches.app /Applications/Poches.app
 ```
 
 ### Tests

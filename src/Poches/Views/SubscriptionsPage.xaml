@@ -65,7 +65,7 @@
     </ContentPage.Resources>
 
     <!-- Top, left and right stay clear of the notch; the list scrolls under the tab bar. -->
-    <Grid SafeAreaEdges="Container,Container,Container,None">
+    <Grid SafeAreaEdges="Container,Container,Container,None" Style="{StaticResource PageColumn}">
         <ScrollView SafeAreaEdges="None">
             <VerticalStackLayout Padding="20,12,20,120" Spacing="22">
 

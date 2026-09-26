@@ -9,8 +9,10 @@ using Poches.Services;
 
 namespace Poches.ViewModels;
 
-public sealed partial class SubscriptionEditViewModel : ObservableObject, IQueryAttributable
+public sealed partial class SubscriptionEditViewModel : ObservableObject, IQueryAttributable, ISheetViewModel
 {
+    public System.Windows.Input.ICommand DismissCommand => CancelCommand;
+
     private readonly BudgetStore _store;
     private readonly IDialogService _dialogs;
     private readonly SubscriptionReminders _reminders;

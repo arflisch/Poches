@@ -7,8 +7,10 @@ using Poches.Services;
 
 namespace Poches.ViewModels;
 
-public sealed partial class SettingsViewModel : ObservableObject
+public sealed partial class SettingsViewModel : ObservableObject, ISheetViewModel
 {
+    public System.Windows.Input.ICommand DismissCommand => CloseCommand;
+
     private readonly BudgetStore _store;
     private readonly AppSettings _settings;
     private readonly BackupService _backup;

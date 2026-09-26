@@ -43,5 +43,14 @@ public static class Touch
             command.Execute(parameter);
         };
         view.GestureRecognizers.Add(tap);
+
+        // With a mouse or trackpad, show what is clickable. Scale rather than opacity, which some rows bind.
+        if (DeviceInfo.Idiom == DeviceIdiom.Desktop)
+        {
+            var hover = new PointerGestureRecognizer();
+            hover.PointerEntered += (_, _) => _ = view.ScaleToAsync(1.015, 120, Easing.CubicOut);
+            hover.PointerExited += (_, _) => _ = view.ScaleToAsync(1, 120, Easing.CubicOut);
+            view.GestureRecognizers.Add(hover);
+        }
     }
 }

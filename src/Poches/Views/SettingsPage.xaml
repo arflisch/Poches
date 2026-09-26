@@ -178,8 +178,14 @@
                 </Border>
                 <Label
                     Margin="4,2,4,0"
+                    IsVisible="{OnIdiom Default=True, Desktop=False}"
                     Style="{StaticResource Caption}"
                     Text="{l:Tr Settings_BackupHint}" />
+                <Label
+                    Margin="4,2,4,0"
+                    IsVisible="{OnIdiom Default=False, Desktop=True}"
+                    Style="{StaticResource Caption}"
+                    Text="{l:Tr Settings_BackupHintMac}" />
 
                 <!-- Danger zone -->
                 <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_DataSection}" />

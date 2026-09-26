@@ -5,7 +5,7 @@ using UniformTypeIdentifiers;
 
 namespace Poches.Services;
 
-/// <summary>Lets the user choose a backup file and opens it for reading.</summary>
+/// <summary>Lets the user choose a backup file to restore and, on a Mac, where to save a new one.</summary>
 public sealed class BackupFilePicker(IFilePicker filePicker)
 {
     /// <summary>Returns the chosen file's content, or null if the user cancelled.</summary>
@@ -23,6 +23,22 @@ public sealed class BackupFilePicker(IFilePicker filePicker)
         return file is null ? null : await file.OpenReadAsync();
 #endif
     }
+
+#if MACCATALYST
+    /// <summary>Shows the Mac "Save" panel for the file at <paramref name="path"/>; false if the user cancelled.</summary>
+    public Task<bool> SaveAsync(string path)
+    {
+        var result = new TaskCompletionSource<bool>();
+        var picker = new UIDocumentPickerViewController([Foundation.NSUrl.FromFilename(path)], asCopy: true);
+        picker.DidPickDocumentAtUrls += (_, _) => result.TrySetResult(true);
+        picker.WasCancelled += (_, _) => result.TrySetResult(false);
+
+        var presenter = Platform.GetCurrentUIViewController()
+            ?? throw new InvalidOperationException("No view controller to present the save panel from.");
+        presenter.PresentViewController(picker, true, null);
+        return result.Task;
+    }
+#endif
 
 #if IOS || MACCATALYST
     private static Task<string?> PickJsonCopyAsync()

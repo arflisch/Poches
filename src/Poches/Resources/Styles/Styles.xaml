@@ -8,6 +8,11 @@
     <Shadow x:Key="NoShadow" Brush="Transparent" Opacity="0" Radius="0" Offset="0,0" />
     <Shadow x:Key="FloatingShadow" Brush="#4F46E5" Opacity="0.35" Radius="20" Offset="0,8" />
 
+    <!-- Full-window pages stay a readable column when the window is wide (Mac, iPad). -->
+    <Style x:Key="PageColumn" TargetType="Grid">
+        <Setter Property="MaximumWidthRequest" Value="660" />
+    </Style>
+
     <!-- ============ Implicit styles ============ -->
     <Style TargetType="Page" ApplyToDerivedTypes="True">
         <Setter Property="Padding" Value="0" />
