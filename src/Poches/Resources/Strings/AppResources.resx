@@ -307,13 +307,13 @@
     <value>Delete everything</value>
   </data>
   <data name="Settings_DeleteAllHint" xml:space="preserve">
-    <value>Deletes all pockets and their history</value>
+    <value>Deletes all pockets, subscriptions and history</value>
   </data>
   <data name="Settings_DeleteAllTitle" xml:space="preserve">
     <value>Delete everything?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>All your pockets and their history will be permanently deleted from this phone. Make a backup first if you want to be able to get them back.</value>
+    <value>All your pockets, subscriptions and their history will be permanently deleted from this phone. Make a backup first if you want to be able to get them back.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Last backup: {0}</value>
@@ -331,7 +331,7 @@
     <value>Restore this backup?</value>
   </data>
   <data name="Settings_RestoreText" xml:space="preserve">
-    <value>Backup from {0}: {1}, {2}.
+    <value>Backup from {0}: {1}, {2}, {3}.
 
 Your current data will be replaced.</value>
   </data>
@@ -433,5 +433,143 @@ Your current data will be replaced.</value>
   </data>
   <data name="Sample_Birthday" xml:space="preserve">
     <value>Léa's birthday</value>
+  </data>
+  <data name="Tab_Pockets" xml:space="preserve">
+    <value>Pockets</value>
+  </data>
+  <data name="Subs_Title" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="Subs_PerMonth" xml:space="preserve">
+    <value>Per month</value>
+  </data>
+  <data name="Subs_PerYear" xml:space="preserve">
+    <value>{0} per year</value>
+  </data>
+  <data name="Subs_Next" xml:space="preserve">
+    <value>Next payment</value>
+  </data>
+  <data name="Subs_EmptyTitle" xml:space="preserve">
+    <value>No subscriptions yet</value>
+  </data>
+  <data name="Subs_EmptyText" xml:space="preserve">
+    <value>Add your subscriptions (streaming, gym, insurance…) to see what they cost you each month and get a reminder before each payment.</value>
+  </data>
+  <data name="Subs_AddFirst" xml:space="preserve">
+    <value>Add a subscription</value>
+  </data>
+  <data name="Subs_Upcoming" xml:space="preserve">
+    <value>Upcoming payments</value>
+  </data>
+  <data name="Subs_Paused" xml:space="preserve">
+    <value>Paused</value>
+  </data>
+  <data name="Subscription_One" xml:space="preserve">
+    <value>subscription</value>
+  </data>
+  <data name="Subscription_Many" xml:space="preserve">
+    <value>subscriptions</value>
+  </data>
+  <data name="When_Tomorrow" xml:space="preserve">
+    <value>tomorrow</value>
+  </data>
+  <data name="When_InDays" xml:space="preserve">
+    <value>in {0} days</value>
+  </data>
+  <data name="Period_Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="Period_Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Period_Quarter" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
+  <data name="Period_Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Period_PerWeek" xml:space="preserve">
+    <value>/week</value>
+  </data>
+  <data name="Period_PerMonth" xml:space="preserve">
+    <value>/month</value>
+  </data>
+  <data name="Period_PerQuarter" xml:space="preserve">
+    <value>/quarter</value>
+  </data>
+  <data name="Period_PerYear" xml:space="preserve">
+    <value>/year</value>
+  </data>
+  <data name="SubEdit_NewTitle" xml:space="preserve">
+    <value>New subscription</value>
+  </data>
+  <data name="SubEdit_NamePlaceholder" xml:space="preserve">
+    <value>e.g. Netflix, Spotify, gym…</value>
+  </data>
+  <data name="SubEdit_Price" xml:space="preserve">
+    <value>PRICE</value>
+  </data>
+  <data name="SubEdit_BilledEvery" xml:space="preserve">
+    <value>BILLED EVERY</value>
+  </data>
+  <data name="SubEdit_NextPayment" xml:space="preserve">
+    <value>NEXT PAYMENT</value>
+  </data>
+  <data name="SubEdit_Active" xml:space="preserve">
+    <value>Active subscription</value>
+  </data>
+  <data name="SubEdit_ActiveHint" xml:space="preserve">
+    <value>Turn it off if it's paused or cancelled</value>
+  </data>
+  <data name="SubEdit_CostPerYear" xml:space="preserve">
+    <value>That's {0} a year</value>
+  </data>
+  <data name="SubEdit_CostPerMonth" xml:space="preserve">
+    <value>That's {0} a month</value>
+  </data>
+  <data name="SubEdit_InvalidPrice" xml:space="preserve">
+    <value>Enter a valid price, for example 9.99.</value>
+  </data>
+  <data name="SubEdit_Delete" xml:space="preserve">
+    <value>Delete subscription</value>
+  </data>
+  <data name="SubEdit_DeleteText" xml:space="preserve">
+    <value>It will only be removed from Poches, not cancelled with the provider.</value>
+  </data>
+  <data name="Settings_SubscriptionsSection" xml:space="preserve">
+    <value>SUBSCRIPTIONS</value>
+  </data>
+  <data name="Settings_Reminder" xml:space="preserve">
+    <value>Payment reminder</value>
+  </data>
+  <data name="Settings_ReminderHint" xml:space="preserve">
+    <value>Notification at 9 am</value>
+  </data>
+  <data name="Reminder_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Reminder_SameDay" xml:space="preserve">
+    <value>On the day</value>
+  </data>
+  <data name="Reminder_DayBefore" xml:space="preserve">
+    <value>The day before</value>
+  </data>
+  <data name="Reminder_DaysBefore" xml:space="preserve">
+    <value>{0} days before</value>
+  </data>
+  <data name="Reminder_Week" xml:space="preserve">
+    <value>A week before</value>
+  </data>
+  <data name="Reminder_Body" xml:space="preserve">
+    <value>{0} will be charged {1}.</value>
+  </data>
+  <data name="Error_EmptySubscriptionName" xml:space="preserve">
+    <value>Give your subscription a name.</value>
+  </data>
+  <data name="Sample_Gym" xml:space="preserve">
+    <value>Gym</value>
+  </data>
+  <data name="Sample_HomeInsurance" xml:space="preserve">
+    <value>Home insurance</value>
   </data>
 </root>

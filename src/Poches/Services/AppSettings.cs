@@ -12,6 +12,10 @@ public sealed class AppSettings
     private const string HideAmountsKey = "hide_amounts";
     private const string LastBackupKey = "last_backup";
     private const string LanguageKey = "language";
+    private const string ReminderKey = "reminder_days_before";
+
+    /// <summary>Reminder choices, in days before a payment (null = no reminder).</summary>
+    public static readonly IReadOnlyList<int?> ReminderChoices = [null, 0, 1, 3, 7];
 
     private readonly IPreferences _preferences;
 
@@ -61,6 +65,13 @@ public sealed class AppSettings
             else
                 _preferences.Remove(LastBackupKey);
         });
+    }
+
+    /// <summary>How many days before a subscription payment to send a reminder; null disables reminders.</summary>
+    public int? ReminderDaysBefore
+    {
+        get => _preferences.Get(ReminderKey, 1) is var days and >= 0 ? days : null;
+        set => Update(() => _preferences.Set(ReminderKey, value ?? -1));
     }
 
     private void Update(Action write)

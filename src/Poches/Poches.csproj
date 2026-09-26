@@ -27,6 +27,10 @@
 		       <MauiXaml Update="MyPage.xaml" Inflator="Runtime" /> (force runtime inflation) -->
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
+		<!-- Plugin.LocalNotification ships an empty iOS privacy manifest that clashes by name with ours (MT7154);
+		     ours is the one that matters, so the duplicate can be ignored. -->
+		<NoWarn>$(NoWarn);MT7154</NoWarn>
+
 		<!-- Display name -->
 		<ApplicationTitle>Poches</ApplicationTitle>
 
@@ -69,6 +73,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="Plugin.LocalNotification" Version="14.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>

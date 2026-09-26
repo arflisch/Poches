@@ -4,6 +4,7 @@ namespace Poches.Core.Models;
 public enum BudgetError
 {
     EmptyName,
+    EmptySubscriptionName,
     InvalidInitialAmount,
     InvalidAmount,
     AmountTooLarge,

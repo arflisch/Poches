@@ -9,7 +9,8 @@ namespace Poches.Core.Backup;
 public sealed record BackupDocument
 {
     public const string FormatName = "poches-backup";
-    public const int CurrentVersion = 1;
+    /// <summary>Version 2 added <see cref="Subscriptions"/>.</summary>
+    public const int CurrentVersion = 2;
 
     public string Format { get; init; } = FormatName;
 
@@ -23,6 +24,8 @@ public sealed record BackupDocument
     public List<BackupPocket> Pockets { get; init; } = [];
 
     public List<BackupMovement> Movements { get; init; } = [];
+
+    public List<BackupSubscription> Subscriptions { get; init; } = [];
 }
 
 public sealed record BackupPocket(
@@ -41,3 +44,13 @@ public sealed record BackupMovement(
     DateTime Date,
     string? TransferGroup,
     int? CounterpartPocketId);
+
+public sealed record BackupSubscription(
+    string Name,
+    string Icon,
+    string ColorHex,
+    long AmountCents,
+    BillingPeriod Period,
+    DateTime BillingAnchor,
+    bool IsActive,
+    DateTime CreatedAt);

@@ -44,6 +44,16 @@ public sealed class FormattingTests
     }
 
     [Fact]
+    public void Split_rounds_fractions_of_a_cent()
+    {
+        var formatter = new MoneyFormatter("€", culture: CultureInfo.GetCultureInfo("fr-FR"));
+
+        Assert.Equal(new MoneyParts("", "78", ",33\u00A0€"), formatter.Split(78.325m));
+        Assert.Equal(new MoneyParts("", "100", ",00\u00A0€"), formatter.Split(99.999m));
+        Assert.Equal(formatter.Format(78.325m), string.Concat(formatter.Split(78.325m).Whole, formatter.Split(78.325m).Fraction));
+    }
+
+    [Fact]
     public void Formats_dutch_style_with_the_symbol_first()
     {
         var formatter = new MoneyFormatter("€", culture: CultureInfo.GetCultureInfo("nl-NL"));

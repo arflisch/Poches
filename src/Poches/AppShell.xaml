@@ -3,10 +3,22 @@
     x:Class="Poches.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:l="clr-namespace:Poches.Localization"
     xmlns:views="clr-namespace:Poches.Views"
     Title="Poches"
     FlyoutBehavior="Disabled">
 
-    <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="main" />
+    <TabBar>
+        <ShellContent
+            Title="{l:Tr Tab_Pockets}"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Icon="tab_pockets.png"
+            Route="main" />
+        <ShellContent
+            Title="{l:Tr Subs_Title}"
+            ContentTemplate="{DataTemplate views:SubscriptionsPage}"
+            Icon="tab_subscriptions.png"
+            Route="subscriptions" />
+    </TabBar>
 
 </Shell>

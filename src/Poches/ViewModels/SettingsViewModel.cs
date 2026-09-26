@@ -13,13 +13,17 @@ public sealed partial class SettingsViewModel : ObservableObject
     private readonly AppSettings _settings;
     private readonly BackupService _backup;
     private readonly IDialogService _dialogs;
+    private readonly SubscriptionReminders _reminders;
 
-    public SettingsViewModel(BudgetStore store, AppSettings settings, BackupService backup, IDialogService dialogs)
+    public SettingsViewModel(
+        BudgetStore store, AppSettings settings, BackupService backup, IDialogService dialogs, SubscriptionReminders reminders)
     {
         _store = store;
         _settings = settings;
         _backup = backup;
         _dialogs = dialogs;
+        _reminders = reminders;
+        _reminderText = ReminderLabel(settings.ReminderDaysBefore);
         _currency = settings.Currency;
         _languageName = settings.Language.NativeName;
         _hideAmounts = settings.HideAmounts;
@@ -33,6 +37,9 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     [ObservableProperty]
     private string _languageName;
+
+    [ObservableProperty]
+    private string _reminderText;
 
     [ObservableProperty]
     private bool _hideAmounts;
@@ -57,7 +64,25 @@ public sealed partial class SettingsViewModel : ObservableObject
 
         _settings.Language = language;
         LanguageName = language.NativeName;
+        ReminderText = ReminderLabel(_settings.ReminderDaysBefore);
         RefreshBackupText();
+    }
+
+    [RelayCommand]
+    private async Task ChooseReminderAsync()
+    {
+        var current = _settings.ReminderDaysBefore;
+        var options = AppSettings.ReminderChoices
+            .Select(days => days == current ? $"{ReminderLabel(days)}  ✓" : ReminderLabel(days))
+            .ToArray();
+        var choice = await _dialogs.ChooseAsync(Loc.Get("Settings_Reminder"), null, options);
+        if (choice is null)
+            return;
+
+        var days = AppSettings.ReminderChoices.First(d => choice.StartsWith(ReminderLabel(d), StringComparison.Ordinal));
+        _settings.ReminderDaysBefore = days;
+        ReminderText = ReminderLabel(days);
+        await _reminders.EnsurePermissionAsync();
     }
 
     [RelayCommand]
@@ -104,7 +129,8 @@ public sealed partial class SettingsViewModel : ObservableObject
                     "Settings_RestoreText",
                     backup.ExportedAt.ToString("d MMMM yyyy", Localizer.Instance.Culture),
                     Loc.Count(backup.Pockets.Count, "Pocket"),
-                    Loc.Count(backup.Movements.Count, "Movement")),
+                    Loc.Count(backup.Movements.Count, "Movement"),
+                    Loc.Count(backup.Subscriptions.Count, "Subscription")),
                 Loc.Get("Settings_RestoreConfirm"));
             if (!confirmed)
                 return;
@@ -147,6 +173,15 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     [RelayCommand]
     private Task CloseAsync() => Shell.Current.GoToAsync("..");
+
+    private static string ReminderLabel(int? daysBefore) => daysBefore switch
+    {
+        null => Loc.Get("Reminder_Off"),
+        0 => Loc.Get("Reminder_SameDay"),
+        1 => Loc.Get("Reminder_DayBefore"),
+        7 => Loc.Get("Reminder_Week"),
+        _ => Loc.Format("Reminder_DaysBefore", daysBefore),
+    };
 
     private void RefreshBackupText() =>
         LastBackupText = _settings.LastBackupAt is { } date

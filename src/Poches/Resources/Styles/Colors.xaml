@@ -45,6 +45,15 @@
         <GradientStop Color="#A21CAF" Offset="1" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="SubscriptionsGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0F766E" Offset="0" />
+        <GradientStop Color="#0E7490" Offset="0.55" />
+        <GradientStop Color="#4338CA" Offset="1" />
+    </LinearGradientBrush>
+
+    <Color x:Key="DueSoonLight">#D97706</Color>
+    <Color x:Key="DueSoonDark">#FBBF24</Color>
+
     <LinearGradientBrush x:Key="AccentGradient" StartPoint="0,0" EndPoint="1,0">
         <GradientStop Color="#4F46E5" Offset="0" />
         <GradientStop Color="#7C3AED" Offset="1" />

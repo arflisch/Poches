@@ -30,11 +30,18 @@ public static class Loc
             L.Culture);
 
     /// <summary>Formats a date with the current language, capitalising the first letter ("Thursday 24 September").</summary>
-    public static string Date(DateTime date, string format)
+    public static string Date(DateTime date, string format) => Capitalize(date.ToString(format, L.Culture));
+
+    /// <summary>"today", "tomorrow", "in 3 days" (lower case, to be used inside a sentence).</summary>
+    public static string When(int days) => days switch
     {
-        var text = date.ToString(format, L.Culture);
-        return text.Length == 0 ? text : char.ToUpper(text[0], L.Culture) + text[1..];
-    }
+        <= 0 => L["Date_Today"],
+        1 => L["When_Tomorrow"],
+        _ => string.Format(L.Culture, L["When_InDays"], days),
+    };
+
+    public static string Capitalize(string text) =>
+        text.Length == 0 ? text : char.ToUpper(text[0], L.Culture) + text[1..];
 
     public static SampleTexts SampleTexts => new(
         L["Sample_Savings"], L["Edit_InitialNote"], L["Sample_MonthlyTransfer"], L["Sample_Investments"],

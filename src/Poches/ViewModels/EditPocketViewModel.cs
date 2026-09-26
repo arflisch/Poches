@@ -10,27 +10,18 @@ namespace Poches.ViewModels;
 
 public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttributable
 {
-    private const int GridColumns = 6;
-
     private readonly BudgetStore _store;
     private readonly IDialogService _dialogs;
     private Pocket _pocket = new();
-    private string _selectedColorHex = Palette.Colors[0];
 
     public EditPocketViewModel(BudgetStore store, AppSettings settings, IDialogService dialogs)
     {
         _store = store;
         _dialogs = dialogs;
         Currency = settings.Currency;
-        IconOptions = SelectableOption.Grid(Palette.Emojis, GridColumns, SelectIcon);
-        ColorOptions = SelectableOption.Grid(Palette.Colors, GridColumns, SelectColor);
-        SelectIcon(IconOptions[0]);
-        SelectColor(ColorOptions[0]);
     }
 
-    public IReadOnlyList<SelectableOption> IconOptions { get; }
-
-    public IReadOnlyList<SelectableOption> ColorOptions { get; }
+    public AppearanceSelection Appearance { get; } = new(Palette.Emojis);
 
     public string Currency { get; }
 
@@ -42,18 +33,6 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
 
     [ObservableProperty]
     private string _name = string.Empty;
-
-    [ObservableProperty]
-    private string _selectedIcon = Palette.Emojis[0];
-
-    [ObservableProperty]
-    private Color _selectedColor = Color.FromArgb(Palette.Colors[0]);
-
-    [ObservableProperty]
-    private Color _selectedSoftColor = Palette.Soft(Color.FromArgb(Palette.Colors[0]));
-
-    [ObservableProperty]
-    private Brush _selectedBrush = Palette.HeroBrush(Color.FromArgb(Palette.Colors[0]));
 
     [ObservableProperty]
     private bool _hasGoal;
@@ -86,31 +65,9 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
         IsNew = false;
         Title = Loc.Get("Edit_EditTitle");
         Name = _pocket.Name;
-        SelectIcon(IconOptions.FirstOrDefault(o => o.Value == _pocket.Icon) ?? new SelectableOption(_pocket.Icon, 0, 1, _ => { }));
-        SelectColor(ColorOptions.FirstOrDefault(o => o.Value.Equals(_pocket.ColorHex, StringComparison.OrdinalIgnoreCase))
-            ?? new SelectableOption(_pocket.ColorHex, 0, 1, _ => { }));
+        Appearance.Show(_pocket.Icon, _pocket.ColorHex);
         HasGoal = _pocket.Goal is not null;
         GoalText = _pocket.Goal is { } goal ? goal.ToString("0.##", Localizer.Instance.Culture) : string.Empty;
-    }
-
-    private void SelectIcon(SelectableOption option)
-    {
-        SelectedIcon = option.Value;
-        Select(IconOptions, option.Value);
-    }
-
-    private void SelectColor(SelectableOption option)
-    {
-        _selectedColorHex = option.Value;
-        SelectedColor = option.Color;
-        SelectedSoftColor = Palette.Soft(option.Color);
-        SelectedBrush = Palette.HeroBrush(option.Color);
-        Select(ColorOptions, option.Value);
-        foreach (var icon in IconOptions)
-        {
-            icon.Accent = SelectedColor;
-            icon.AccentSoft = SelectedSoftColor;
-        }
     }
 
     [RelayCommand]
@@ -135,8 +92,8 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
         }
 
         _pocket.Name = Name;
-        _pocket.Icon = SelectedIcon;
-        _pocket.ColorHex = _selectedColorHex;
+        _pocket.Icon = Appearance.Icon;
+        _pocket.ColorHex = Appearance.ColorHex;
         _pocket.Goal = goal;
 
         try
@@ -176,11 +133,5 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
     {
         ErrorMessage = message;
         HasError = true;
-    }
-
-    private static void Select(IEnumerable<SelectableOption> options, string value)
-    {
-        foreach (var option in options)
-            option.IsSelected = string.Equals(option.Value, value, StringComparison.OrdinalIgnoreCase);
     }
 }

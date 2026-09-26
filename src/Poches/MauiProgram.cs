@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 using Poches.Core.Data;
 using Poches.Services;
 using Poches.ViewModels;
@@ -13,6 +14,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseLocalNotification()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -28,6 +30,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<AppSettings>();
         builder.Services.AddSingleton<BackupFilePicker>();
         builder.Services.AddSingleton<BackupService>();
+        builder.Services.AddSingleton<SubscriptionReminders>();
         builder.Services.AddSingleton<IDialogService, DialogService>();
         builder.Services.AddSingleton<AppShell>();
 
@@ -39,6 +42,10 @@ public static class MauiProgram
         builder.Services.AddTransient<EditPocketPage>();
         builder.Services.AddTransient<MovementViewModel>();
         builder.Services.AddTransient<MovementPage>();
+        builder.Services.AddSingleton<SubscriptionsViewModel>();
+        builder.Services.AddSingleton<SubscriptionsPage>();
+        builder.Services.AddTransient<SubscriptionEditViewModel>();
+        builder.Services.AddTransient<SubscriptionEditPage>();
         builder.Services.AddTransient<SettingsViewModel>();
         builder.Services.AddTransient<SettingsPage>();
 

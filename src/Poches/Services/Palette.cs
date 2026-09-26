@@ -17,6 +17,14 @@ public static class Palette
         "🏋️", "🎸", "🌱", "🎉", "⛰️", "🪙",
     ];
 
+    public static readonly IReadOnlyList<string> SubscriptionEmojis =
+    [
+        "📺", "🎬", "🍿", "🎵", "🎧", "☁️",
+        "💻", "📱", "🎮", "📰", "📚", "🏋️",
+        "🏠", "🛡️", "💡", "📶", "🚗", "🚲",
+        "🐶", "💊", "🍽️", "📦", "💳", "🎁",
+    ];
+
     public static Color Soft(Color color) => color.WithAlpha(0.16f);
 
     /// <summary>Gradient used behind white text on a pocket's hero card.</summary>

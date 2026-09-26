@@ -307,13 +307,13 @@
     <value>Tout effacer</value>
   </data>
   <data name="Settings_DeleteAllHint" xml:space="preserve">
-    <value>Supprime toutes les poches et leur historique</value>
+    <value>Supprime toutes les poches, les abonnements et l'historique</value>
   </data>
   <data name="Settings_DeleteAllTitle" xml:space="preserve">
     <value>Tout effacer ?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>Toutes tes poches et leur historique seront définitivement supprimés de ce téléphone. Fais une sauvegarde avant si tu veux pouvoir les récupérer.</value>
+    <value>Toutes tes poches, tes abonnements et leur historique seront définitivement supprimés de ce téléphone. Fais une sauvegarde avant si tu veux pouvoir les récupérer.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Dernière sauvegarde : {0}</value>
@@ -331,7 +331,7 @@
     <value>Restaurer cette sauvegarde ?</value>
   </data>
   <data name="Settings_RestoreText" xml:space="preserve">
-    <value>Sauvegarde du {0} : {1}, {2}.
+    <value>Sauvegarde du {0} : {1}, {2}, {3}.
 
 Tes données actuelles seront remplacées.</value>
   </data>
@@ -433,5 +433,143 @@ Tes données actuelles seront remplacées.</value>
   </data>
   <data name="Sample_Birthday" xml:space="preserve">
     <value>Anniversaire Léa</value>
+  </data>
+  <data name="Tab_Pockets" xml:space="preserve">
+    <value>Poches</value>
+  </data>
+  <data name="Subs_Title" xml:space="preserve">
+    <value>Abonnements</value>
+  </data>
+  <data name="Subs_PerMonth" xml:space="preserve">
+    <value>Par mois</value>
+  </data>
+  <data name="Subs_PerYear" xml:space="preserve">
+    <value>{0} par an</value>
+  </data>
+  <data name="Subs_Next" xml:space="preserve">
+    <value>Prochain prélèvement</value>
+  </data>
+  <data name="Subs_EmptyTitle" xml:space="preserve">
+    <value>Aucun abonnement</value>
+  </data>
+  <data name="Subs_EmptyText" xml:space="preserve">
+    <value>Ajoute tes abonnements (streaming, sport, assurances…) pour savoir combien ils te coûtent chaque mois et être prévenu avant chaque prélèvement.</value>
+  </data>
+  <data name="Subs_AddFirst" xml:space="preserve">
+    <value>Ajouter un abonnement</value>
+  </data>
+  <data name="Subs_Upcoming" xml:space="preserve">
+    <value>Prochains prélèvements</value>
+  </data>
+  <data name="Subs_Paused" xml:space="preserve">
+    <value>En pause</value>
+  </data>
+  <data name="Subscription_One" xml:space="preserve">
+    <value>abonnement</value>
+  </data>
+  <data name="Subscription_Many" xml:space="preserve">
+    <value>abonnements</value>
+  </data>
+  <data name="When_Tomorrow" xml:space="preserve">
+    <value>demain</value>
+  </data>
+  <data name="When_InDays" xml:space="preserve">
+    <value>dans {0} jours</value>
+  </data>
+  <data name="Period_Week" xml:space="preserve">
+    <value>Semaine</value>
+  </data>
+  <data name="Period_Month" xml:space="preserve">
+    <value>Mois</value>
+  </data>
+  <data name="Period_Quarter" xml:space="preserve">
+    <value>Trimestre</value>
+  </data>
+  <data name="Period_Year" xml:space="preserve">
+    <value>Année</value>
+  </data>
+  <data name="Period_PerWeek" xml:space="preserve">
+    <value>/sem.</value>
+  </data>
+  <data name="Period_PerMonth" xml:space="preserve">
+    <value>/mois</value>
+  </data>
+  <data name="Period_PerQuarter" xml:space="preserve">
+    <value>/trim.</value>
+  </data>
+  <data name="Period_PerYear" xml:space="preserve">
+    <value>/an</value>
+  </data>
+  <data name="SubEdit_NewTitle" xml:space="preserve">
+    <value>Nouvel abonnement</value>
+  </data>
+  <data name="SubEdit_NamePlaceholder" xml:space="preserve">
+    <value>Ex : Netflix, Spotify, salle de sport…</value>
+  </data>
+  <data name="SubEdit_Price" xml:space="preserve">
+    <value>PRIX</value>
+  </data>
+  <data name="SubEdit_BilledEvery" xml:space="preserve">
+    <value>PRÉLEVÉ CHAQUE</value>
+  </data>
+  <data name="SubEdit_NextPayment" xml:space="preserve">
+    <value>PROCHAIN PRÉLÈVEMENT</value>
+  </data>
+  <data name="SubEdit_Active" xml:space="preserve">
+    <value>Abonnement actif</value>
+  </data>
+  <data name="SubEdit_ActiveHint" xml:space="preserve">
+    <value>Désactive-le s'il est en pause ou résilié</value>
+  </data>
+  <data name="SubEdit_CostPerYear" xml:space="preserve">
+    <value>Soit {0} par an</value>
+  </data>
+  <data name="SubEdit_CostPerMonth" xml:space="preserve">
+    <value>Soit {0} par mois</value>
+  </data>
+  <data name="SubEdit_InvalidPrice" xml:space="preserve">
+    <value>Indique un prix valide, par exemple 9,99.</value>
+  </data>
+  <data name="SubEdit_Delete" xml:space="preserve">
+    <value>Supprimer l'abonnement</value>
+  </data>
+  <data name="SubEdit_DeleteText" xml:space="preserve">
+    <value>Il sera seulement retiré de Poches, pas résilié chez le fournisseur.</value>
+  </data>
+  <data name="Settings_SubscriptionsSection" xml:space="preserve">
+    <value>ABONNEMENTS</value>
+  </data>
+  <data name="Settings_Reminder" xml:space="preserve">
+    <value>Rappel avant prélèvement</value>
+  </data>
+  <data name="Settings_ReminderHint" xml:space="preserve">
+    <value>Notification à 9 h</value>
+  </data>
+  <data name="Reminder_Off" xml:space="preserve">
+    <value>Désactivé</value>
+  </data>
+  <data name="Reminder_SameDay" xml:space="preserve">
+    <value>Le jour même</value>
+  </data>
+  <data name="Reminder_DayBefore" xml:space="preserve">
+    <value>La veille</value>
+  </data>
+  <data name="Reminder_DaysBefore" xml:space="preserve">
+    <value>{0} jours avant</value>
+  </data>
+  <data name="Reminder_Week" xml:space="preserve">
+    <value>Une semaine avant</value>
+  </data>
+  <data name="Reminder_Body" xml:space="preserve">
+    <value>Prélèvement de {0} {1}.</value>
+  </data>
+  <data name="Error_EmptySubscriptionName" xml:space="preserve">
+    <value>Donne un nom à ton abonnement.</value>
+  </data>
+  <data name="Sample_Gym" xml:space="preserve">
+    <value>Salle de sport</value>
+  </data>
+  <data name="Sample_HomeInsurance" xml:space="preserve">
+    <value>Assurance habitation</value>
   </data>
 </root>

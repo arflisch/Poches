@@ -114,6 +114,29 @@
                     </VerticalStackLayout>
                 </Border>
 
+                <!-- Subscriptions -->
+                <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_SubscriptionsSection}" />
+                <Border Padding="16,0" Style="{StaticResource Card}">
+                    <Grid c:Touch.Command="{Binding ChooseReminderCommand}" Style="{StaticResource Row}">
+                        <Border BackgroundColor="#26F59E0B" Style="{StaticResource RowIcon}">
+                            <c:IconView Color="#D97706" Data="{x:Static c:Icons.Bell}" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
+                            <Label Style="{StaticResource RowTitle}" Text="{l:Tr Settings_Reminder}" />
+                            <Label Style="{StaticResource Caption}" Text="{l:Tr Settings_ReminderHint}" />
+                        </VerticalStackLayout>
+                        <HorizontalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center">
+                            <Label Style="{StaticResource Secondary}" Text="{Binding ReminderText}" VerticalOptions="Center" />
+                            <c:IconView
+                                Color="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
+                                Data="{x:Static c:Icons.ChevronRight}"
+                                HeightRequest="16"
+                                VerticalOptions="Center"
+                                WidthRequest="16" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
                 <!-- Backup -->
                 <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_BackupSection}" />
                 <Border Padding="16,0" Style="{StaticResource Card}">

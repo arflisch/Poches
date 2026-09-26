@@ -72,7 +72,8 @@ public sealed class MoneyFormatter
         if (HideAmounts)
             return new MoneyParts(prefix, Mask, suffix);
 
-        var absolute = Math.Abs(amount);
+        // Round first: averaged costs (a yearly price per month) can have fractions of a cent.
+        var absolute = Math.Round(Math.Abs(amount), 2, MidpointRounding.AwayFromZero);
         var whole = decimal.Truncate(absolute).ToString("N0", _format);
         var cents = (int)(absolute % 1 * 100);
         var sign = amount < 0 ? Minus : string.Empty;

@@ -2,9 +2,9 @@
 
 Application mobile de budget par « poches » (vacances, épargne, investissement…), en **.NET MAUI 10** pour **iPhone et Android**.
 
-| Accueil | Détail d'une poche | Mode sombre | Premier lancement |
-|---|---|---|---|
-| ![](docs/01-main-light.png) | ![](docs/03-detail-light.png) | ![](docs/01-main-dark.png) | ![](docs/00-empty-light.png) |
+| Accueil | Détail d'une poche | Abonnements | Mode sombre | Premier lancement |
+|---|---|---|---|---|
+| ![](docs/01-main-light.png) | ![](docs/03-detail-light.png) | ![](docs/04-subscriptions-light.png) | ![](docs/01-main-dark.png) | ![](docs/00-empty-light.png) |
 
 ## Fonctionnalités
 
@@ -12,6 +12,8 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - **Poches** : nom, emoji, couleur, objectif d'épargne facultatif, montant de départ.
 - **Mouvements** : ajout, retrait, **transfert entre poches**, note et date, avec un pavé numérique intégré. Un retrait ne peut pas dépasser le solde.
 - **Détail d'une poche** : courbe d'évolution du solde, barre de progression vers l'objectif, historique groupé par mois (appui sur une ligne pour la supprimer).
+- **Abonnements** (second onglet) : Netflix, salle de sport, assurances… avec leur prix et leur fréquence (semaine, mois, trimestre, année). Coût total par mois et par an, prochain prélèvement, répartition en anneau, liste triée par échéance (en orange quand c'est dans moins de 3 jours), abonnements en pause ou résiliés à part.
+- **Rappels** : une notification à 9 h la veille de chaque prélèvement (ou le jour même, 3 jours ou une semaine avant, réglable dans les réglages). Les rappels des prochaines échéances sont replanifiés à chaque ouverture de l'app.
 - **Mode discret** (icône œil) : masque tous les montants, utile en public.
 - **Langues** : français, néerlandais et anglais, au choix dans les réglages (par défaut : la langue du téléphone). Le changement est immédiat, et les montants et dates suivent les conventions de la langue (« 1 234,56 € », « € 1.234,56 », « €1,234.56 »).
 - **Réglages** (bouton en haut à droite) : langue, devise d'affichage (€, CHF, $, £), mode discret, sauvegarde, restauration et « Tout effacer ».
@@ -26,18 +28,19 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - Les montants sont stockés en **centimes (`long`)** pour éviter les erreurs d'arrondi.
 - Le solde d'une poche n'est **jamais stocké** : c'est toujours la somme de ses mouvements, il ne peut donc pas se désynchroniser.
 - Un transfert crée deux mouvements liés, supprimés ensemble.
-- La sauvegarde est un fichier JSON versionné (`format: "poches-backup"`), indépendant du schéma SQLite. La restauration est atomique : un fichier incohérent est refusé sans toucher aux données.
+- La sauvegarde est un fichier JSON versionné (`format: "poches-backup"`, version 2 depuis l'ajout des abonnements), indépendant du schéma SQLite. La restauration est atomique : un fichier incohérent est refusé sans toucher aux données. Une sauvegarde de version 1 ne touche pas aux abonnements existants.
+- Un abonnement stocke une date de référence et une fréquence : les échéances sont recalculées à partir de cette date (un prélèvement le 31 revient au 31 après février).
 
 ## Architecture
 
 ```
 Poches.slnx
-├── src/Poches.Core          net10.0 — modèles, BudgetStore (SQLite), formatage/parsing des montants
+├── src/Poches.Core          net10.0 — modèles, BudgetStore (SQLite), échéances des abonnements, formatage des montants
 ├── src/Poches               app .NET MAUI (MVVM avec CommunityToolkit.Mvvm)
 │   ├── Views/               pages XAML (bindings compilés)
 │   ├── ViewModels/          un ViewModel par page
 │   ├── Controls/            dessin vectoriel maison : anneau, courbe, barre de progression, icônes
-│   ├── Services/            réglages, dialogues, palette, routes
+│   ├── Services/            réglages, dialogues, sauvegarde, rappels (Plugin.LocalNotification), palette, routes
 │   └── Resources/Styles/    couleurs et styles (clair/sombre)
 └── tests/Poches.Core.Tests  tests xUnit de la logique métier (SQLite réel en fichier temporaire)
 ```
@@ -91,9 +94,10 @@ dotnet test tests/Poches.Core.Tests
 
 ## Idées pour la suite
 
-- Virements récurrents automatiques (ex. +200 € chaque mois sur « Épargne »).
+- Virements récurrents automatiques vers une poche (ex. +200 € chaque mois sur « Épargne »).
 - Verrouillage par Face ID / empreinte.
 - Synchronisation automatique entre appareils (CloudKit, nécessite un compte Apple Developer payant).
+- Lier un abonnement à une poche pour débiter automatiquement chaque prélèvement.
 - Suivi de la valeur des investissements (plus-values) en plus des versements.
 - Statistiques mensuelles (entrées/sorties par mois) et date cible pour les objectifs.
 - Widget d'écran d'accueil avec le solde total.

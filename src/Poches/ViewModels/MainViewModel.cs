@@ -10,13 +10,8 @@ using Poches.Services;
 
 namespace Poches.ViewModels;
 
-public sealed partial class MainViewModel : ReloadingViewModel
+public sealed partial class MainViewModel : ReloadingViewModel, IBreakdown
 {
-    /// <summary>Beyond this many pockets, the smallest ones are grouped as "Others" in the chart.</summary>
-    private const int ChartSlicesMax = 5;
-
-    private static readonly Color OthersColor = Color.FromArgb("#94A3B8");
-
     private readonly BudgetStore _store;
     private readonly AppSettings _settings;
     private readonly BackupService _backup;
@@ -69,10 +64,10 @@ public sealed partial class MainViewModel : ReloadingViewModel
     private bool _hasChart;
 
     [ObservableProperty]
-    private string _pocketCountText = "0";
+    private string _chartCenterValue = "0";
 
     [ObservableProperty]
-    private string _pocketCountLabel = string.Empty;
+    private string _chartCenterLabel = string.Empty;
 
     [ObservableProperty]
     private string _privacyIcon = Icons.Eye;
@@ -100,9 +95,10 @@ public sealed partial class MainViewModel : ReloadingViewModel
 
         HasPockets = Pockets.Count > 0;
         IsEmpty = !HasPockets;
-        PocketCountText = Pockets.Count.ToString(Localizer.Instance.Culture);
-        PocketCountLabel = Loc.Noun(Pockets.Count, "Pocket");
-        BuildChart(overview, formatter);
+        ChartCenterValue = Pockets.Count.ToString(Localizer.Instance.Culture);
+        ChartCenterLabel = Loc.Noun(Pockets.Count, "Pocket");
+        HasChart = Pockets.Any(p => p.Balance > 0);
+        (ChartSlices, Legend) = Breakdown.Build(Pockets.Select(p => (p.Name, p.Color, p.Balance)), formatter);
         UpdateBackupReminder();
         IsLoaded = true;
     }
@@ -114,30 +110,6 @@ public sealed partial class MainViewModel : ReloadingViewModel
         BackupReminderText = lastBackup is { } date
             ? Loc.Format("Main_BackupLast", Loc.RelativeDate(date))
             : Loc.Get("Main_BackupNever");
-    }
-
-    private void BuildChart(BudgetOverview overview, MoneyFormatter formatter)
-    {
-        var funded = Pockets.Where(p => p.Balance > 0).ToList();
-        HasChart = funded.Count > 0;
-
-        var shown = funded.Count > ChartSlicesMax ? funded.Take(ChartSlicesMax - 1).ToList() : funded;
-        var others = funded.Skip(shown.Count).ToList();
-
-        var slices = shown.Select(p => new ChartSlice((double)p.Balance, p.Color)).ToList();
-        var legend = shown.Select(p => new LegendItem(p.Name, p.Color, p.ShareText)).ToList();
-        if (others.Count > 0)
-        {
-            var othersTotal = others.Sum(p => p.Balance);
-            slices.Add(new ChartSlice((double)othersTotal, OthersColor));
-            legend.Add(new LegendItem(
-                Loc.Format("Main_Others", others.Count),
-                OthersColor,
-                formatter.FormatPercent(overview.TotalCents > 0 ? (double)(othersTotal / overview.Total) : 0)));
-        }
-
-        ChartSlices = slices;
-        Legend = legend;
     }
 
     private Task OpenPocketAsync(int pocketId) =>
@@ -180,8 +152,6 @@ public sealed partial class MainViewModel : ReloadingViewModel
         Palette.Haptic();
     }
 }
-
-public sealed record LegendItem(string Name, Color Color, string Percent);
 
 public sealed class PocketItemViewModel
 {

@@ -307,13 +307,13 @@
     <value>Alles wissen</value>
   </data>
   <data name="Settings_DeleteAllHint" xml:space="preserve">
-    <value>Verwijdert alle potjes en hun geschiedenis</value>
+    <value>Verwijdert alle potjes, abonnementen en de geschiedenis</value>
   </data>
   <data name="Settings_DeleteAllTitle" xml:space="preserve">
     <value>Alles wissen?</value>
   </data>
   <data name="Settings_DeleteAllText" xml:space="preserve">
-    <value>Al je potjes en hun geschiedenis worden definitief van deze telefoon verwijderd. Maak eerst een back-up als je ze wilt kunnen terughalen.</value>
+    <value>Al je potjes, abonnementen en hun geschiedenis worden definitief van deze telefoon verwijderd. Maak eerst een back-up als je ze wilt kunnen terughalen.</value>
   </data>
   <data name="Settings_LastBackup" xml:space="preserve">
     <value>Laatste back-up: {0}</value>
@@ -331,7 +331,7 @@
     <value>Deze back-up terugzetten?</value>
   </data>
   <data name="Settings_RestoreText" xml:space="preserve">
-    <value>Back-up van {0}: {1}, {2}.
+    <value>Back-up van {0}: {1}, {2}, {3}.
 
 Je huidige gegevens worden vervangen.</value>
   </data>
@@ -433,5 +433,143 @@ Je huidige gegevens worden vervangen.</value>
   </data>
   <data name="Sample_Birthday" xml:space="preserve">
     <value>Verjaardag Léa</value>
+  </data>
+  <data name="Tab_Pockets" xml:space="preserve">
+    <value>Potjes</value>
+  </data>
+  <data name="Subs_Title" xml:space="preserve">
+    <value>Abonnementen</value>
+  </data>
+  <data name="Subs_PerMonth" xml:space="preserve">
+    <value>Per maand</value>
+  </data>
+  <data name="Subs_PerYear" xml:space="preserve">
+    <value>{0} per jaar</value>
+  </data>
+  <data name="Subs_Next" xml:space="preserve">
+    <value>Volgende afschrijving</value>
+  </data>
+  <data name="Subs_EmptyTitle" xml:space="preserve">
+    <value>Nog geen abonnementen</value>
+  </data>
+  <data name="Subs_EmptyText" xml:space="preserve">
+    <value>Voeg je abonnementen toe (streaming, sport, verzekeringen…) om te zien wat ze je per maand kosten en een herinnering te krijgen vóór elke afschrijving.</value>
+  </data>
+  <data name="Subs_AddFirst" xml:space="preserve">
+    <value>Abonnement toevoegen</value>
+  </data>
+  <data name="Subs_Upcoming" xml:space="preserve">
+    <value>Komende afschrijvingen</value>
+  </data>
+  <data name="Subs_Paused" xml:space="preserve">
+    <value>Gepauzeerd</value>
+  </data>
+  <data name="Subscription_One" xml:space="preserve">
+    <value>abonnement</value>
+  </data>
+  <data name="Subscription_Many" xml:space="preserve">
+    <value>abonnementen</value>
+  </data>
+  <data name="When_Tomorrow" xml:space="preserve">
+    <value>morgen</value>
+  </data>
+  <data name="When_InDays" xml:space="preserve">
+    <value>over {0} dagen</value>
+  </data>
+  <data name="Period_Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="Period_Month" xml:space="preserve">
+    <value>Maand</value>
+  </data>
+  <data name="Period_Quarter" xml:space="preserve">
+    <value>Kwartaal</value>
+  </data>
+  <data name="Period_Year" xml:space="preserve">
+    <value>Jaar</value>
+  </data>
+  <data name="Period_PerWeek" xml:space="preserve">
+    <value>/week</value>
+  </data>
+  <data name="Period_PerMonth" xml:space="preserve">
+    <value>/maand</value>
+  </data>
+  <data name="Period_PerQuarter" xml:space="preserve">
+    <value>/kwartaal</value>
+  </data>
+  <data name="Period_PerYear" xml:space="preserve">
+    <value>/jaar</value>
+  </data>
+  <data name="SubEdit_NewTitle" xml:space="preserve">
+    <value>Nieuw abonnement</value>
+  </data>
+  <data name="SubEdit_NamePlaceholder" xml:space="preserve">
+    <value>Bv. Netflix, Spotify, sportschool…</value>
+  </data>
+  <data name="SubEdit_Price" xml:space="preserve">
+    <value>PRIJS</value>
+  </data>
+  <data name="SubEdit_BilledEvery" xml:space="preserve">
+    <value>BETAALD PER</value>
+  </data>
+  <data name="SubEdit_NextPayment" xml:space="preserve">
+    <value>VOLGENDE AFSCHRIJVING</value>
+  </data>
+  <data name="SubEdit_Active" xml:space="preserve">
+    <value>Actief abonnement</value>
+  </data>
+  <data name="SubEdit_ActiveHint" xml:space="preserve">
+    <value>Zet het uit als het gepauzeerd of opgezegd is</value>
+  </data>
+  <data name="SubEdit_CostPerYear" xml:space="preserve">
+    <value>Dat is {0} per jaar</value>
+  </data>
+  <data name="SubEdit_CostPerMonth" xml:space="preserve">
+    <value>Dat is {0} per maand</value>
+  </data>
+  <data name="SubEdit_InvalidPrice" xml:space="preserve">
+    <value>Geef een geldige prijs op, bijvoorbeeld 9,99.</value>
+  </data>
+  <data name="SubEdit_Delete" xml:space="preserve">
+    <value>Abonnement verwijderen</value>
+  </data>
+  <data name="SubEdit_DeleteText" xml:space="preserve">
+    <value>Het wordt alleen uit Poches verwijderd, niet opgezegd bij de aanbieder.</value>
+  </data>
+  <data name="Settings_SubscriptionsSection" xml:space="preserve">
+    <value>ABONNEMENTEN</value>
+  </data>
+  <data name="Settings_Reminder" xml:space="preserve">
+    <value>Herinnering vóór afschrijving</value>
+  </data>
+  <data name="Settings_ReminderHint" xml:space="preserve">
+    <value>Melding om 9 uur</value>
+  </data>
+  <data name="Reminder_Off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="Reminder_SameDay" xml:space="preserve">
+    <value>Op de dag zelf</value>
+  </data>
+  <data name="Reminder_DayBefore" xml:space="preserve">
+    <value>De dag ervoor</value>
+  </data>
+  <data name="Reminder_DaysBefore" xml:space="preserve">
+    <value>{0} dagen ervoor</value>
+  </data>
+  <data name="Reminder_Week" xml:space="preserve">
+    <value>Een week ervoor</value>
+  </data>
+  <data name="Reminder_Body" xml:space="preserve">
+    <value>{0} wordt {1} afgeschreven.</value>
+  </data>
+  <data name="Error_EmptySubscriptionName" xml:space="preserve">
+    <value>Geef je abonnement een naam.</value>
+  </data>
+  <data name="Sample_Gym" xml:space="preserve">
+    <value>Sportschool</value>
+  </data>
+  <data name="Sample_HomeInsurance" xml:space="preserve">
+    <value>Woningverzekering</value>
   </data>
 </root>

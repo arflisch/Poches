@@ -10,6 +10,7 @@ public sealed partial class BudgetStore
         var db = await GetConnectionAsync();
         var pockets = await db.Table<Pocket>().OrderBy(p => p.Id).ToListAsync();
         var movements = await db.Table<Movement>().OrderBy(m => m.Date).ThenBy(m => m.Id).ToListAsync();
+        var subscriptions = await db.Table<Subscription>().OrderBy(s => s.Id).ToListAsync();
 
         return new BackupDocument
         {
@@ -20,10 +21,16 @@ public sealed partial class BudgetStore
             Movements = movements
                 .Select(m => new BackupMovement(m.PocketId, m.AmountCents, m.Kind, m.Note, m.Date, m.TransferGroup, m.CounterpartPocketId))
                 .ToList(),
+            Subscriptions = subscriptions
+                .Select(s => new BackupSubscription(s.Name, s.Icon, s.ColorHex, s.AmountCents, s.Period, s.BillingAnchor, s.IsActive, s.CreatedAt))
+                .ToList(),
         };
     }
 
-    /// <summary>Replaces all current data with the content of <paramref name="backup"/>, atomically.</summary>
+    /// <summary>
+    /// Replaces all current data with the content of <paramref name="backup"/>, atomically. Backups made before
+    /// subscriptions existed (version 1) leave the current subscriptions untouched.
+    /// </summary>
     /// <exception cref="BudgetException">The backup is inconsistent; nothing is changed.</exception>
     public async Task ImportAsync(BackupDocument backup)
     {
@@ -64,12 +71,31 @@ public sealed partial class BudgetStore
                     CounterpartPocketId = m.CounterpartPocketId is { } id && newIds.TryGetValue(id, out var mapped) ? mapped : null,
                 });
             }
+
+            if (backup.Version >= 2)
+            {
+                conn.DeleteAll<Subscription>();
+                foreach (var s in backup.Subscriptions)
+                {
+                    conn.Insert(new Subscription
+                    {
+                        Name = s.Name.Trim(),
+                        Icon = string.IsNullOrWhiteSpace(s.Icon) ? "📺" : s.Icon,
+                        ColorHex = string.IsNullOrWhiteSpace(s.ColorHex) ? "#6366F1" : s.ColorHex,
+                        AmountCents = s.AmountCents,
+                        Period = s.Period,
+                        BillingAnchor = s.BillingAnchor.Date,
+                        IsActive = s.IsActive,
+                        CreatedAt = s.CreatedAt,
+                    });
+                }
+            }
         });
 
         OnChanged();
     }
 
-    /// <summary>Deletes every pocket and movement.</summary>
+    /// <summary>Deletes every pocket, movement and subscription.</summary>
     public async Task DeleteAllAsync()
     {
         var db = await GetConnectionAsync();
@@ -77,6 +103,7 @@ public sealed partial class BudgetStore
         {
             conn.DeleteAll<Movement>();
             conn.DeleteAll<Pocket>();
+            conn.DeleteAll<Subscription>();
         });
         OnChanged();
     }
@@ -92,5 +119,8 @@ public sealed partial class BudgetStore
 
         if (backup.Movements.Any(m => !ids.Contains(m.PocketId) || !Enum.IsDefined(m.Kind)))
             throw new BudgetException(BudgetError.CorruptBackup, "A movement references an unknown pocket or kind.");
+
+        if (backup.Subscriptions.Any(s => string.IsNullOrWhiteSpace(s.Name) || s.AmountCents <= 0 || !Enum.IsDefined(s.Period)))
+            throw new BudgetException(BudgetError.CorruptBackup, "A subscription is incomplete.");
     }
 }

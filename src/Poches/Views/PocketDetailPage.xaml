@@ -8,6 +8,7 @@
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:PocketDetailViewModel"
     Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False"
     SafeAreaEdges="None">
 
     <ContentPage.Resources>
