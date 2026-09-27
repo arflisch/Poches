@@ -185,7 +185,7 @@
         <VerticalStackLayout Grid.Row="2" Padding="20,8,20,16" Spacing="10">
             <Label IsVisible="{Binding HasError}" Style="{StaticResource ErrorLabel}" Text="{Binding ErrorMessage}" />
             <Border
-                Background="{Binding Appearance.Brush}"
+                Background="{StaticResource ChargesAccentGradient}"
                 c:Touch.Command="{Binding SaveCommand}"
                 Style="{StaticResource PrimaryButton}">
                 <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Common_Save}" />

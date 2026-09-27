@@ -51,10 +51,11 @@
         <GradientStop Color="#4338CA" Offset="1" />
     </LinearGradientBrush>
 
-    <!-- Buttons of the fixed costs tab take the colours of its card, as the purple ones do on the Pockets tab. -->
+    <!-- Buttons of the fixed costs tab: the gradient of its card, laid out horizontally. -->
     <LinearGradientBrush x:Key="ChargesAccentGradient" StartPoint="0,0" EndPoint="1,0">
         <GradientStop Color="#0F766E" Offset="0" />
-        <GradientStop Color="#0E7490" Offset="1" />
+        <GradientStop Color="#0E7490" Offset="0.55" />
+        <GradientStop Color="#4338CA" Offset="1" />
     </LinearGradientBrush>
 
     <Color x:Key="DueSoonLight">#D97706</Color>
