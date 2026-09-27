@@ -170,6 +170,57 @@
                         </Border>
                     </Grid>
 
+                    <!-- Scheduled deposits (Poches Pro) -->
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Scheduled_Section}" VerticalOptions="Center" />
+                            <HorizontalStackLayout
+                                Grid.Column="1"
+                                Padding="8,6"
+                                c:Touch.Command="{Binding AddScheduleCommand}"
+                                Spacing="6">
+                                <Border IsVisible="{Binding IsProLocked}" Style="{StaticResource ProBadge}">
+                                    <Label Style="{StaticResource ProBadgeText}" />
+                                </Border>
+                                <Label Style="{StaticResource LinkLabel}" Text="{l:Tr Scheduled_Add}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Schedules}" Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ScheduledItemViewModel">
+                                    <Border
+                                        Padding="12"
+                                        c:Touch.Command="{Binding OpenCommand}"
+                                        Opacity="{Binding RowOpacity}"
+                                        Style="{StaticResource Card}">
+                                        <Grid ColumnDefinitions="42,*,Auto" ColumnSpacing="12">
+                                            <Border
+                                                BackgroundColor="#2610B981"
+                                                HeightRequest="42"
+                                                StrokeShape="RoundRectangle 14"
+                                                StrokeThickness="0"
+                                                WidthRequest="42">
+                                                <Label FontSize="20" HorizontalOptions="Center" Text="🔁" VerticalOptions="Center" />
+                                            </Border>
+                                            <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                                <Label FontFamily="OpenSansSemibold" FontSize="15" Text="{Binding Title}" />
+                                                <Label Style="{StaticResource Caption}" Text="{Binding Subtitle}" />
+                                            </VerticalStackLayout>
+                                            <c:IconView
+                                                Grid.Column="2"
+                                                Color="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
+                                                Data="{x:Static c:Icons.ChevronRight}"
+                                                HeightRequest="18"
+                                                VerticalOptions="Center"
+                                                WidthRequest="18" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                        <Label IsVisible="{Binding HasNoSchedules}" Style="{StaticResource Caption}" Text="{l:Tr Scheduled_Empty}" />
+                    </VerticalStackLayout>
+
                     <Label Margin="0,4,0,0" Style="{StaticResource SectionTitle}" Text="{l:Tr Detail_History}" />
 
                     <Border IsVisible="{Binding IsHistoryEmpty}" Style="{StaticResource Card}">

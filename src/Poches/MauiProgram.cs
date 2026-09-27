@@ -34,6 +34,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<PasswordPrompt>();
         builder.Services.AddSingleton<BackupService>();
         builder.Services.AddSingleton<SubscriptionReminders>();
+        builder.Services.AddSingleton<ProService>();
+        builder.Services.AddSingleton<ScheduledDeposits>();
         builder.Services.AddSingleton<IDialogService, DialogService>();
         builder.Services.AddSingleton<AppShell>();
 
@@ -51,6 +53,14 @@ public static class MauiProgram
         builder.Services.AddTransient<SubscriptionEditPage>();
         builder.Services.AddTransient<SettingsViewModel>();
         builder.Services.AddTransient<SettingsPage>();
+        builder.Services.AddTransient<ProViewModel>();
+        builder.Services.AddTransient<ProPage>();
+        builder.Services.AddTransient<ScheduledDepositViewModel>();
+        builder.Services.AddTransient<ScheduledDepositPage>();
+        builder.Services.AddTransient<SplitViewModel>();
+        builder.Services.AddTransient<SplitPage>();
+        builder.Services.AddTransient<StatisticsViewModel>();
+        builder.Services.AddTransient<StatisticsPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

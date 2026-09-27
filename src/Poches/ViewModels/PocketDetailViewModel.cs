@@ -10,7 +10,7 @@ using Poches.Services;
 
 namespace Poches.ViewModels;
 
-public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings settings, IDialogService dialogs)
+public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings settings, IDialogService dialogs, ProService pro)
     : ReloadingViewModel, IQueryAttributable
 {
     private static readonly Color Positive = Color.FromArgb("#10B981");
@@ -22,6 +22,15 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
     private int _pocketCount;
 
     public ObservableCollection<MovementGroup> Groups { get; } = [];
+
+    /// <summary>Scheduled deposits into this pocket (Poches Pro).</summary>
+    public ObservableCollection<ScheduledItemViewModel> Schedules { get; } = [];
+
+    [ObservableProperty]
+    private bool _hasNoSchedules = true;
+
+    [ObservableProperty]
+    private bool _isProLocked;
 
     [ObservableProperty]
     private string _name = string.Empty;
@@ -114,6 +123,12 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
         var pockets = await store.GetPocketSummariesAsync();
         _pocketCount = pockets.Count;
         var names = pockets.ToDictionary(p => p.Pocket.Id, p => p.Pocket.Name);
+
+        IsProLocked = !pro.IsUnlocked;
+        Schedules.Clear();
+        foreach (var schedule in await store.GetScheduledDepositsAsync(_pocketId))
+            Schedules.Add(new ScheduledItemViewModel(schedule, formatter, OpenScheduleAsync));
+        HasNoSchedules = Schedules.Count == 0;
 
         var movements = await store.GetMovementsAsync(_pocketId);
         History = [0d, .. BudgetStore.BuildBalanceHistory(movements).Select(p => (double)p.Balance)];
@@ -210,6 +225,19 @@ public sealed partial class PocketDetailViewModel(BudgetStore store, AppSettings
         await OpenMovementAsync(MovementMode.Transfer);
     }
 
+    [RelayCommand]
+    private async Task AddScheduleAsync()
+    {
+        if (await pro.EnsureUnlockedAsync())
+            await Shell.Current.GoToAsync($"{Routes.ScheduledDeposit}?pocketId={_pocketId}");
+    }
+
+    private async Task OpenScheduleAsync(int scheduleId)
+    {
+        if (await pro.EnsureUnlockedAsync())
+            await Shell.Current.GoToAsync($"{Routes.ScheduledDeposit}?id={scheduleId}");
+    }
+
     private Task OpenMovementAsync(MovementMode mode) =>
         Shell.Current.GoToAsync($"{Routes.Movement}?pocketId={_pocketId}&mode={mode}");
 }
@@ -254,4 +282,27 @@ public sealed class MovementItemViewModel
     public Color IconBackground { get; }
 
     public IAsyncRelayCommand TapCommand { get; }
+}
+
+/// <summary>"€200.00 /month · Next: 1 Oct".</summary>
+public sealed class ScheduledItemViewModel
+{
+    public ScheduledItemViewModel(ScheduledDeposit schedule, MoneyFormatter formatter, Func<int, Task> open)
+    {
+        Title = $"{formatter.Format(schedule.Amount)} {SubscriptionItemViewModel.PerPeriod(schedule.Period)}";
+        var status = schedule.IsActive
+            ? Loc.Format("Scheduled_NextOn", BudgetStore.NextDeposit(schedule).ToString("d MMM", Localizer.Instance.Culture))
+            : Loc.Get("Subs_Paused");
+        Subtitle = schedule.Note is { } note ? $"{note} · {status}" : status;
+        RowOpacity = schedule.IsActive ? 1 : 0.55;
+        OpenCommand = new AsyncRelayCommand(() => open(schedule.Id));
+    }
+
+    public string Title { get; }
+
+    public string Subtitle { get; }
+
+    public double RowOpacity { get; }
+
+    public IAsyncRelayCommand OpenCommand { get; }
 }

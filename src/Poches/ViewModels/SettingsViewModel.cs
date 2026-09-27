@@ -17,6 +17,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
     private readonly IDialogService _dialogs;
     private readonly SubscriptionReminders _reminders;
     private readonly DeviceAuthentication _authentication;
+    private readonly ProService _pro;
     private bool _revertingLock;
 
     public SettingsViewModel(
@@ -25,8 +26,11 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
         BackupService backup,
         IDialogService dialogs,
         SubscriptionReminders reminders,
-        DeviceAuthentication authentication)
+        DeviceAuthentication authentication,
+        ProService pro)
     {
+        _pro = pro;
+        RefreshPro();
         _authentication = authentication;
         CanLock = authentication.IsSupported && authentication.IsAvailable;
         LockTitle = authentication.BiometryName is { } biometry ? Loc.Format("Lock_Title", biometry) : Loc.Get("Lock_TitleGeneric");
@@ -57,6 +61,44 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
 
     [ObservableProperty]
     private bool _isLockEnabled;
+
+    /// <summary>"Unlocked — thank you!" or what Pro adds.</summary>
+    [ObservableProperty]
+    private string _proStatus = string.Empty;
+
+    [ObservableProperty]
+    private bool _isProLocked;
+
+    /// <summary>Called when the page shows again, e.g. after the Poches Pro sheet closed.</summary>
+    public void RefreshPro()
+    {
+        IsProLocked = !_pro.IsUnlocked;
+        ProStatus = _pro.IsUnlocked ? Loc.Get("Pro_StatusUnlocked") : Loc.Get("Pro_StatusLocked");
+    }
+
+    [RelayCommand]
+    private Task OpenProAsync() => Shell.Current.GoToAsync(Routes.Pro);
+
+    [RelayCommand]
+    private async Task ExportCsvAsync()
+    {
+        if (!await _pro.EnsureUnlockedAsync())
+            return;
+        IsBusy = true;
+        try
+        {
+            if (await _backup.ExportCsvAsync() == BackupOutcome.Saved)
+                SuccessToast.Show(Loc.Get("Csv_Saved"));
+        }
+        catch (Exception ex)
+        {
+            await _dialogs.AlertAsync(Loc.Get("Csv_Failed"), ex.Message);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
 
     [ObservableProperty]
     private string _currency;

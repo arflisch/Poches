@@ -689,4 +689,235 @@ Your current data will be replaced.</value>
   <data name="Settings_BackupHintAndroid" xml:space="preserve">
     <value>The file is encrypted with a password you choose. Save it to Google Drive or email it to yourself: you'll be able to restore it on another phone, even an iPhone.</value>
   </data>
+  <data name="Error_SplitOverHundredPercent" xml:space="preserve">
+    <value>The percentages add up to more than 100 %.</value>
+  </data>
+  <data name="Error_NoSplitRules" xml:space="preserve">
+    <value>Give at least one pocket a percentage.</value>
+  </data>
+  <data name="Pro_Tagline" xml:space="preserve">
+    <value>Let the app work for you.</value>
+  </data>
+  <data name="Pro_OneTime" xml:space="preserve">
+    <value>One-time purchase · no subscription</value>
+  </data>
+  <data name="Pro_ScheduledTitle" xml:space="preserve">
+    <value>Scheduled deposits</value>
+  </data>
+  <data name="Pro_ScheduledText" xml:space="preserve">
+    <value>Money added to your pockets automatically, every month or every week.</value>
+  </data>
+  <data name="Pro_SplitTitle" xml:space="preserve">
+    <value>Income split</value>
+  </data>
+  <data name="Pro_SplitText" xml:space="preserve">
+    <value>Split your salary between your pockets in one go, by percentage.</value>
+  </data>
+  <data name="Pro_StatsTitle" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="Pro_StatsText" xml:space="preserve">
+    <value>Your 12-month trend, monthly savings and when you'll reach your goals.</value>
+  </data>
+  <data name="Pro_ExportTitle" xml:space="preserve">
+    <value>CSV export</value>
+  </data>
+  <data name="Pro_ExportText" xml:space="preserve">
+    <value>All your transactions in Excel or Numbers.</value>
+  </data>
+  <data name="Pro_Unlock" xml:space="preserve">
+    <value>Unlock Poches Pro</value>
+  </data>
+  <data name="Pro_UnlockFor" xml:space="preserve">
+    <value>Unlock for {0}</value>
+  </data>
+  <data name="Pro_Restore" xml:space="preserve">
+    <value>Restore my purchases</value>
+  </data>
+  <data name="Pro_TestUnlock" xml:space="preserve">
+    <value>Unlock (test mode)</value>
+  </data>
+  <data name="Pro_TestLock" xml:space="preserve">
+    <value>Lock again (test mode)</value>
+  </data>
+  <data name="Pro_UnlockedTitle" xml:space="preserve">
+    <value>Poches Pro is unlocked</value>
+  </data>
+  <data name="Pro_UnlockedText" xml:space="preserve">
+    <value>Thanks for your support! Everything above is yours.</value>
+  </data>
+  <data name="Pro_Thanks" xml:space="preserve">
+    <value>Poches Pro unlocked</value>
+  </data>
+  <data name="Pro_Restored" xml:space="preserve">
+    <value>Purchases restored</value>
+  </data>
+  <data name="Pro_UnavailableTitle" xml:space="preserve">
+    <value>Purchase unavailable</value>
+  </data>
+  <data name="Pro_UnavailableText" xml:space="preserve">
+    <value>The store can't be reached, or Poches Pro isn't available there yet. Try again later.</value>
+  </data>
+  <data name="Pro_FailedTitle" xml:space="preserve">
+    <value>Purchase failed</value>
+  </data>
+  <data name="Pro_FailedText" xml:space="preserve">
+    <value>Nothing was charged. Try again in a moment.</value>
+  </data>
+  <data name="Pro_NothingToRestoreTitle" xml:space="preserve">
+    <value>Nothing to restore</value>
+  </data>
+  <data name="Pro_NothingToRestoreText" xml:space="preserve">
+    <value>No Poches Pro purchase was found on this store account.</value>
+  </data>
+  <data name="Pro_StatusLocked" xml:space="preserve">
+    <value>Scheduled deposits, income split, statistics…</value>
+  </data>
+  <data name="Pro_StatusUnlocked" xml:space="preserve">
+    <value>Unlocked — thank you!</value>
+  </data>
+  <data name="Main_Split" xml:space="preserve">
+    <value>Split an income</value>
+  </data>
+  <data name="Scheduled_Section" xml:space="preserve">
+    <value>Scheduled deposits</value>
+  </data>
+  <data name="Scheduled_Add" xml:space="preserve">
+    <value>+ Schedule</value>
+  </data>
+  <data name="Scheduled_Empty" xml:space="preserve">
+    <value>Add money to this pocket automatically, every month or every week.</value>
+  </data>
+  <data name="Scheduled_NextOn" xml:space="preserve">
+    <value>Next: {0}</value>
+  </data>
+  <data name="Scheduled_NewTitle" xml:space="preserve">
+    <value>Auto deposit</value>
+  </data>
+  <data name="Scheduled_EditTitle" xml:space="preserve">
+    <value>Auto deposit</value>
+  </data>
+  <data name="Scheduled_Amount" xml:space="preserve">
+    <value>AMOUNT</value>
+  </data>
+  <data name="Scheduled_Every" xml:space="preserve">
+    <value>EVERY</value>
+  </data>
+  <data name="Scheduled_Next" xml:space="preserve">
+    <value>FIRST DEPOSIT</value>
+  </data>
+  <data name="Scheduled_Label" xml:space="preserve">
+    <value>LABEL (OPTIONAL)</value>
+  </data>
+  <data name="Scheduled_DefaultNote" xml:space="preserve">
+    <value>Scheduled deposit</value>
+  </data>
+  <data name="Scheduled_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Scheduled_ActiveHint" xml:space="preserve">
+    <value>While paused, nothing is added and nothing is caught up later</value>
+  </data>
+  <data name="Scheduled_Delete" xml:space="preserve">
+    <value>Delete the scheduled deposit</value>
+  </data>
+  <data name="Scheduled_DeleteTitle" xml:space="preserve">
+    <value>Delete this scheduled deposit?</value>
+  </data>
+  <data name="Scheduled_DeleteText" xml:space="preserve">
+    <value>Deposits already added stay in the pocket.</value>
+  </data>
+  <data name="Split_Title" xml:space="preserve">
+    <value>Split an income</value>
+  </data>
+  <data name="Split_Income" xml:space="preserve">
+    <value>INCOME RECEIVED</value>
+  </data>
+  <data name="Split_DefaultNote" xml:space="preserve">
+    <value>Salary</value>
+  </data>
+  <data name="Split_Shares" xml:space="preserve">
+    <value>SPLIT</value>
+  </data>
+  <data name="Split_SharesHint" xml:space="preserve">
+    <value>The percentages are remembered for next time.</value>
+  </data>
+  <data name="Split_Total" xml:space="preserve">
+    <value>Total: {0} %</value>
+  </data>
+  <data name="Split_Unallocated" xml:space="preserve">
+    <value>Left aside: {0}</value>
+  </data>
+  <data name="Split_InvalidPercent" xml:space="preserve">
+    <value>Enter percentages between 0 and 100.</value>
+  </data>
+  <data name="Split_Confirm" xml:space="preserve">
+    <value>Split</value>
+  </data>
+  <data name="Split_Done" xml:space="preserve">
+    <value>Income split</value>
+  </data>
+  <data name="Stats_Empty" xml:space="preserve">
+    <value>Add money to your pockets: your statistics will appear here.</value>
+  </data>
+  <data name="Stats_Average" xml:space="preserve">
+    <value>Average savings</value>
+  </data>
+  <data name="Stats_Deposits" xml:space="preserve">
+    <value>Added in 12 months</value>
+  </data>
+  <data name="Stats_Withdrawals" xml:space="preserve">
+    <value>Taken out in 12 months</value>
+  </data>
+  <data name="Stats_Evolution" xml:space="preserve">
+    <value>Total over time</value>
+  </data>
+  <data name="Stats_Change" xml:space="preserve">
+    <value>{0} in {1} months</value>
+  </data>
+  <data name="Stats_PerMonth" xml:space="preserve">
+    <value>Savings per month</value>
+  </data>
+  <data name="Stats_PerMonthHint" xml:space="preserve">
+    <value>Money added minus money taken out; transfers between pockets are not counted.</value>
+  </data>
+  <data name="Stats_Goals" xml:space="preserve">
+    <value>Goals</value>
+  </data>
+  <data name="Stats_GoalOn" xml:space="preserve">
+    <value>Reached in {0} at this pace ({1} a month)</value>
+  </data>
+  <data name="Stats_GoalStalled" xml:space="preserve">
+    <value>No progress over the last months</value>
+  </data>
+  <data name="Csv_Export" xml:space="preserve">
+    <value>Export transactions (CSV)</value>
+  </data>
+  <data name="Csv_ExportHint" xml:space="preserve">
+    <value>For Excel or Numbers</value>
+  </data>
+  <data name="Csv_Saved" xml:space="preserve">
+    <value>Export saved</value>
+  </data>
+  <data name="Csv_Failed" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="Csv_FileName" xml:space="preserve">
+    <value>transactions</value>
+  </data>
+  <data name="Csv_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Csv_Pocket" xml:space="preserve">
+    <value>Pocket</value>
+  </data>
+  <data name="Csv_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Csv_Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Csv_Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
 </root>

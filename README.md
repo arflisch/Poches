@@ -22,6 +22,22 @@ Application mobile de budget par « poches » (vacances, épargne, investissemen
 - **Thème clair / sombre** automatique.
 - **Exemples** : sur l'écran vide, « Explorer avec des exemples » crée 5 poches de démonstration.
 
+## Poches Pro (achat unique)
+
+La version gratuite reste complète (poches, charges fixes, rappels, sauvegarde chiffrée, verrouillage). **Poches Pro**, un achat unique sans abonnement, ajoute ce qui fait travailler l'app pour soi :
+
+- **Versements programmés** : « 150 € dans Investissement chaque mois » est ajouté automatiquement, à l'ouverture de l'app et à chaque retour, y compris les versements manqués pendant que l'app était fermée (datés de leur jour). Une pause ne rattrape rien ; une date de départ dans le passé est impossible, pour ne jamais créer d'ajouts par surprise.
+- **Répartition du salaire** : un revenu est réparti entre les poches par pourcentages (retenus pour la fois suivante), avec l'aperçu de chaque part et du montant non réparti ; l'arrondi ne crée ni ne perd aucun centime.
+- **Statistiques** : épargne moyenne des 3 derniers mois complets, ajouts et retraits sur 12 mois, évolution du total, épargne nette par mois (les virements entre poches ne comptent pas) et date d'atteinte de chaque objectif au rythme actuel.
+- **Export CSV** de tous les mouvements, lisible directement par Excel ou Numbers (séparateur et décimales de la langue, BOM UTF-8).
+
+Côté technique :
+
+- Achat intégré via `Plugin.InAppBilling` (StoreKit sur iPhone et Mac, Google Play Billing sur Android), produit **non consommable** `com.arflisch.poches.pro` à créer dans App Store Connect et la Play Console. « Restaurer mes achats » le retrouve sur un nouvel appareil ; le déblocage est gardé sur l'appareil (l'app reste hors ligne).
+- Tant que le produit n'existe pas dans les stores, l'achat affiche « Achat indisponible ». Les builds pour nos propres appareils ont un **mode test** (« Débloquer (mode test) ») : il est actif en Debug ou avec `-p:ProTesting=true`, et ne doit **jamais** être utilisé pour un build envoyé aux stores.
+- Les versements programmés et les pourcentages font partie des sauvegardes (format version 4).
+- Google Play Billing impose Android 6.0 (API 23) minimum.
+
 ## Persistance
 
 **SQLite** local via `sqlite-net-pcl`, dans le dossier privé de l'app. Aucune connexion réseau n'est demandée (pas de permission INTERNET sur Android).

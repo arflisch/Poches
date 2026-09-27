@@ -9,6 +9,14 @@ public partial class SettingsPage : ContentPage
     {
         InitializeComponent();
         Sheet.Adapt(this);
-        BindingContext = viewModel;
+        BindingContext = _viewModel = viewModel;
+    }
+
+    private readonly SettingsViewModel _viewModel;
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.RefreshPro();
     }
 }

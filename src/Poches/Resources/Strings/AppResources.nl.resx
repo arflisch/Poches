@@ -689,4 +689,235 @@ Je huidige gegevens worden vervangen.</value>
   <data name="Settings_BackupHintAndroid" xml:space="preserve">
     <value>Het bestand wordt versleuteld met een wachtwoord dat je zelf kiest. Bewaar het in Google Drive of mail het naar jezelf: je kunt het dan op een andere telefoon terugzetten, zelfs op een iPhone.</value>
   </data>
+  <data name="Error_SplitOverHundredPercent" xml:space="preserve">
+    <value>De percentages zijn samen meer dan 100 %.</value>
+  </data>
+  <data name="Error_NoSplitRules" xml:space="preserve">
+    <value>Geef minstens één potje een percentage.</value>
+  </data>
+  <data name="Pro_Tagline" xml:space="preserve">
+    <value>Laat de app voor je werken.</value>
+  </data>
+  <data name="Pro_OneTime" xml:space="preserve">
+    <value>Eenmalige aankoop · geen abonnement</value>
+  </data>
+  <data name="Pro_ScheduledTitle" xml:space="preserve">
+    <value>Geplande stortingen</value>
+  </data>
+  <data name="Pro_ScheduledText" xml:space="preserve">
+    <value>Geld dat automatisch in je potjes komt, elke maand of elke week.</value>
+  </data>
+  <data name="Pro_SplitTitle" xml:space="preserve">
+    <value>Inkomen verdelen</value>
+  </data>
+  <data name="Pro_SplitText" xml:space="preserve">
+    <value>Verdeel je loon in één keer over je potjes, in percentages.</value>
+  </data>
+  <data name="Pro_StatsTitle" xml:space="preserve">
+    <value>Statistieken</value>
+  </data>
+  <data name="Pro_StatsText" xml:space="preserve">
+    <value>Het verloop over 12 maanden, je maandelijkse spaarbedrag en wanneer je je doelen haalt.</value>
+  </data>
+  <data name="Pro_ExportTitle" xml:space="preserve">
+    <value>CSV-export</value>
+  </data>
+  <data name="Pro_ExportText" xml:space="preserve">
+    <value>Al je verrichtingen in Excel of Numbers.</value>
+  </data>
+  <data name="Pro_Unlock" xml:space="preserve">
+    <value>Poches Pro ontgrendelen</value>
+  </data>
+  <data name="Pro_UnlockFor" xml:space="preserve">
+    <value>Ontgrendelen voor {0}</value>
+  </data>
+  <data name="Pro_Restore" xml:space="preserve">
+    <value>Mijn aankopen herstellen</value>
+  </data>
+  <data name="Pro_TestUnlock" xml:space="preserve">
+    <value>Ontgrendelen (testmodus)</value>
+  </data>
+  <data name="Pro_TestLock" xml:space="preserve">
+    <value>Opnieuw vergrendelen (testmodus)</value>
+  </data>
+  <data name="Pro_UnlockedTitle" xml:space="preserve">
+    <value>Poches Pro is ontgrendeld</value>
+  </data>
+  <data name="Pro_UnlockedText" xml:space="preserve">
+    <value>Bedankt voor je steun! Alles hierboven is van jou.</value>
+  </data>
+  <data name="Pro_Thanks" xml:space="preserve">
+    <value>Poches Pro ontgrendeld</value>
+  </data>
+  <data name="Pro_Restored" xml:space="preserve">
+    <value>Aankopen hersteld</value>
+  </data>
+  <data name="Pro_UnavailableTitle" xml:space="preserve">
+    <value>Aankoop niet beschikbaar</value>
+  </data>
+  <data name="Pro_UnavailableText" xml:space="preserve">
+    <value>De store is niet bereikbaar of Poches Pro is er nog niet beschikbaar. Probeer het later opnieuw.</value>
+  </data>
+  <data name="Pro_FailedTitle" xml:space="preserve">
+    <value>Aankoop mislukt</value>
+  </data>
+  <data name="Pro_FailedText" xml:space="preserve">
+    <value>Er werd niets aangerekend. Probeer het zo meteen opnieuw.</value>
+  </data>
+  <data name="Pro_NothingToRestoreTitle" xml:space="preserve">
+    <value>Niets om te herstellen</value>
+  </data>
+  <data name="Pro_NothingToRestoreText" xml:space="preserve">
+    <value>Er werd geen aankoop van Poches Pro gevonden op deze account.</value>
+  </data>
+  <data name="Pro_StatusLocked" xml:space="preserve">
+    <value>Geplande stortingen, inkomen verdelen, statistieken…</value>
+  </data>
+  <data name="Pro_StatusUnlocked" xml:space="preserve">
+    <value>Ontgrendeld — bedankt!</value>
+  </data>
+  <data name="Main_Split" xml:space="preserve">
+    <value>Inkomen verdelen</value>
+  </data>
+  <data name="Scheduled_Section" xml:space="preserve">
+    <value>Geplande stortingen</value>
+  </data>
+  <data name="Scheduled_Add" xml:space="preserve">
+    <value>+ Plannen</value>
+  </data>
+  <data name="Scheduled_Empty" xml:space="preserve">
+    <value>Stort automatisch geld in dit potje, elke maand of elke week.</value>
+  </data>
+  <data name="Scheduled_NextOn" xml:space="preserve">
+    <value>Volgende: {0}</value>
+  </data>
+  <data name="Scheduled_NewTitle" xml:space="preserve">
+    <value>Vaste storting</value>
+  </data>
+  <data name="Scheduled_EditTitle" xml:space="preserve">
+    <value>Vaste storting</value>
+  </data>
+  <data name="Scheduled_Amount" xml:space="preserve">
+    <value>BEDRAG</value>
+  </data>
+  <data name="Scheduled_Every" xml:space="preserve">
+    <value>ELKE</value>
+  </data>
+  <data name="Scheduled_Next" xml:space="preserve">
+    <value>EERSTE STORTING</value>
+  </data>
+  <data name="Scheduled_Label" xml:space="preserve">
+    <value>OMSCHRIJVING (OPTIONEEL)</value>
+  </data>
+  <data name="Scheduled_DefaultNote" xml:space="preserve">
+    <value>Geplande storting</value>
+  </data>
+  <data name="Scheduled_Active" xml:space="preserve">
+    <value>Actief</value>
+  </data>
+  <data name="Scheduled_ActiveHint" xml:space="preserve">
+    <value>Gepauzeerd wordt er niets gestort, ook later niet</value>
+  </data>
+  <data name="Scheduled_Delete" xml:space="preserve">
+    <value>Geplande storting verwijderen</value>
+  </data>
+  <data name="Scheduled_DeleteTitle" xml:space="preserve">
+    <value>Deze geplande storting verwijderen?</value>
+  </data>
+  <data name="Scheduled_DeleteText" xml:space="preserve">
+    <value>Stortingen die al zijn toegevoegd, blijven in het potje.</value>
+  </data>
+  <data name="Split_Title" xml:space="preserve">
+    <value>Inkomen verdelen</value>
+  </data>
+  <data name="Split_Income" xml:space="preserve">
+    <value>ONTVANGEN INKOMEN</value>
+  </data>
+  <data name="Split_DefaultNote" xml:space="preserve">
+    <value>Loon</value>
+  </data>
+  <data name="Split_Shares" xml:space="preserve">
+    <value>VERDELING</value>
+  </data>
+  <data name="Split_SharesHint" xml:space="preserve">
+    <value>De percentages worden onthouden voor de volgende keer.</value>
+  </data>
+  <data name="Split_Total" xml:space="preserve">
+    <value>Totaal: {0} %</value>
+  </data>
+  <data name="Split_Unallocated" xml:space="preserve">
+    <value>Niet verdeeld: {0}</value>
+  </data>
+  <data name="Split_InvalidPercent" xml:space="preserve">
+    <value>Geef percentages tussen 0 en 100.</value>
+  </data>
+  <data name="Split_Confirm" xml:space="preserve">
+    <value>Verdelen</value>
+  </data>
+  <data name="Split_Done" xml:space="preserve">
+    <value>Inkomen verdeeld</value>
+  </data>
+  <data name="Stats_Empty" xml:space="preserve">
+    <value>Stort geld in je potjes: je statistieken verschijnen hier.</value>
+  </data>
+  <data name="Stats_Average" xml:space="preserve">
+    <value>Gemiddeld gespaard</value>
+  </data>
+  <data name="Stats_Deposits" xml:space="preserve">
+    <value>Gestort in 12 maanden</value>
+  </data>
+  <data name="Stats_Withdrawals" xml:space="preserve">
+    <value>Opgenomen in 12 maanden</value>
+  </data>
+  <data name="Stats_Evolution" xml:space="preserve">
+    <value>Verloop van het totaal</value>
+  </data>
+  <data name="Stats_Change" xml:space="preserve">
+    <value>{0} in {1} maanden</value>
+  </data>
+  <data name="Stats_PerMonth" xml:space="preserve">
+    <value>Sparen per maand</value>
+  </data>
+  <data name="Stats_PerMonthHint" xml:space="preserve">
+    <value>Stortingen min opnames; overschrijvingen tussen potjes tellen niet mee.</value>
+  </data>
+  <data name="Stats_Goals" xml:space="preserve">
+    <value>Doelen</value>
+  </data>
+  <data name="Stats_GoalOn" xml:space="preserve">
+    <value>Bereikt in {0} aan dit tempo ({1} per maand)</value>
+  </data>
+  <data name="Stats_GoalStalled" xml:space="preserve">
+    <value>Geen vooruitgang de voorbije maanden</value>
+  </data>
+  <data name="Csv_Export" xml:space="preserve">
+    <value>Verrichtingen exporteren (CSV)</value>
+  </data>
+  <data name="Csv_ExportHint" xml:space="preserve">
+    <value>Voor Excel of Numbers</value>
+  </data>
+  <data name="Csv_Saved" xml:space="preserve">
+    <value>Export bewaard</value>
+  </data>
+  <data name="Csv_Failed" xml:space="preserve">
+    <value>Exporteren mislukt</value>
+  </data>
+  <data name="Csv_FileName" xml:space="preserve">
+    <value>verrichtingen</value>
+  </data>
+  <data name="Csv_Date" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="Csv_Pocket" xml:space="preserve">
+    <value>Potje</value>
+  </data>
+  <data name="Csv_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Csv_Amount" xml:space="preserve">
+    <value>Bedrag</value>
+  </data>
+  <data name="Csv_Note" xml:space="preserve">
+    <value>Notitie</value>
+  </data>
 </root>

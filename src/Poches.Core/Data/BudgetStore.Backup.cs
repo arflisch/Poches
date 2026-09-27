@@ -11,6 +11,8 @@ public sealed partial class BudgetStore
         var pockets = await db.Table<Pocket>().OrderBy(p => p.Id).ToListAsync();
         var movements = await db.Table<Movement>().OrderBy(m => m.Date).ThenBy(m => m.Id).ToListAsync();
         var subscriptions = await db.Table<Subscription>().OrderBy(s => s.Id).ToListAsync();
+        var schedules = await db.Table<ScheduledDeposit>().OrderBy(s => s.Id).ToListAsync();
+        var splitRules = await db.Table<SplitRule>().ToListAsync();
 
         return new BackupDocument
         {
@@ -24,12 +26,17 @@ public sealed partial class BudgetStore
             Subscriptions = subscriptions
                 .Select(s => new BackupSubscription(s.Name, s.Icon, s.ColorHex, s.AmountCents, s.Period, s.BillingAnchor, s.IsActive, s.CreatedAt, s.Category))
                 .ToList(),
+            ScheduledDeposits = schedules
+                .Select(s => new BackupScheduledDeposit(s.PocketId, s.AmountCents, s.Period, s.Anchor, s.AppliedThrough, s.Note, s.IsActive, s.CreatedAt))
+                .ToList(),
+            SplitRules = splitRules.Select(r => new BackupSplitRule(r.PocketId, r.BasisPoints)).ToList(),
         };
     }
 
     /// <summary>
     /// Replaces all current data with the content of <paramref name="backup"/>, atomically. Backups made before
-    /// subscriptions existed (version 1) leave the current subscriptions untouched.
+    /// subscriptions existed (version 1) leave the current subscriptions untouched. Scheduled deposits and split
+    /// rules always follow the backup, since they point to pockets that are replaced.
     /// </summary>
     /// <exception cref="BudgetException">The backup is inconsistent; nothing is changed.</exception>
     public async Task ImportAsync(BackupDocument backup)
@@ -41,6 +48,8 @@ public sealed partial class BudgetStore
         {
             conn.DeleteAll<Movement>();
             conn.DeleteAll<Pocket>();
+            conn.DeleteAll<ScheduledDeposit>();
+            conn.DeleteAll<SplitRule>();
 
             // Database ids are regenerated, so remember where each backed-up pocket landed.
             var newIds = new Dictionary<int, int>();
@@ -72,6 +81,23 @@ public sealed partial class BudgetStore
                 });
             }
 
+            foreach (var s in backup.ScheduledDeposits)
+            {
+                conn.Insert(new ScheduledDeposit
+                {
+                    PocketId = newIds[s.PocketId],
+                    AmountCents = s.AmountCents,
+                    Period = s.Period,
+                    Anchor = s.Anchor.Date,
+                    AppliedThrough = s.AppliedThrough.Date,
+                    Note = s.Note,
+                    IsActive = s.IsActive,
+                    CreatedAt = s.CreatedAt,
+                });
+            }
+            foreach (var r in backup.SplitRules)
+                conn.Insert(new SplitRule { PocketId = newIds[r.PocketId], BasisPoints = r.BasisPoints });
+
             if (backup.Version >= 2)
             {
                 conn.DeleteAll<Subscription>();
@@ -96,7 +122,7 @@ public sealed partial class BudgetStore
         OnChanged();
     }
 
-    /// <summary>Deletes every pocket, movement and subscription.</summary>
+    /// <summary>Deletes every pocket, movement, subscription, scheduled deposit and split rule.</summary>
     public async Task DeleteAllAsync()
     {
         var db = await GetConnectionAsync();
@@ -105,6 +131,8 @@ public sealed partial class BudgetStore
             conn.DeleteAll<Movement>();
             conn.DeleteAll<Pocket>();
             conn.DeleteAll<Subscription>();
+            conn.DeleteAll<ScheduledDeposit>();
+            conn.DeleteAll<SplitRule>();
         });
         OnChanged();
     }
@@ -123,5 +151,13 @@ public sealed partial class BudgetStore
 
         if (backup.Subscriptions.Any(s => string.IsNullOrWhiteSpace(s.Name) || s.AmountCents <= 0 || !Enum.IsDefined(s.Period) || !Enum.IsDefined(s.Category)))
             throw new BudgetException(BudgetError.CorruptBackup, "A subscription is incomplete.");
+
+        if (backup.ScheduledDeposits.Any(s => !ids.Contains(s.PocketId) || s.AmountCents <= 0 || !Enum.IsDefined(s.Period)))
+            throw new BudgetException(BudgetError.CorruptBackup, "A scheduled deposit is incomplete.");
+
+        if (backup.SplitRules.Any(r => !ids.Contains(r.PocketId) || r.BasisPoints <= 0)
+            || backup.SplitRules.Sum(r => r.BasisPoints) > Pro.SalarySplit.WholeIncome
+            || backup.SplitRules.Select(r => r.PocketId).Distinct().Count() != backup.SplitRules.Count)
+            throw new BudgetException(BudgetError.CorruptBackup, "The split rules are inconsistent.");
     }
 }

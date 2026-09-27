@@ -98,6 +98,8 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
         await db.RunInTransactionAsync(conn =>
         {
             conn.Execute("DELETE FROM movements WHERE PocketId = ?", pocketId);
+            conn.Execute("DELETE FROM scheduled_deposits WHERE PocketId = ?", pocketId);
+            conn.Execute("DELETE FROM split_rules WHERE PocketId = ?", pocketId);
             conn.Execute("UPDATE movements SET CounterpartPocketId = NULL WHERE CounterpartPocketId = ?", pocketId);
             conn.Delete<Pocket>(pocketId);
         });
@@ -233,7 +235,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
                     databasePath,
                     SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
                 await connection.EnableWriteAheadLoggingAsync();
-                await connection.CreateTablesAsync<Pocket, Movement, Subscription>();
+                await connection.CreateTablesAsync<Pocket, Movement, Subscription, ScheduledDeposit, SplitRule>();
                 _connection = connection;
             }
             return _connection;

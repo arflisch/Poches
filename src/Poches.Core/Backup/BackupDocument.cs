@@ -9,8 +9,11 @@ namespace Poches.Core.Backup;
 public sealed record BackupDocument
 {
     public const string FormatName = "poches-backup";
-    /// <summary>Version 2 added <see cref="Subscriptions"/>; version 3 their category and the 6-month period.</summary>
-    public const int CurrentVersion = 3;
+    /// <summary>
+    /// Version 2 added <see cref="Subscriptions"/>; version 3 their category and the 6-month period; version 4
+    /// the scheduled deposits and split rules of Poches Pro.
+    /// </summary>
+    public const int CurrentVersion = 4;
 
     public string Format { get; init; } = FormatName;
 
@@ -26,6 +29,10 @@ public sealed record BackupDocument
     public List<BackupMovement> Movements { get; init; } = [];
 
     public List<BackupSubscription> Subscriptions { get; init; } = [];
+
+    public List<BackupScheduledDeposit> ScheduledDeposits { get; init; } = [];
+
+    public List<BackupSplitRule> SplitRules { get; init; } = [];
 }
 
 public sealed record BackupPocket(
@@ -55,3 +62,15 @@ public sealed record BackupSubscription(
     bool IsActive,
     DateTime CreatedAt,
     ChargeCategory Category = ChargeCategory.Subscription);
+
+public sealed record BackupScheduledDeposit(
+    int PocketId,
+    long AmountCents,
+    BillingPeriod Period,
+    DateTime Anchor,
+    DateTime AppliedThrough,
+    string? Note,
+    bool IsActive,
+    DateTime CreatedAt);
+
+public sealed record BackupSplitRule(int PocketId, int BasisPoints);

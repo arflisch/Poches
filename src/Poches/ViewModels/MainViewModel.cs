@@ -16,13 +16,15 @@ public sealed partial class MainViewModel : ReloadingViewModel, IBreakdown
     private readonly AppSettings _settings;
     private readonly BackupService _backup;
     private readonly IDialogService _dialogs;
+    private readonly ProService _pro;
 
-    public MainViewModel(BudgetStore store, AppSettings settings, BackupService backup, IDialogService dialogs)
+    public MainViewModel(BudgetStore store, AppSettings settings, BackupService backup, IDialogService dialogs, ProService pro)
     {
         _store = store;
         _settings = settings;
         _backup = backup;
         _dialogs = dialogs;
+        _pro = pro;
     }
 
     public ObservableCollection<PocketItemViewModel> Pockets { get; } = [];
@@ -76,6 +78,9 @@ public sealed partial class MainViewModel : ReloadingViewModel, IBreakdown
     private bool _showBackupReminder;
 
     [ObservableProperty]
+    private bool _isProLocked;
+
+    [ObservableProperty]
     private string _backupReminderText = string.Empty;
 
     protected override async Task LoadCoreAsync()
@@ -100,6 +105,7 @@ public sealed partial class MainViewModel : ReloadingViewModel, IBreakdown
         HasChart = Pockets.Any(p => p.Balance > 0);
         (ChartSlices, Legend) = Breakdown.Build(Pockets.Select(p => (p.Name, p.Color, p.Balance)), formatter);
         UpdateBackupReminder();
+        IsProLocked = !_pro.IsUnlocked;
         IsLoaded = true;
     }
 
@@ -131,6 +137,20 @@ public sealed partial class MainViewModel : ReloadingViewModel, IBreakdown
 
     [RelayCommand]
     private Task OpenSettingsAsync() => Shell.Current.GoToAsync(Routes.Settings);
+
+    [RelayCommand]
+    private async Task SplitIncomeAsync()
+    {
+        if (await _pro.EnsureUnlockedAsync())
+            await Shell.Current.GoToAsync(Routes.Split);
+    }
+
+    [RelayCommand]
+    private async Task OpenStatisticsAsync()
+    {
+        if (await _pro.EnsureUnlockedAsync())
+            await Shell.Current.GoToAsync(Routes.Statistics);
+    }
 
     [RelayCommand]
     private async Task BackupNowAsync()

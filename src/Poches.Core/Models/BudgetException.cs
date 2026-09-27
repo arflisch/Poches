@@ -17,6 +17,8 @@ public enum BudgetError
     BackupFromNewerVersion,
     CorruptBackup,
     WrongPassword,
+    SplitOverHundredPercent,
+    NoSplitRules,
 }
 
 /// <summary>A business rule was violated. <see cref="Exception.Message"/> is for logs; show <see cref="Error"/> translated.</summary>

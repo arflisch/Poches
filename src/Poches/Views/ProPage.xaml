@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Poches.Views.ProPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:ProViewModel"
+    ios:Page.ModalPresentationStyle="PageSheet"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="ModalAnimated"
+    SafeAreaEdges="All">
+
+    <ContentPage.Resources>
+        <Style x:Key="FeatureEmoji" TargetType="Border">
+            <Setter Property="HeightRequest" Value="44" />
+            <Setter Property="WidthRequest" Value="44" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+            <Setter Property="VerticalOptions" Value="Start" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Label
+            Padding="20,18,20,6"
+            c:Touch.Command="{Binding CloseCommand}"
+            HorizontalOptions="Start"
+            Style="{StaticResource LinkLabel}"
+            Text="{l:Tr Common_Close}" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,6,20,24" Spacing="18">
+                <!-- Hero -->
+                <Border
+                    Background="{StaticResource HeroGradient}"
+                    Shadow="{StaticResource FloatingShadow}"
+                    StrokeShape="RoundRectangle 28"
+                    StrokeThickness="0">
+                    <Grid>
+                        <Ellipse
+                            Margin="0,-110,-80,0"
+                            Fill="#1AFFFFFF"
+                            HeightRequest="240"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            WidthRequest="240" />
+                        <VerticalStackLayout Padding="24,24,24,24" Spacing="6">
+                            <Label FontSize="40" Text="✨" />
+                            <Label
+                                FontFamily="OpenSansSemibold"
+                                FontSize="30"
+                                Text="Poches Pro"
+                                TextColor="White" />
+                            <Label FontSize="16" Text="{l:Tr Pro_Tagline}" TextColor="{StaticResource WhiteSoft}" />
+                            <Border
+                                Margin="0,8,0,0"
+                                Padding="12,5"
+                                BackgroundColor="{StaticResource WhiteGlass}"
+                                HorizontalOptions="Start"
+                                StrokeShape="RoundRectangle 14"
+                                StrokeThickness="0">
+                                <Label
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="13"
+                                    Text="{l:Tr Pro_OneTime}"
+                                    TextColor="White" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- What Pro adds -->
+                <Border Padding="16,6" Style="{StaticResource Card}">
+                    <VerticalStackLayout>
+                        <Grid Padding="0,12" ColumnDefinitions="44,*" ColumnSpacing="14">
+                            <Border BackgroundColor="#2610B981" Style="{StaticResource FeatureEmoji}">
+                                <Label FontSize="21" HorizontalOptions="Center" Text="🔁" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Pro_ScheduledTitle}" />
+                                <Label Style="{StaticResource Caption}" Text="{l:Tr Pro_ScheduledText}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <BoxView Margin="58,0,0,0" Style="{StaticResource Divider}" />
+                        <Grid Padding="0,12" ColumnDefinitions="44,*" ColumnSpacing="14">
+                            <Border BackgroundColor="#26F59E0B" Style="{StaticResource FeatureEmoji}">
+                                <Label FontSize="21" HorizontalOptions="Center" Text="💶" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Pro_SplitTitle}" />
+                                <Label Style="{StaticResource Caption}" Text="{l:Tr Pro_SplitText}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <BoxView Margin="58,0,0,0" Style="{StaticResource Divider}" />
+                        <Grid Padding="0,12" ColumnDefinitions="44,*" ColumnSpacing="14">
+                            <Border BackgroundColor="#266366F1" Style="{StaticResource FeatureEmoji}">
+                                <Label FontSize="21" HorizontalOptions="Center" Text="📈" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Pro_StatsTitle}" />
+                                <Label Style="{StaticResource Caption}" Text="{l:Tr Pro_StatsText}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                        <BoxView Margin="58,0,0,0" Style="{StaticResource Divider}" />
+                        <Grid Padding="0,12" ColumnDefinitions="44,*" ColumnSpacing="14">
+                            <Border BackgroundColor="#260891B2" Style="{StaticResource FeatureEmoji}">
+                                <Label FontSize="21" HorizontalOptions="Center" Text="📄" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Pro_ExportTitle}" />
+                                <Label Style="{StaticResource Caption}" Text="{l:Tr Pro_ExportText}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Already unlocked -->
+                <Border IsVisible="{Binding IsUnlocked}" Padding="18,16" Style="{StaticResource Card}">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                        <Border BackgroundColor="#2610B981" Padding="9" Style="{StaticResource FeatureEmoji}" VerticalOptions="Center">
+                            <c:IconView Color="#10B981" Data="{x:Static c:Icons.Check}" StrokeWidth="2.6" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Style="{StaticResource RowTitle}" Text="{l:Tr Pro_UnlockedTitle}" />
+                            <Label Style="{StaticResource Caption}" Text="{l:Tr Pro_UnlockedText}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+                <Label
+                    c:Touch.Command="{Binding LockForTestingCommand}"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsUnlocked}"
+                    Style="{StaticResource LinkLabel}"
+                    Text="{l:Tr Pro_TestLock}">
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding IsTestBuild}" TargetType="Label" Value="False">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Buy -->
+        <VerticalStackLayout Grid.Row="2" Padding="20,8,20,16" IsVisible="{Binding IsLocked}" Spacing="12">
+            <Border c:Touch.Command="{Binding BuyCommand}" Style="{StaticResource PrimaryButton}">
+                <Grid>
+                    <Label
+                        IsVisible="{Binding IsBusy, Converter={StaticResource InvertBool}}"
+                        Style="{StaticResource PrimaryButtonText}"
+                        Text="{Binding BuyText}" />
+                    <ActivityIndicator
+                        HeightRequest="24"
+                        IsRunning="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        WidthRequest="24"
+                        Color="White" />
+                </Grid>
+            </Border>
+            <Label
+                c:Touch.Command="{Binding RestoreCommand}"
+                HorizontalOptions="Center"
+                Style="{StaticResource LinkLabel}"
+                Text="{l:Tr Pro_Restore}" />
+            <Label
+                c:Touch.Command="{Binding UnlockForTestingCommand}"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsTestBuild}"
+                Style="{StaticResource LinkLabel}"
+                Text="{l:Tr Pro_TestUnlock}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

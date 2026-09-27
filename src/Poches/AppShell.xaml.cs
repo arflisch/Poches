@@ -13,6 +13,10 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(Routes.Movement, typeof(MovementPage));
         Routing.RegisterRoute(Routes.Settings, typeof(SettingsPage));
         Routing.RegisterRoute(Routes.EditSubscription, typeof(SubscriptionEditPage));
+        Routing.RegisterRoute(Routes.Pro, typeof(ProPage));
+        Routing.RegisterRoute(Routes.ScheduledDeposit, typeof(ScheduledDepositPage));
+        Routing.RegisterRoute(Routes.Split, typeof(SplitPage));
+        Routing.RegisterRoute(Routes.Statistics, typeof(StatisticsPage));
 
 #if ANDROID
         // Android draws an opaque bottom bar: match the app's surfaces and accent (iOS keeps its native glass bar).

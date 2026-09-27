@@ -115,6 +115,42 @@
                     </Grid>
                 </Border>
 
+                <!-- Poches Pro shortcuts -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" IsVisible="{Binding HasPockets}">
+                    <Border Padding="14,12" c:Touch.Command="{Binding SplitIncomeCommand}" Style="{StaticResource Card}">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="6">
+                            <Label FontSize="22" Text="💶" />
+                            <Border Grid.Column="1" IsVisible="{Binding IsProLocked}" Style="{StaticResource ProBadge}">
+                                <Label Style="{StaticResource ProBadgeText}" />
+                            </Border>
+                            <Label
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                FontSize="14"
+                                Style="{StaticResource Strong}"
+                                Text="{l:Tr Main_Split}" />
+                        </Grid>
+                    </Border>
+                    <Border
+                        Grid.Column="1"
+                        Padding="14,12"
+                        c:Touch.Command="{Binding OpenStatisticsCommand}"
+                        Style="{StaticResource Card}">
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="6">
+                            <Label FontSize="22" Text="📈" />
+                            <Border Grid.Column="1" IsVisible="{Binding IsProLocked}" Style="{StaticResource ProBadge}">
+                                <Label Style="{StaticResource ProBadgeText}" />
+                            </Border>
+                            <Label
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                FontSize="14"
+                                Style="{StaticResource Strong}"
+                                Text="{l:Tr Pro_StatsTitle}" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
                 <!-- Backup reminder -->
                 <Border
                     Padding="14"

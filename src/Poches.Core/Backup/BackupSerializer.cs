@@ -58,12 +58,14 @@ public static class BackupSerializer
             throw new BudgetException(BudgetError.BackupFromNewerVersion, $"Backup version {document.Version} is newer than supported version {BackupDocument.CurrentVersion}.");
 
         // The source generator assigns every init property, so a list missing from the file (subscriptions in a
-        // version 1 backup) arrives as null instead of keeping its empty default.
+        // version 1 backup, scheduled deposits before version 4) arrives as null instead of its empty default.
         return document with
         {
             Pockets = document.Pockets ?? [],
             Movements = document.Movements ?? [],
             Subscriptions = document.Subscriptions ?? [],
+            ScheduledDeposits = document.ScheduledDeposits ?? [],
+            SplitRules = document.SplitRules ?? [],
         };
     }
 

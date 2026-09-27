@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Poches.Views.SplitPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:SplitViewModel"
+    ios:Page.ModalPresentationStyle="PageSheet"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="ModalAnimated"
+    SafeAreaEdges="All">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Sheet header -->
+        <Grid Padding="20,18,20,6" ColumnDefinitions="90,*,90">
+            <Label
+                c:Touch.Command="{Binding CancelCommand}"
+                Style="{StaticResource LinkLabel}"
+                Text="{l:Tr Common_Cancel}" />
+            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="{l:Tr Split_Title}" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,14,20,24" Spacing="22">
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Split_Income}" />
+                    <Border Style="{StaticResource InputField}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Entry Keyboard="Numeric" Placeholder="{Binding AmountPlaceholder}" Text="{Binding AmountText}" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{StaticResource Secondary}"
+                                Text="{Binding Currency}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Border Style="{StaticResource InputField}">
+                        <Grid ColumnDefinitions="20,*" ColumnSpacing="10">
+                            <c:IconView
+                                Color="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                Data="{x:Static c:Icons.Note}"
+                                HeightRequest="20"
+                                VerticalOptions="Center"
+                                WidthRequest="20" />
+                            <Entry Grid.Column="1" MaxLength="60" Placeholder="{l:Tr Split_DefaultNote}" Text="{Binding Note}" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource InputField}">
+                        <Grid ColumnDefinitions="20,*" ColumnSpacing="10">
+                            <c:IconView
+                                Color="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                Data="{x:Static c:Icons.Calendar}"
+                                HeightRequest="20"
+                                VerticalOptions="Center"
+                                WidthRequest="20" />
+                            <DatePicker Grid.Column="1" Date="{Binding Date}" Format="d MMM yyyy" />
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Split_Shares}" />
+                    <Label Style="{StaticResource Caption}" Text="{l:Tr Split_SharesHint}" />
+                    <Border Padding="14,4" Style="{StaticResource Card}">
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Rows}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SplitRowViewModel">
+                                    <Grid Padding="0,10" ColumnDefinitions="40,*,86" ColumnSpacing="12">
+                                        <Border
+                                            BackgroundColor="{Binding SoftColor}"
+                                            HeightRequest="40"
+                                            StrokeShape="RoundRectangle 13"
+                                            StrokeThickness="0"
+                                            VerticalOptions="Center"
+                                            WidthRequest="40">
+                                            <Label FontSize="19" HorizontalOptions="Center" Text="{Binding Icon}" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="1" VerticalOptions="Center">
+                                            <Label LineBreakMode="TailTruncation" Style="{StaticResource RowTitle}" Text="{Binding Name}" />
+                                            <Label Style="{StaticResource Caption}" Text="{Binding AmountPreview}" />
+                                        </VerticalStackLayout>
+                                        <Border
+                                            Grid.Column="2"
+                                            Padding="10,0"
+                                            HeightRequest="44"
+                                            Style="{StaticResource InputField}"
+                                            VerticalOptions="Center">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <Entry
+                                                    HorizontalTextAlignment="End"
+                                                    Keyboard="Numeric"
+                                                    Placeholder="0"
+                                                    Text="{Binding PercentText}" />
+                                                <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="%" VerticalOptions="Center" />
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Grid Margin="4,2,4,0" ColumnDefinitions="*,Auto">
+                        <Label FontFamily="OpenSansSemibold" FontSize="14" Text="{Binding TotalText}">
+                            <Label.Triggers>
+                                <DataTrigger Binding="{Binding IsOverHundred}" TargetType="Label" Value="True">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource NegativeLight}, Dark={StaticResource NegativeDark}}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                        <Label
+                            Grid.Column="1"
+                            IsVisible="{Binding HasUnallocated}"
+                            Style="{StaticResource Caption}"
+                            Text="{Binding UnallocatedText}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Actions -->
+        <VerticalStackLayout Grid.Row="2" Padding="20,8,20,16" Spacing="10">
+            <Label IsVisible="{Binding HasError}" Style="{StaticResource ErrorLabel}" Text="{Binding ErrorMessage}" />
+            <Border c:Touch.Command="{Binding SplitCommand}" Style="{StaticResource PrimaryButton}">
+                <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Split_Confirm}" />
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

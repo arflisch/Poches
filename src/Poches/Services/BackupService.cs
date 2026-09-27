@@ -1,6 +1,7 @@
 using Poches.Core.Backup;
 using Poches.Core.Data;
 using Poches.Core.Models;
+using Poches.Core.Pro;
 using Poches.ViewModels;
 
 namespace Poches.Services;
@@ -34,27 +35,51 @@ public sealed class BackupService(
         var path = Path.Combine(FileSystem.CacheDirectory, $"poches-{now:yyyy-MM-dd}.json");
         await File.WriteAllBytesAsync(path, encrypted);
 
+        var outcome = await HandOverAsync(path, Localization.Loc.Get("Backup_ShareTitle"), "application/json");
+        if (outcome != BackupOutcome.Cancelled)
+            settings.LastBackupAt = now;
+        return outcome;
+    }
+
+    /// <summary>Every movement as a CSV file for a spreadsheet, shared or saved like a backup (Poches Pro).</summary>
+    public async Task<BackupOutcome> ExportCsvAsync()
+    {
+        var texts = new CsvTexts(
+            Localization.Loc.Get("Csv_Date"),
+            Localization.Loc.Get("Csv_Pocket"),
+            Localization.Loc.Get("Csv_Type"),
+            Localization.Loc.Get("Csv_Amount"),
+            Localization.Loc.Get("Csv_Note"),
+            Localization.Loc.Get("Kind_Deposit"),
+            Localization.Loc.Get("Kind_Withdrawal"),
+            Localization.Loc.Get("Kind_To"),
+            Localization.Loc.Get("Kind_From"));
+        var csv = await store.ExportCsvAsync(texts, Localization.Localizer.Instance.Culture);
+
+        var path = Path.Combine(FileSystem.CacheDirectory, $"poches-{Localization.Loc.Get("Csv_FileName")}-{DateTime.Now:yyyy-MM-dd}.csv");
+        await File.WriteAllBytesAsync(path, csv);
+        return await HandOverAsync(path, Localization.Loc.Get("Csv_Export"), "text/csv");
+    }
+
+    /// <summary>Lets the user decide where the file goes: the share sheet, or the Save panel on a Mac.</summary>
+    private async Task<BackupOutcome> HandOverAsync(string path, string title, string contentType)
+    {
         await PresentationGuard.WaitUntilSettledAsync();
 #if MACCATALYST
         // On a Mac, a Save panel is expected rather than a share menu.
         _ = share;
-        var outcome = await filePicker.SaveAsync(path) ? BackupOutcome.Saved : BackupOutcome.Cancelled;
+        _ = (title, contentType);
+        return await filePicker.SaveAsync(path) ? BackupOutcome.Saved : BackupOutcome.Cancelled;
 #elif IOS
         // Unlike MAUI's share, the native sheet says whether the file was saved or sent, or the sheet closed.
         _ = share;
-        var outcome = await filePicker.ShareAsync(path) ? BackupOutcome.Saved : BackupOutcome.Cancelled;
+        _ = (title, contentType);
+        return await filePicker.ShareAsync(path) ? BackupOutcome.Saved : BackupOutcome.Cancelled;
 #else
-        await share.RequestAsync(new ShareFileRequest
-        {
-            Title = Localization.Loc.Get("Backup_ShareTitle"),
-            File = new ShareFile(path, "application/json"),
-        });
+        await share.RequestAsync(new ShareFileRequest { Title = title, File = new ShareFile(path, contentType) });
         // Android does not tell whether the file actually went anywhere.
-        var outcome = BackupOutcome.HandedOver;
+        return BackupOutcome.HandedOver;
 #endif
-        if (outcome != BackupOutcome.Cancelled)
-            settings.LastBackupAt = now;
-        return outcome;
     }
 
     /// <summary>Lets the user pick a backup file, asking for its password when it is encrypted; null if cancelled.</summary>
