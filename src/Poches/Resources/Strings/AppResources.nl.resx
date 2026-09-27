@@ -683,4 +683,10 @@ Je huidige gegevens worden vervangen.</value>
   <data name="Backup_Saved" xml:space="preserve">
     <value>Back-up bewaard</value>
   </data>
+  <data name="Lock_Fingerprint" xml:space="preserve">
+    <value>vingerafdruk</value>
+  </data>
+  <data name="Settings_BackupHintAndroid" xml:space="preserve">
+    <value>Het bestand wordt versleuteld met een wachtwoord dat je zelf kiest. Bewaar het in Google Drive of mail het naar jezelf: je kunt het dan op een andere telefoon terugzetten, zelfs op een iPhone.</value>
+  </data>
 </root>

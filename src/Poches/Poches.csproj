@@ -76,6 +76,11 @@
 		<PackageReference Include="Plugin.LocalNotification" Version="14.1.2" />
 	</ItemGroup>
 
+	<!-- Fingerprint / face unlock with the device PIN as fallback (app lock). -->
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+		<PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0.30" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\Poches.Core\Poches.Core.csproj" />
 	</ItemGroup>

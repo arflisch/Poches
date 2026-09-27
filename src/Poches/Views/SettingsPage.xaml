@@ -199,14 +199,19 @@
                 </Border>
                 <Label
                     Margin="4,2,4,0"
-                    IsVisible="{OnIdiom Default=True, Desktop=False}"
+                    IsVisible="{OnPlatform Default=False, iOS=True}"
                     Style="{StaticResource Caption}"
                     Text="{l:Tr Settings_BackupHint}" />
                 <Label
                     Margin="4,2,4,0"
-                    IsVisible="{OnIdiom Default=False, Desktop=True}"
+                    IsVisible="{OnPlatform Default=False, MacCatalyst=True}"
                     Style="{StaticResource Caption}"
                     Text="{l:Tr Settings_BackupHintMac}" />
+                <Label
+                    Margin="4,2,4,0"
+                    IsVisible="{OnPlatform Default=False, Android=True}"
+                    Style="{StaticResource Caption}"
+                    Text="{l:Tr Settings_BackupHintAndroid}" />
 
                 <!-- Danger zone -->
                 <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_DataSection}" />

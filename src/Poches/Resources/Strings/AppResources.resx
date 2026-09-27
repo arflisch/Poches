@@ -683,4 +683,10 @@ Your current data will be replaced.</value>
   <data name="Backup_Saved" xml:space="preserve">
     <value>Backup saved</value>
   </data>
+  <data name="Lock_Fingerprint" xml:space="preserve">
+    <value>fingerprint</value>
+  </data>
+  <data name="Settings_BackupHintAndroid" xml:space="preserve">
+    <value>The file is encrypted with a password you choose. Save it to Google Drive or email it to yourself: you'll be able to restore it on another phone, even an iPhone.</value>
+  </data>
 </root>

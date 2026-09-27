@@ -21,8 +21,13 @@ public sealed class AppLock(AppSettings settings, DeviceAuthentication authentic
     public void Attach(Window window)
     {
         _window = window;
-        window.Created += (_, _) => LockIfEnabled();
+        window.Created += (_, _) =>
+        {
+            LockScreen.HideFromRecents(IsEnabled);
+            LockIfEnabled();
+        };
         window.Stopped += (_, _) => LockIfEnabled();
+        settings.Changed += (_, _) => LockScreen.HideFromRecents(IsEnabled);
     }
 
     /// <summary>Called by the lock screen's button: Face ID is only asked for when the owner wants it.</summary>
