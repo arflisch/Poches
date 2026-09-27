@@ -7,6 +7,7 @@
     <Shadow x:Key="CardShadow" Brush="#0F172A" Opacity="0.07" Radius="18" Offset="0,6" />
     <Shadow x:Key="NoShadow" Brush="Transparent" Opacity="0" Radius="0" Offset="0,0" />
     <Shadow x:Key="FloatingShadow" Brush="#4F46E5" Opacity="0.35" Radius="20" Offset="0,8" />
+    <Shadow x:Key="ChargesShadow" Brush="#0E7490" Opacity="0.35" Radius="20" Offset="0,8" />
 
     <!-- Full-window pages stay a readable column when the window is wide (Mac, iPad). -->
     <Style x:Key="PageColumn" TargetType="Grid">

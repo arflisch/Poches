@@ -88,7 +88,7 @@
                 <!-- Monthly cost -->
                 <Border
                     Background="{StaticResource SubscriptionsGradient}"
-                    Shadow="{StaticResource FloatingShadow}"
+                    Shadow="{StaticResource ChargesShadow}"
                     StrokeShape="RoundRectangle 28"
                     StrokeThickness="0">
                     <Grid>
@@ -214,6 +214,7 @@
                         <Border
                             Margin="0,10,0,0"
                             c:Touch.Command="{Binding AddSubscriptionCommand}"
+                            Background="{StaticResource ChargesAccentGradient}"
                             Style="{StaticResource PrimaryButton}">
                             <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Subs_AddFirst}" />
                         </Border>
@@ -258,11 +259,11 @@
                 Margin="0,0,20,20"
                 Padding="22,0"
                 c:Touch.Command="{Binding AddSubscriptionCommand}"
-                Background="{StaticResource AccentGradient}"
+                Background="{StaticResource ChargesAccentGradient}"
                 HeightRequest="58"
                 HorizontalOptions="End"
                 IsVisible="{Binding HasCharges}"
-                Shadow="{StaticResource FloatingShadow}"
+                Shadow="{StaticResource ChargesShadow}"
                 StrokeShape="RoundRectangle 29"
                 StrokeThickness="0"
                 VerticalOptions="End"
