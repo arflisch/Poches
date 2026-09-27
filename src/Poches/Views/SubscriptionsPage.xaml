@@ -67,27 +67,16 @@
     <!-- Top, left and right stay clear of the notch; the list scrolls under the tab bar. -->
     <Grid SafeAreaEdges="Container,Container,Container,None" Style="{StaticResource PageColumn}">
         <ScrollView SafeAreaEdges="None">
-            <VerticalStackLayout Padding="20,12,20,120" Spacing="22">
+            <VerticalStackLayout Padding="20,12,20,180" Spacing="22">
 
                 <!-- Header -->
-                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                     <VerticalStackLayout Spacing="0" VerticalOptions="Center">
                         <Label Style="{StaticResource Caption}" Text="{Binding TodayText}" />
                         <Label Style="{StaticResource LargeTitle}" Text="{l:Tr Subs_Title}" />
                     </VerticalStackLayout>
                     <Border
                         Grid.Column="1"
-                        c:Touch.Command="{Binding AddSubscriptionCommand}"
-                        Style="{StaticResource IconButton}"
-                        VerticalOptions="Center"
-                        SemanticProperties.Description="{l:Tr Subs_AddFirst}">
-                        <c:IconView
-                            Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
-                            Data="{x:Static c:Icons.Plus}"
-                            StrokeWidth="2.2" />
-                    </Border>
-                    <Border
-                        Grid.Column="2"
                         c:Touch.Command="{Binding OpenSettingsCommand}"
                         Style="{StaticResource IconButton}"
                         VerticalOptions="Center"
@@ -260,5 +249,40 @@
             </VerticalStackLayout>
         </ScrollView>
 
+        <!-- Same floating button as on the Pockets tab, above the home indicator while the list scrolls beneath it -->
+        <Grid
+            CascadeInputTransparent="False"
+            InputTransparent="True"
+            SafeAreaEdges="Container">
+            <Border
+                Margin="0,0,20,20"
+                Padding="22,0"
+                c:Touch.Command="{Binding AddSubscriptionCommand}"
+                Background="{StaticResource AccentGradient}"
+                HeightRequest="58"
+                HorizontalOptions="End"
+                IsVisible="{Binding HasCharges}"
+                Shadow="{StaticResource FloatingShadow}"
+                StrokeShape="RoundRectangle 29"
+                StrokeThickness="0"
+                VerticalOptions="End"
+                SemanticProperties.Description="{l:Tr Subs_AddFirst}">
+                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                    <c:IconView
+                        Color="White"
+                        Data="{x:Static c:Icons.Plus}"
+                        HeightRequest="22"
+                        StrokeWidth="2.4"
+                        VerticalOptions="Center"
+                        WidthRequest="22" />
+                    <Label
+                        FontFamily="OpenSansSemibold"
+                        FontSize="16"
+                        Text="{l:Tr Main_Add}"
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
     </Grid>
 </ContentPage>

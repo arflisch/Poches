@@ -64,6 +64,10 @@ public sealed partial class SubscriptionsViewModel(BudgetStore store, AppSetting
     [ObservableProperty]
     private bool _hasInactive;
 
+    /// <summary>The empty state has its own button; otherwise the floating one adds a charge.</summary>
+    [ObservableProperty]
+    private bool _hasCharges;
+
     [ObservableProperty]
     private bool _hasChart;
 
@@ -109,6 +113,7 @@ public sealed partial class SubscriptionsViewModel(BudgetStore store, AppSetting
         HasActive = Active.Count > 0;
         HasInactive = Inactive.Count > 0;
         IsEmpty = !HasActive && !HasInactive;
+        HasCharges = !IsEmpty;
 
         HasChart = overview.MonthlyTotal > 0;
         ChartCenterValue = Active.Count.ToString(Localizer.Instance.Culture);
