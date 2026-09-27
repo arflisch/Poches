@@ -137,7 +137,8 @@ public sealed partial class MainViewModel : ReloadingViewModel, IBreakdown
     {
         try
         {
-            await _backup.ShareBackupAsync();
+            if (await _backup.ShareBackupAsync() == BackupOutcome.Saved)
+                SuccessToast.Show(Loc.Get("Backup_Saved"));
         }
         catch (Exception ex)
         {

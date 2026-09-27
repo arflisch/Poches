@@ -184,7 +184,7 @@ public sealed partial class SubscriptionEditViewModel : ObservableObject, IQuery
         try
         {
             await _store.SaveSubscriptionAsync(_subscription);
-            Palette.Haptic();
+            SuccessToast.Show(Loc.Get("Toast_Saved"));
             await Shell.Current.GoToAsync("..");
             if (IsActive)
                 await _reminders.EnsurePermissionAsync();

@@ -225,7 +225,7 @@ public sealed partial class MovementViewModel : ObservableObject, IQueryAttribut
                     await _store.TransferAsync(Source.Id, Target!.Id, amount, Note, date);
                     break;
             }
-            Palette.Haptic();
+            SuccessToast.Show(Loc.Get("Toast_Saved"));
             await Shell.Current.GoToAsync("..");
         }
         catch (BudgetException ex)

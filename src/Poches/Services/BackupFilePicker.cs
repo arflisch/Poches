@@ -24,6 +24,30 @@ public sealed class BackupFilePicker(IFilePicker filePicker)
 #endif
     }
 
+#if IOS
+    /// <summary>Shows the share sheet for the file; true once it was saved or sent, false if the sheet was closed.</summary>
+    public Task<bool> ShareAsync(string path)
+    {
+        var result = new TaskCompletionSource<bool>();
+        var sheet = new UIActivityViewController([Foundation.NSUrl.FromFilename(path)], null)
+        {
+            CompletionWithItemsHandler = (_, completed, _, _) => result.TrySetResult(completed),
+        };
+
+        var presenter = Platform.GetCurrentUIViewController()
+            ?? throw new InvalidOperationException("No view controller to present the share sheet from.");
+        if (sheet.PopoverPresentationController is { } popover && presenter.View is { } view)
+        {
+            // iPad: anchor the popover in the middle of the screen.
+            popover.SourceView = view;
+            popover.SourceRect = new CoreGraphics.CGRect(view.Bounds.Width / 2, view.Bounds.Height / 2, 0, 0);
+            popover.PermittedArrowDirections = 0;
+        }
+        presenter.PresentViewController(sheet, true, null);
+        return result.Task;
+    }
+#endif
+
 #if MACCATALYST
     /// <summary>Shows the Mac "Save" panel for the file at <paramref name="path"/>; false if the user cancelled.</summary>
     public Task<bool> SaveAsync(string path)

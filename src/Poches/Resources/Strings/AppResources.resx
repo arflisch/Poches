@@ -677,4 +677,10 @@ Your current data will be replaced.</value>
   <data name="Sample_CarLoan" xml:space="preserve">
     <value>Car loan</value>
   </data>
+  <data name="Toast_Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="Backup_Saved" xml:space="preserve">
+    <value>Backup saved</value>
+  </data>
 </root>

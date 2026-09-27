@@ -101,7 +101,7 @@ public sealed partial class EditPocketViewModel : ObservableObject, IQueryAttrib
         try
         {
             await _store.SavePocketAsync(_pocket, initialAmount, Loc.Get("Edit_InitialNote"));
-            Palette.Haptic();
+            SuccessToast.Show(Loc.Get("Toast_Saved"));
             await Shell.Current.GoToAsync("..");
         }
         catch (BudgetException ex)

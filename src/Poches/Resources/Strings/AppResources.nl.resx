@@ -677,4 +677,10 @@ Je huidige gegevens worden vervangen.</value>
   <data name="Sample_CarLoan" xml:space="preserve">
     <value>Autolening</value>
   </data>
+  <data name="Toast_Saved" xml:space="preserve">
+    <value>Opgeslagen</value>
+  </data>
+  <data name="Backup_Saved" xml:space="preserve">
+    <value>Back-up bewaard</value>
+  </data>
 </root>

@@ -13,10 +13,10 @@ public sealed class BackupService(
     public static readonly TimeSpan ReminderAge = TimeSpan.FromDays(30);
 
     /// <summary>
-    /// Asks for a password, writes an encrypted backup file and opens the share sheet so the user decides where
-    /// to keep it. Returns false if the user cancelled.
+    /// Asks for a password, writes an encrypted backup file and opens the share sheet (the Save panel on a Mac)
+    /// so the user decides where to keep it.
     /// </summary>
-    public async Task<bool> ShareBackupAsync()
+    public async Task<BackupOutcome> ShareBackupAsync()
     {
         var now = DateTime.Now;
         var document = await store.ExportAsync(now) with { Currency = settings.Currency };
@@ -29,26 +29,32 @@ public sealed class BackupService(
             return null;
         });
         if (password is null || encrypted is null)
-            return false;
+            return BackupOutcome.Cancelled;
 
         var path = Path.Combine(FileSystem.CacheDirectory, $"poches-{now:yyyy-MM-dd}.json");
         await File.WriteAllBytesAsync(path, encrypted);
 
+        await PresentationGuard.WaitUntilSettledAsync();
 #if MACCATALYST
         // On a Mac, a Save panel is expected rather than a share menu.
         _ = share;
-        await PresentationGuard.WaitUntilSettledAsync();
-        if (!await filePicker.SaveAsync(path))
-            return false;
+        var outcome = await filePicker.SaveAsync(path) ? BackupOutcome.Saved : BackupOutcome.Cancelled;
+#elif IOS
+        // Unlike MAUI's share, the native sheet says whether the file was saved or sent, or the sheet closed.
+        _ = share;
+        var outcome = await filePicker.ShareAsync(path) ? BackupOutcome.Saved : BackupOutcome.Cancelled;
 #else
         await share.RequestAsync(new ShareFileRequest
         {
             Title = Localization.Loc.Get("Backup_ShareTitle"),
             File = new ShareFile(path, "application/json"),
         });
+        // Android does not tell whether the file actually went anywhere.
+        var outcome = BackupOutcome.HandedOver;
 #endif
-        settings.LastBackupAt = now;
-        return true;
+        if (outcome != BackupOutcome.Cancelled)
+            settings.LastBackupAt = now;
+        return outcome;
     }
 
     /// <summary>Lets the user pick a backup file, asking for its password when it is encrypted; null if cancelled.</summary>
@@ -91,4 +97,16 @@ public sealed class BackupService(
         if (backup.Currency is { } currency && AppSettings.Currencies.Contains(currency))
             settings.Currency = currency;
     }
+}
+
+public enum BackupOutcome
+{
+    /// <summary>The user closed the password sheet, the share sheet or the Save panel.</summary>
+    Cancelled,
+
+    /// <summary>The file was saved or sent.</summary>
+    Saved,
+
+    /// <summary>The file was handed to the system share menu, which does not report what happened next.</summary>
+    HandedOver,
 }

@@ -147,8 +147,11 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
         IsBusy = true;
         try
         {
-            if (await _backup.ShareBackupAsync())
+            var outcome = await _backup.ShareBackupAsync();
+            if (outcome != BackupOutcome.Cancelled)
                 RefreshBackupText();
+            if (outcome == BackupOutcome.Saved)
+                SuccessToast.Show(Loc.Get("Backup_Saved"));
         }
         catch (Exception ex)
         {
