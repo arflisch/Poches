@@ -1,6 +1,6 @@
 # Poches
 
-Application mobile de budget par « poches » (vacances, épargne, investissement…), en **.NET MAUI 10** pour **iPhone et Android**.
+Application mobile de budget par « poches » (vacances, épargne, investissement…), en **.NET MAUI 10** pour **iPhone, iPad, Mac et Android**.
 
 | Accueil | Détail d'une poche | Abonnements | Mode sombre | Premier lancement |
 |---|---|---|---|---|
@@ -97,6 +97,10 @@ Prérequis communs : SDK .NET 10 et workload MAUI (`dotnet workload install maui
    ```bash
    dotnet build src/Poches -t:Run -f net10.0-android
    ```
+
+### iPad
+
+Même app que sur iPhone, adaptée au grand écran : dès que la page dépasse 820 points de large (iPad en portrait ou en paysage, grande fenêtre sur Mac), l'accueil, les charges fixes, les statistiques et le détail d'une poche passent sur deux colonnes (contrôle `TwoPane`). Les feuilles (ajout, réglages, Poches Pro…) s'ouvrent en fenêtre centrée de la taille d'un téléphone au lieu de couvrir l'écran. Sur iPhone, rien ne change.
 
 ### Mac (Mac Catalyst)
 

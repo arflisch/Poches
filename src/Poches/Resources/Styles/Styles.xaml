@@ -9,9 +9,9 @@
     <Shadow x:Key="FloatingShadow" Brush="#4F46E5" Opacity="0.35" Radius="20" Offset="0,8" />
     <Shadow x:Key="ChargesShadow" Brush="#0E7490" Opacity="0.35" Radius="20" Offset="0,8" />
 
-    <!-- Full-window pages stay a readable column when the window is wide (Mac, iPad). -->
+    <!-- Full-window pages stay readable on a wide screen: one centred column, split in two by TwoPane (iPad, Mac). -->
     <Style x:Key="PageColumn" TargetType="Grid">
-        <Setter Property="MaximumWidthRequest" Value="660" />
+        <Setter Property="MaximumWidthRequest" Value="1180" />
     </Style>
 
     <!-- ============ Rows of a list card (settings, Pro) ============ -->

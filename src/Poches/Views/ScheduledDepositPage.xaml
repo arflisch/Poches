@@ -8,7 +8,7 @@
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:ScheduledDepositViewModel"
-    ios:Page.ModalPresentationStyle="PageSheet"
+    ios:Page.ModalPresentationStyle="FormSheet"
     Shell.NavBarIsVisible="False"
     Shell.PresentationMode="ModalAnimated"
     SafeAreaEdges="All">

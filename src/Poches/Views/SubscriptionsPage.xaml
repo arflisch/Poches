@@ -85,168 +85,178 @@
                     </Border>
                 </Grid>
 
-                <!-- Monthly cost -->
-                <Border
-                    Background="{StaticResource SubscriptionsGradient}"
-                    Shadow="{StaticResource ChargesShadow}"
-                    StrokeShape="RoundRectangle 28"
-                    StrokeThickness="0">
-                    <Grid>
-                        <Ellipse
-                            Margin="0,-110,-80,0"
-                            Fill="#1AFFFFFF"
-                            HeightRequest="240"
-                            HorizontalOptions="End"
-                            VerticalOptions="Start"
-                            WidthRequest="240" />
-
-                        <VerticalStackLayout Padding="24,22,24,20" Spacing="4">
-                            <Grid ColumnDefinitions="*,Auto">
-                                <Label
-                                    FontSize="15"
-                                    Text="{l:Tr Subs_PerMonth}"
-                                    TextColor="{StaticResource WhiteSoft}"
-                                    VerticalOptions="Center" />
-                                <Border
-                                    Grid.Column="1"
-                                    Padding="7"
-                                    c:Touch.Command="{Binding TogglePrivacyCommand}"
-                                    BackgroundColor="{StaticResource WhiteGlass}"
-                                    HeightRequest="34"
-                                    StrokeShape="RoundRectangle 17"
-                                    StrokeThickness="0"
-                                    WidthRequest="34"
-                                    SemanticProperties.Description="{l:Tr Main_TogglePrivacy}">
-                                    <c:IconView Color="White" Data="{Binding PrivacyIcon}" />
-                                </Border>
-                            </Grid>
-
-                            <Label LineBreakMode="NoWrap">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span
-                                            FontFamily="OpenSansSemibold"
-                                            FontSize="22"
-                                            Text="{Binding MonthlyPrefix}"
-                                            TextColor="{StaticResource WhiteSoft}" />
-                                        <Span
-                                            FontFamily="OpenSansSemibold"
-                                            FontSize="42"
-                                            Text="{Binding MonthlyWhole}"
-                                            TextColor="White" />
-                                        <Span
-                                            FontFamily="OpenSansSemibold"
-                                            FontSize="22"
-                                            Text="{Binding MonthlyFraction}"
-                                            TextColor="{StaticResource WhiteSoft}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-
+                <!-- Phone: one block above the other. iPad or wide window: side by side. -->
+                <c:TwoPane Spacing="22">
+                    <c:TwoPane.Start>
+                        <VerticalStackLayout Spacing="22">
+                            <!-- Monthly cost -->
                             <Border
-                                Margin="0,6,0,0"
-                                Padding="12,5"
-                                BackgroundColor="{StaticResource WhiteGlass}"
-                                HorizontalOptions="Start"
-                                StrokeShape="RoundRectangle 14"
+                                Background="{StaticResource SubscriptionsGradient}"
+                                Shadow="{StaticResource ChargesShadow}"
+                                StrokeShape="RoundRectangle 28"
                                 StrokeThickness="0">
-                                <Label
-                                    FontFamily="OpenSansSemibold"
-                                    FontSize="13"
-                                    Text="{Binding YearlyText}"
-                                    TextColor="White" />
+                                <Grid>
+                                    <Ellipse
+                                        Margin="0,-110,-80,0"
+                                        Fill="#1AFFFFFF"
+                                        HeightRequest="240"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Start"
+                                        WidthRequest="240" />
+
+                                    <VerticalStackLayout Padding="24,22,24,20" Spacing="4">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label
+                                                FontSize="15"
+                                                Text="{l:Tr Subs_PerMonth}"
+                                                TextColor="{StaticResource WhiteSoft}"
+                                                VerticalOptions="Center" />
+                                            <Border
+                                                Grid.Column="1"
+                                                Padding="7"
+                                                c:Touch.Command="{Binding TogglePrivacyCommand}"
+                                                BackgroundColor="{StaticResource WhiteGlass}"
+                                                HeightRequest="34"
+                                                StrokeShape="RoundRectangle 17"
+                                                StrokeThickness="0"
+                                                WidthRequest="34"
+                                                SemanticProperties.Description="{l:Tr Main_TogglePrivacy}">
+                                                <c:IconView Color="White" Data="{Binding PrivacyIcon}" />
+                                            </Border>
+                                        </Grid>
+
+                                        <Label LineBreakMode="NoWrap">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span
+                                                        FontFamily="OpenSansSemibold"
+                                                        FontSize="22"
+                                                        Text="{Binding MonthlyPrefix}"
+                                                        TextColor="{StaticResource WhiteSoft}" />
+                                                    <Span
+                                                        FontFamily="OpenSansSemibold"
+                                                        FontSize="42"
+                                                        Text="{Binding MonthlyWhole}"
+                                                        TextColor="White" />
+                                                    <Span
+                                                        FontFamily="OpenSansSemibold"
+                                                        FontSize="22"
+                                                        Text="{Binding MonthlyFraction}"
+                                                        TextColor="{StaticResource WhiteSoft}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Border
+                                            Margin="0,6,0,0"
+                                            Padding="12,5"
+                                            BackgroundColor="{StaticResource WhiteGlass}"
+                                            HorizontalOptions="Start"
+                                            StrokeShape="RoundRectangle 14"
+                                            StrokeThickness="0">
+                                            <Label
+                                                FontFamily="OpenSansSemibold"
+                                                FontSize="13"
+                                                Text="{Binding YearlyText}"
+                                                TextColor="White" />
+                                        </Border>
+
+                                        <!-- Next payment -->
+                                        <VerticalStackLayout Margin="0,14,0,0" IsVisible="{Binding HasNext}" Spacing="12">
+                                            <BoxView HeightRequest="1" Color="#33FFFFFF" />
+                                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                                <Border
+                                                    BackgroundColor="{StaticResource WhiteGlass}"
+                                                    HeightRequest="40"
+                                                    StrokeShape="RoundRectangle 13"
+                                                    StrokeThickness="0"
+                                                    WidthRequest="40">
+                                                    <Label
+                                                        FontSize="20"
+                                                        HorizontalOptions="Center"
+                                                        Text="{Binding NextIcon}"
+                                                        VerticalOptions="Center" />
+                                                </Border>
+                                                <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
+                                                    <Label
+                                                        FontSize="12"
+                                                        LineBreakMode="TailTruncation"
+                                                        Text="{Binding NextCaption}"
+                                                        TextColor="{StaticResource WhiteSoft}" />
+                                                    <Label
+                                                        FontFamily="OpenSansSemibold"
+                                                        FontSize="15"
+                                                        LineBreakMode="TailTruncation"
+                                                        Text="{Binding NextName}"
+                                                        TextColor="White" />
+                                                </VerticalStackLayout>
+                                                <Label
+                                                    Grid.Column="2"
+                                                    FontFamily="OpenSansSemibold"
+                                                    FontSize="15"
+                                                    Text="{Binding NextAmount}"
+                                                    TextColor="White"
+                                                    VerticalOptions="Center" />
+                                            </Grid>
+                                        </VerticalStackLayout>
+                                    </VerticalStackLayout>
+                                </Grid>
                             </Border>
 
-                            <!-- Next payment -->
-                            <VerticalStackLayout Margin="0,14,0,0" IsVisible="{Binding HasNext}" Spacing="12">
-                                <BoxView HeightRequest="1" Color="#33FFFFFF" />
-                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                                    <Border
-                                        BackgroundColor="{StaticResource WhiteGlass}"
-                                        HeightRequest="40"
-                                        StrokeShape="RoundRectangle 13"
-                                        StrokeThickness="0"
-                                        WidthRequest="40">
-                                        <Label
-                                            FontSize="20"
-                                            HorizontalOptions="Center"
-                                            Text="{Binding NextIcon}"
-                                            VerticalOptions="Center" />
-                                    </Border>
-                                    <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
-                                        <Label
-                                            FontSize="12"
-                                            LineBreakMode="TailTruncation"
-                                            Text="{Binding NextCaption}"
-                                            TextColor="{StaticResource WhiteSoft}" />
-                                        <Label
-                                            FontFamily="OpenSansSemibold"
-                                            FontSize="15"
-                                            LineBreakMode="TailTruncation"
-                                            Text="{Binding NextName}"
-                                            TextColor="White" />
-                                    </VerticalStackLayout>
+                            <!-- Empty state -->
+                            <Border IsVisible="{Binding IsEmpty}" Style="{StaticResource Card}" Padding="24,28">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label FontSize="52" HorizontalOptions="Center" Text="🗓️" />
                                     <Label
-                                        Grid.Column="2"
-                                        FontFamily="OpenSansSemibold"
-                                        FontSize="15"
-                                        Text="{Binding NextAmount}"
-                                        TextColor="White"
-                                        VerticalOptions="Center" />
-                                </Grid>
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource SectionTitle}"
+                                        Text="{l:Tr Subs_EmptyTitle}" />
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Style="{StaticResource Secondary}"
+                                        Text="{l:Tr Subs_EmptyText}" />
+                                    <Border
+                                        Margin="0,10,0,0"
+                                        c:Touch.Command="{Binding AddSubscriptionCommand}"
+                                        Background="{StaticResource ChargesAccentGradient}"
+                                        Style="{StaticResource PrimaryButton}">
+                                        <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Subs_AddFirst}" />
+                                    </Border>
+                                    <Label
+                                        Padding="0,6"
+                                        c:Touch.Command="{Binding LoadSamplesCommand}"
+                                        HorizontalOptions="Center"
+                                        Style="{StaticResource LinkLabel}"
+                                        Text="{l:Tr Main_ExploreSamples}" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Distribution chart -->
+                            <comp:BreakdownCard IsVisible="{Binding HasChart}" />
+                        </VerticalStackLayout>
+                    </c:TwoPane.Start>
+                    <c:TwoPane.End>
+                        <VerticalStackLayout Spacing="22" IsVisible="{Binding HasCharges}">
+                            <!-- Upcoming payments -->
+                            <VerticalStackLayout IsVisible="{Binding HasActive}" Spacing="12">
+                                <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Subs_Upcoming}" />
+                                <VerticalStackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource SubscriptionRow}"
+                                    BindableLayout.ItemsSource="{Binding Active}"
+                                    Spacing="12" />
+                            </VerticalStackLayout>
+
+                            <!-- Paused or cancelled -->
+                            <VerticalStackLayout IsVisible="{Binding HasInactive}" Spacing="12">
+                                <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Subs_Paused}" />
+                                <VerticalStackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource SubscriptionRow}"
+                                    BindableLayout.ItemsSource="{Binding Inactive}"
+                                    Spacing="12" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
-                    </Grid>
-                </Border>
-
-                <!-- Empty state -->
-                <Border IsVisible="{Binding IsEmpty}" Style="{StaticResource Card}" Padding="24,28">
-                    <VerticalStackLayout Spacing="12">
-                        <Label FontSize="52" HorizontalOptions="Center" Text="🗓️" />
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            Style="{StaticResource SectionTitle}"
-                            Text="{l:Tr Subs_EmptyTitle}" />
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            Style="{StaticResource Secondary}"
-                            Text="{l:Tr Subs_EmptyText}" />
-                        <Border
-                            Margin="0,10,0,0"
-                            c:Touch.Command="{Binding AddSubscriptionCommand}"
-                            Background="{StaticResource ChargesAccentGradient}"
-                            Style="{StaticResource PrimaryButton}">
-                            <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Subs_AddFirst}" />
-                        </Border>
-                        <Label
-                            Padding="0,6"
-                            c:Touch.Command="{Binding LoadSamplesCommand}"
-                            HorizontalOptions="Center"
-                            Style="{StaticResource LinkLabel}"
-                            Text="{l:Tr Main_ExploreSamples}" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <!-- Distribution chart -->
-                <comp:BreakdownCard IsVisible="{Binding HasChart}" />
-
-                <!-- Upcoming payments -->
-                <VerticalStackLayout IsVisible="{Binding HasActive}" Spacing="12">
-                    <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Subs_Upcoming}" />
-                    <VerticalStackLayout
-                        BindableLayout.ItemTemplate="{StaticResource SubscriptionRow}"
-                        BindableLayout.ItemsSource="{Binding Active}"
-                        Spacing="12" />
-                </VerticalStackLayout>
-
-                <!-- Paused or cancelled -->
-                <VerticalStackLayout IsVisible="{Binding HasInactive}" Spacing="12">
-                    <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Subs_Paused}" />
-                    <VerticalStackLayout
-                        BindableLayout.ItemTemplate="{StaticResource SubscriptionRow}"
-                        BindableLayout.ItemsSource="{Binding Inactive}"
-                        Spacing="12" />
-                </VerticalStackLayout>
+                    </c:TwoPane.End>
+                </c:TwoPane>
             </VerticalStackLayout>
         </ScrollView>
 

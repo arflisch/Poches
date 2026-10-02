@@ -9,6 +9,7 @@ Tout ce qui pouvait être préparé en local l'est. Il reste les étapes qui se 
 | Build signé pour l'App Store (version 1.0, build 1) | `artifacts/appstore/Poches.ipa` (non versionné, à reconstruire si besoin, voir plus bas) |
 | Textes de la fiche en français, anglais et néerlandais | `store/app-store-listing.md` |
 | Captures iPhone 6,9" (1320 × 2868), en français | `store/screenshots/iphone-6.9-fr/` |
+| Captures iPad 13" (2064 × 2752), en français | `store/screenshots/ipad-13-fr/` |
 | Capture pour la vérification de l'achat Poches Pro | `store/screenshots/review-pro-page.png` |
 | Politique de confidentialité et page d'assistance (FR / EN / NL) | `docs/privacy.html`, `docs/support.html` |
 | Manifeste de confidentialité Apple (aucun suivi, aucune donnée collectée) | `src/Poches/Platforms/iOS/Resources/PrivacyInfo.xcprivacy` |
@@ -59,7 +60,7 @@ Le premier achat intégré doit être soumis **en même temps** que la version d
 - **Prix et disponibilité** : gratuite, tous les pays.
 - **Confidentialité de l'app** : « Nous ne collectons aucune donnée de cette app ».
 - **Classification par âge** : répondre « Aucun » / « Non » partout → 4+.
-- **Version 1.0** : textes et mots-clés (`app-store-listing.md`), captures 6,9", URL d'assistance, copyright, notes pour la vérification (déjà rédigées en anglais), connexion requise : non.
+- **Version 1.0** : textes et mots-clés (`app-store-listing.md`), captures iPhone 6,9" et iPad 13", URL d'assistance, copyright, notes pour la vérification (déjà rédigées en anglais), connexion requise : non.
 - Ajouter les localisations **anglais (Royaume-Uni)** et **néerlandais** avec leurs textes.
 
 ## 6. Envoyer le build
@@ -99,6 +100,5 @@ Xcode signe alors l'archive pour l'App Store, avec le certificat de distribution
 
 ## Plus tard
 
-- **iPad** : l'app se déclare compatible iPad. Apple demandera donc aussi des captures iPad 13". Il faut soit les ajouter, soit limiter l'app à l'iPhone (elle tournera quand même sur iPad, en mode iPhone).
 - **Mac** : la version Mac Catalyst peut être publiée séparément sur le Mac App Store. Elle a besoin du même correctif de scènes qu'iOS.
 - **Android** : un compte Google Play Console (25 $, une fois) et un fichier .aab signé avec ta clé d'upload.

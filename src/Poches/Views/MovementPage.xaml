@@ -8,7 +8,7 @@
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:vm="clr-namespace:Poches.ViewModels"
     x:DataType="vm:MovementViewModel"
-    ios:Page.ModalPresentationStyle="PageSheet"
+    ios:Page.ModalPresentationStyle="FormSheet"
     Shell.NavBarIsVisible="False"
     SafeAreaEdges="All"
     Shell.PresentationMode="ModalAnimated">
