@@ -67,10 +67,9 @@ Le premier achat intégré doit être soumis **en même temps** que la version d
 
 Avec l'app **Transporter** (gratuite sur le Mac App Store) : connecte-toi, glisse `artifacts/appstore/Poches.ipa`, puis **Livrer**. Le build apparaît dans App Store Connect après 10 à 30 minutes de traitement.
 
-Question sur le chiffrement, posée pour chaque build (« Conformité à l'exportation ») :
-- Poches chiffre les sauvegardes (AES-256-GCM, PBKDF2) avec les fonctions cryptographiques **d'iOS**, que .NET utilise sur iPhone.
-- Réponse correspondante : l'app n'utilise que le chiffrement fourni par le système d'Apple → choisir **« Aucun des algorithmes mentionnés ci-dessus »**. Aucun document n'est alors demandé.
-- C'est ta déclaration : si tu es d'accord avec cette lecture, on peut ajouter `ITSAppUsesNonExemptEncryption = false` dans l'Info.plist pour ne plus avoir la question.
+Conformité à l'exportation (chiffrement) : déjà déclarée dans l'app, App Store Connect ne pose plus la question.
+- Poches chiffre les sauvegardes (AES-256-GCM, PBKDF2) uniquement avec les fonctions cryptographiques d'iOS, que .NET utilise sur iPhone.
+- L'Info.plist (iOS et Mac) contient donc `ITSAppUsesNonExemptEncryption = false` : aucun chiffrement non exempté à déclarer.
 
 ## 7. Tester avant de soumettre (conseillé)
 
