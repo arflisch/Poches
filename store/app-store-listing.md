@@ -138,7 +138,7 @@ VERDER
 | Type | Non consommable |
 | Nom de référence | Poches Pro |
 | Identifiant de produit | `com.arflisch.poches.pro` (doit être exactement celui-ci, il est dans le code) |
-| Prix conseillé | 4,99 € (à décider) |
+| Prix | 4,99 € |
 | Disponibilité | Tous les pays où l'app est disponible |
 
 | Langue | Nom affiché (35) | Description (45) |
