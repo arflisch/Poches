@@ -2,7 +2,7 @@
 
 Textes à copier dans App Store Connect. Les limites d'Apple sont indiquées entre parenthèses ; `store/check_listing.py` vérifie les longueurs.
 
-Langue principale conseillée : **français**. Ajouter ensuite les localisations **anglais (Royaume-Uni)** et **néerlandais** : l'app est traduite dans ces trois langues.
+Langue principale conseillée : **English (U.S.)**, pour que les pays dont la langue n'est pas fournie voient l'anglais. Ajouter les localisations **French**, **English (U.K.)** et **Dutch**. Les États-Unis et le Royaume-Uni sont deux langues séparées dans App Store Connect.
 
 Règle Apple à respecter : ne pas citer d'autres plateformes (Android…) dans les textes.
 
@@ -42,10 +42,53 @@ POCHES PRO – ACHAT UNIQUE, SANS ABONNEMENT
 
 ET AUSSI
 • Mode discret pour masquer les montants en public
+• Sur iPad, tout s'affiche sur deux colonnes
 • Français, néerlandais et anglais
 • Thème clair et sombre
 
 **Nouveautés de cette version** : Première version de Poches.
+
+---
+
+## English (U.S.)
+
+**Name** (30): Poches – Budget & Savings
+
+**Subtitle** (30): Your money, sorted in pockets
+
+**Promotional text** (170):
+Put your money into pockets (vacation, savings, a new car…) and keep track of your fixed bills. Everything stays on your phone: no account, no ads.
+
+**Keywords** (100):
+envelope,savings goals,subscriptions,bills,expenses,piggy bank,money,finance,paycheck,tracker
+
+**Description** (4000):
+
+Poches shows you what every dollar or euro you set aside is for.
+
+Create pockets for your plans – vacation, emergency fund, a new car, investments –, give them a goal, then add or take out money in two taps. The total, how it is split between pockets and the progress toward each goal are always in front of you.
+
+FIXED BILLS
+Subscriptions, health and car insurance, rent, loans: see everything that comes back at a fixed price, what it costs you per month and per year, and when the next payment is due. A reminder warns you the day before (or whenever you like).
+
+YOUR DATA STAYS WITH YOU
+• No account, no ads, no server: everything is stored on your phone
+• Face ID or Touch ID lock
+• Backups encrypted with a password you choose, to keep in iCloud Drive or anywhere else and restore on another device
+
+POCHES PRO – ONE-TIME PURCHASE, NO SUBSCRIPTION
+• Scheduled deposits: "$150 into Investments every month", added automatically
+• Split your paycheck between pockets by percentage
+• Statistics: average savings, 12-month trends and the date each goal will be reached
+• CSV export of every transaction, for Excel or Numbers
+
+ALSO
+• Discreet mode hides amounts in public
+• Two-column layout on iPad
+• English, French and Dutch
+• Light and dark themes
+
+**What's new**: First release of Poches.
 
 ---
 
@@ -83,6 +126,7 @@ POCHES PRO – ONE-TIME PURCHASE, NO SUBSCRIPTION
 
 ALSO
 • Discreet mode hides amounts in public
+• Two-column layout on iPad
 • English, French and Dutch
 • Light and dark themes
 
@@ -124,6 +168,7 @@ POCHES PRO – EENMALIGE AANKOOP, GEEN ABONNEMENT
 
 VERDER
 • Discrete modus verbergt bedragen in het openbaar
+• Op iPad alles in twee kolommen
 • Nederlands, Frans en Engels
 • Licht en donker thema
 
@@ -139,11 +184,12 @@ VERDER
 | Nom de référence | Poches Pro |
 | Identifiant de produit | `com.arflisch.poches.pro` (doit être exactement celui-ci, il est dans le code) |
 | Prix | 4,99 € |
-| Disponibilité | Tous les pays où l'app est disponible |
+| Disponibilité | Comme l'app : tous les pays sauf la Chine continentale |
 
 | Langue | Nom affiché (35) | Description (45) |
 |---|---|---|
 | Français | Poches Pro | Versements auto, statistiques, export CSV |
+| English (U.S.) | Poches Pro | Auto deposits, statistics and CSV export |
 | English (U.K.) | Poches Pro | Auto deposits, statistics and CSV export |
 | Nederlands | Poches Pro | Automatische stortingen, statistieken, CSV |
 
