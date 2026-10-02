@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-This is the minimum required version of the Apple Privacy Manifest for .NET MAUI apps.
-The contents below are needed because of APIs that are used in the .NET framework and .NET MAUI SDK.
-
-You are responsible for adding extra entries as needed for your application.
-
+Apple privacy manifest. Poches tracks nothing and collects no data: everything stays on the device.
+The API entries are needed by the .NET runtime and .NET MAUI (file timestamps, boot time, disk space) and by the
+app's settings, stored with the Preferences API (UserDefaults).
 More information: https://aka.ms/maui-privacy-manifest
 -->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSPrivacyTracking</key>
+    <false/>
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array/>
     <key>NSPrivacyAccessedAPITypes</key>
     <array>
         <dict>
@@ -36,8 +40,6 @@ More information: https://aka.ms/maui-privacy-manifest
                 <string>E174.1</string>
             </array>
         </dict>
-        <!--
-            The entry below is only needed when you're using the Preferences API in your app.
         <dict>
             <key>NSPrivacyAccessedAPIType</key>
             <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
@@ -45,7 +47,7 @@ More information: https://aka.ms/maui-privacy-manifest
             <array>
                 <string>CA92.1</string>
             </array>
-        </dict> -->
+        </dict>
     </array>
 </dict>
 </plist>
