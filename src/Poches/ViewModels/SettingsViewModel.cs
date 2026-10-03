@@ -76,6 +76,25 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
         ProStatus = _pro.IsUnlocked ? Loc.Get("Pro_StatusUnlocked") : Loc.Get("Pro_StatusLocked");
     }
 
+    /// <summary>Reminders are on, but the phone doesn't let Poches show notifications.</summary>
+    [ObservableProperty]
+    private bool _isReminderBlocked;
+
+    /// <summary>Called when the page shows and when the app comes back from the phone's settings.</summary>
+    public async Task RefreshReminderStatusAsync() => IsReminderBlocked = await _reminders.AreBlockedAsync();
+
+    [RelayCommand]
+    private void OpenNotificationSettings()
+    {
+#if IOS
+        // Straight to Poches' notification settings rather than its general page.
+        UIKit.UIApplication.SharedApplication.OpenUrl(
+            new Foundation.NSUrl(UIKit.UIApplication.OpenNotificationSettingsUrl), new UIKit.UIApplicationOpenUrlOptions(), null);
+#else
+        AppInfo.Current.ShowSettingsUI();
+#endif
+    }
+
     [RelayCommand]
     private Task OpenProAsync() => Shell.Current.GoToAsync(Routes.Pro);
 
@@ -171,6 +190,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
         _settings.ReminderDaysBefore = days;
         ReminderText = ReminderLabel(days);
         await _reminders.EnsurePermissionAsync();
+        await RefreshReminderStatusAsync();
     }
 
     [RelayCommand]

@@ -920,4 +920,10 @@ Your current data will be replaced.</value>
   <data name="Csv_Note" xml:space="preserve">
     <value>Note</value>
   </data>
+  <data name="Settings_RemindersBlocked" xml:space="preserve">
+    <value>Notifications are turned off for Poches: no reminder will be shown.</value>
+  </data>
+  <data name="Settings_OpenNotificationSettings" xml:space="preserve">
+    <value>Turn them on in Settings</value>
+  </data>
 </root>

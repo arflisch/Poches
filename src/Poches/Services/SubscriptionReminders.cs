@@ -55,6 +55,20 @@ public sealed class SubscriptionReminders
             RefreshSoon();
     }
 
+    /// <summary>True when reminders are on in the app but notifications are turned off for it in the phone's settings.</summary>
+    public async Task<bool> AreBlockedAsync()
+    {
+        try
+        {
+            return _settings.ReminderDaysBefore is not null && _notifications.IsSupported
+                && !await _notifications.AreNotificationsEnabled();
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     private async Task RefreshAfterDelayAsync(CancellationToken cancellationToken)
     {
         try
@@ -94,7 +108,15 @@ public sealed class SubscriptionReminders
                 .Select(payment => (s.Subscription, Payment: payment, NotifyAt: payment.AddDays(-daysBefore).AddHours(ReminderHour))))
             .Where(r => r.NotifyAt > now)
             .OrderBy(r => r.NotifyAt)
-            .Take(MaxScheduled);
+            .Take(MaxScheduled)
+            .ToList();
+
+        // iOS drops reminders scheduled without the permission, silently. It is asked when a bill is saved, but
+        // a reinstall resets it and a restored backup or the examples bring bills without asking: ask whenever
+        // there is something to remind. Once refused, iOS answers at once without showing anything.
+        if (reminders.Count > 0 && !await _notifications.AreNotificationsEnabled()
+            && !await MainThread.InvokeOnMainThreadAsync(() => _notifications.RequestNotificationPermission()))
+            return;
 
         foreach (var (subscription, payment, notifyAt) in reminders)
         {

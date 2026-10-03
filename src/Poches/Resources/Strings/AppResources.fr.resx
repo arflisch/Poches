@@ -920,4 +920,10 @@ Tes données actuelles seront remplacées.</value>
   <data name="Csv_Note" xml:space="preserve">
     <value>Note</value>
   </data>
+  <data name="Settings_RemindersBlocked" xml:space="preserve">
+    <value>Les notifications sont désactivées pour Poches : aucun rappel ne s'affichera.</value>
+  </data>
+  <data name="Settings_OpenNotificationSettings" xml:space="preserve">
+    <value>Les activer dans les Réglages</value>
+  </data>
 </root>

@@ -132,6 +132,7 @@
                 <!-- Subscriptions -->
                 <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_SubscriptionsSection}" />
                 <Border Padding="16,0" Style="{StaticResource Card}">
+                    <VerticalStackLayout>
                     <Grid c:Touch.Command="{Binding ChooseReminderCommand}" Style="{StaticResource Row}">
                         <Border BackgroundColor="#26F59E0B" Style="{StaticResource RowIcon}">
                             <c:IconView Color="#D97706" Data="{x:Static c:Icons.Bell}" />
@@ -150,6 +151,20 @@
                                 WidthRequest="16" />
                         </HorizontalStackLayout>
                     </Grid>
+                    <!-- Notifications turned off for Poches in the phone's settings: no reminder can be shown. -->
+                    <VerticalStackLayout
+                        Padding="0,0,0,14"
+                        c:Touch.Command="{Binding OpenNotificationSettingsCommand}"
+                        IsVisible="{Binding IsReminderBlocked}"
+                        Spacing="2">
+                        <Label
+                            FontFamily="OpenSansSemibold"
+                            FontSize="14"
+                            Text="{l:Tr Settings_RemindersBlocked}"
+                            TextColor="{AppThemeBinding Light={StaticResource NegativeLight}, Dark={StaticResource NegativeDark}}" />
+                        <Label Style="{StaticResource LinkLabel}" FontSize="14" Text="{l:Tr Settings_OpenNotificationSettings}" />
+                    </VerticalStackLayout>
+                    </VerticalStackLayout>
                 </Border>
 
                 <!-- Backup -->

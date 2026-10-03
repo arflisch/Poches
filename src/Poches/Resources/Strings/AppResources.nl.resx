@@ -920,4 +920,10 @@ Je huidige gegevens worden vervangen.</value>
   <data name="Csv_Note" xml:space="preserve">
     <value>Notitie</value>
   </data>
+  <data name="Settings_RemindersBlocked" xml:space="preserve">
+    <value>Meldingen staan uit voor Poches: er verschijnt geen herinnering.</value>
+  </data>
+  <data name="Settings_OpenNotificationSettings" xml:space="preserve">
+    <value>Inschakelen in Instellingen</value>
+  </data>
 </root>
