@@ -235,7 +235,9 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
                     databasePath,
                     SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
                 await connection.EnableWriteAheadLoggingAsync();
-                await connection.CreateTablesAsync<Pocket, Movement, Subscription, ScheduledDeposit, SplitRule>();
+                await connection.CreateTablesAsync(CreateFlags.None,
+                    typeof(Pocket), typeof(Movement), typeof(Subscription), typeof(ScheduledDeposit), typeof(SplitRule),
+                    typeof(Holding), typeof(Purchase), typeof(CachedQuote), typeof(PriceClose), typeof(PriceCoverage));
                 _connection = connection;
             }
             return _connection;

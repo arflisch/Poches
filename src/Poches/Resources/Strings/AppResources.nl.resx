@@ -926,4 +926,343 @@ Je huidige gegevens worden vervangen.</value>
   <data name="Settings_OpenNotificationSettings" xml:space="preserve">
     <value>Inschakelen in Instellingen</value>
   </data>
+  <data name="Inv_Title" xml:space="preserve">
+    <value>Beleggingen</value>
+  </data>
+  <data name="Inv_LockedTitle" xml:space="preserve">
+    <value>Volg je beleggingen</value>
+  </data>
+  <data name="Inv_LockedText" xml:space="preserve">
+    <value>Bekijk het rendement van elke aankoop sinds de datum, de spreiding van je beleggingen en hun evolutie tegenover een index. Inbegrepen in Poches Pro.</value>
+  </data>
+  <data name="Inv_DiscoverPro" xml:space="preserve">
+    <value>Ontdek Poches Pro</value>
+  </data>
+  <data name="Inv_CurrentValue" xml:space="preserve">
+    <value>Huidige waarde</value>
+  </data>
+  <data name="Inv_OnlineQuotes" xml:space="preserve">
+    <value>Online koersen</value>
+  </data>
+  <data name="Inv_Refresh" xml:space="preserve">
+    <value>Nu vernieuwen</value>
+  </data>
+  <data name="Inv_EmptyTitle" xml:space="preserve">
+    <value>Nog geen beleggingen</value>
+  </data>
+  <data name="Inv_EmptyText" xml:space="preserve">
+    <value>Voeg een aankoop toe: de positie (een ETF, een aandeel…), de datum, de betaalde koers en het aantal of bedrag. Poches toont dan het rendement van elke aankoop.</value>
+  </data>
+  <data name="Inv_AddFirst" xml:space="preserve">
+    <value>Eerste aankoop toevoegen</value>
+  </data>
+  <data name="Inv_AddPurchase" xml:space="preserve">
+    <value>Aankoop toevoegen</value>
+  </data>
+  <data name="Inv_Evolution" xml:space="preserve">
+    <value>Evolutie</value>
+  </data>
+  <data name="Inv_LegendValue" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="Inv_LegendInvested" xml:space="preserve">
+    <value>Geïnvesteerd</value>
+  </data>
+  <data name="Inv_CompareWith" xml:space="preserve">
+    <value>VERGELIJKEN MET</value>
+  </data>
+  <data name="Inv_Lines" xml:space="preserve">
+    <value>Posities</value>
+  </data>
+  <data name="Inv_ByLine" xml:space="preserve">
+    <value>Per positie</value>
+  </data>
+  <data name="Inv_ByType" xml:space="preserve">
+    <value>Per type</value>
+  </data>
+  <data name="Inv_QuotesOff" xml:space="preserve">
+    <value>Uit: de zelf ingevoerde koersen worden gebruikt</value>
+  </data>
+  <data name="Inv_QuotesAt" xml:space="preserve">
+    <value>Koersen van {0}, ongeveer 15 min vertraagd</value>
+  </data>
+  <data name="Inv_QuotesMissing" xml:space="preserve">
+    <value>ontbrekend: {0}</value>
+  </data>
+  <data name="Inv_QuotesNoSymbol" xml:space="preserve">
+    <value>Nog geen positie met een ticker</value>
+  </data>
+  <data name="Inv_QuotesNone" xml:space="preserve">
+    <value>Koersen voorlopig niet beschikbaar</value>
+  </data>
+  <data name="Inv_InvestedSince" xml:space="preserve">
+    <value>{0} geïnvesteerd</value>
+  </data>
+  <data name="Inv_XirrValue" xml:space="preserve">
+    <value>IRR {0} per jaar</value>
+  </data>
+  <data name="Inv_XirrTooEarly" xml:space="preserve">
+    <value>IRR: 3 maanden geschiedenis nodig</value>
+  </data>
+  <data name="Inv_LastSession" xml:space="preserve">
+    <value>Laatste beursdag {0} ({1})</value>
+  </data>
+  <data name="Inv_Today" xml:space="preserve">
+    <value>Vandaag {0} ({1})</value>
+  </data>
+  <data name="Inv_BenchmarkLegend" xml:space="preserve">
+    <value>{0}, zelfde stortingen</value>
+  </data>
+  <data name="Inv_EvolutionVs" xml:space="preserve">
+    <value>Met dezelfde stortingen op dezelfde data zou de {0} nu {1} waard zijn. Verschil van je portefeuille: {2}.</value>
+  </data>
+  <data name="Inv_EvolutionOffline" xml:space="preserve">
+    <value>Zet online koersen aan om met een index te vergelijken.</value>
+  </data>
+  <data name="Inv_EvolutionUnavailable" xml:space="preserve">
+    <value>De indexgeschiedenis is voorlopig niet beschikbaar.</value>
+  </data>
+  <data name="Inv_EvolutionNoBenchmark" xml:space="preserve">
+    <value>Kies hieronder een index om je stortingen mee te vergelijken.</value>
+  </data>
+  <data name="Inv_BenchmarkNone" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="Inv_OnlineTitle" xml:space="preserve">
+    <value>Online koersen aanzetten?</value>
+  </data>
+  <data name="Inv_OnlineText" xml:space="preserve">
+    <value>Poches vraagt de koersen op bij Yahoo Finance en stuurt alleen de symbolen van je posities (zoals CW8.PA). Je bedragen en aankopen blijven op dit toestel. De koersen zijn ongeveer 15 minuten vertraagd.</value>
+  </data>
+  <data name="Inv_OnlineAccept" xml:space="preserve">
+    <value>Aanzetten</value>
+  </data>
+  <data name="Inv_Units" xml:space="preserve">
+    <value>{0} stuks</value>
+  </data>
+  <data name="Holding_One" xml:space="preserve">
+    <value>positie</value>
+  </data>
+  <data name="Holding_Many" xml:space="preserve">
+    <value>posities</value>
+  </data>
+  <data name="Sample_World" xml:space="preserve">
+    <value>MSCI World-ETF</value>
+  </data>
+  <data name="Sample_Sp500" xml:space="preserve">
+    <value>S&amp;P 500-ETF</value>
+  </data>
+  <data name="Sample_EuroFund" xml:space="preserve">
+    <value>Tak 21-fonds</value>
+  </data>
+  <data name="Sample_StockAccount" xml:space="preserve">
+    <value>Effectenrekening</value>
+  </data>
+  <data name="Inv_EditHolding" xml:space="preserve">
+    <value>Positie bewerken</value>
+  </data>
+  <data name="Inv_Invested" xml:space="preserve">
+    <value>Geïnvesteerd</value>
+  </data>
+  <data name="Inv_AverageCost" xml:space="preserve">
+    <value>Gemiddelde kostprijs (incl. kosten)</value>
+  </data>
+  <data name="Inv_Xirr" xml:space="preserve">
+    <value>IRR (per jaar)</value>
+  </data>
+  <data name="Inv_Weight" xml:space="preserve">
+    <value>Aandeel van beleggingen</value>
+  </data>
+  <data name="Inv_PricePaid" xml:space="preserve">
+    <value>Betaalde koers tegenover vandaag</value>
+  </data>
+  <data name="Inv_PricePaidHint" xml:space="preserve">
+    <value>Elke stip is een aankoop, zo groot als het bedrag: groen onder de huidige koers (blauwe lijn), rood erboven. De grijze lijn is de gemiddelde kostprijs.</value>
+  </data>
+  <data name="Inv_Purchases" xml:space="preserve">
+    <value>Aankopen</value>
+  </data>
+  <data name="Inv_NoPurchaseYet" xml:space="preserve">
+    <value>Nog geen aankoop</value>
+  </data>
+  <data name="Inv_PriceOf" xml:space="preserve">
+    <value>Koers van {0}</value>
+  </data>
+  <data name="Inv_PriceManual" xml:space="preserve">
+    <value>Koers ingevoerd op {0}</value>
+  </data>
+  <data name="Inv_PriceLastPurchase" xml:space="preserve">
+    <value>Koers laatste aankoop</value>
+  </data>
+  <data name="Inv_PerYear" xml:space="preserve">
+    <value>{0}/jaar</value>
+  </data>
+  <data name="Inv_HeldDays" xml:space="preserve">
+    <value>{0} d in bezit</value>
+  </data>
+  <data name="Inv_Quote" xml:space="preserve">
+    <value>ONLINE KOERS</value>
+  </data>
+  <data name="Inv_QuoteOffline" xml:space="preserve">
+    <value>Online koersen staan uit: de koers die je invoert wordt gebruikt. Zet ze aan in het tabblad Beleggingen om de koers van deze positie te vinden.</value>
+  </data>
+  <data name="Inv_Change" xml:space="preserve">
+    <value>Wijzigen</value>
+  </data>
+  <data name="Inv_SearchPlaceholder" xml:space="preserve">
+    <value>Naam, ticker of ISIN</value>
+  </data>
+  <data name="Inv_Searching" xml:space="preserve">
+    <value>Zoeken…</value>
+  </data>
+  <data name="Inv_NoResult" xml:space="preserve">
+    <value>Geen resultaat. Probeer de ISIN of de volledige naam.</value>
+  </data>
+  <data name="Inv_SearchUnavailable" xml:space="preserve">
+    <value>Zoeken voorlopig niet beschikbaar. Probeer het zo meteen opnieuw.</value>
+  </data>
+  <data name="Inv_CurrentPrice" xml:space="preserve">
+    <value>koers {0}</value>
+  </data>
+  <data name="Inv_SymbolNotFound" xml:space="preserve">
+    <value>Symbool niet gevonden bij Yahoo Finance.</value>
+  </data>
+  <data name="Inv_NewPurchase" xml:space="preserve">
+    <value>Nieuwe aankoop</value>
+  </data>
+  <data name="Inv_EditPurchase" xml:space="preserve">
+    <value>Aankoop bewerken</value>
+  </data>
+  <data name="Inv_ModeQuantity" xml:space="preserve">
+    <value>Aantal</value>
+  </data>
+  <data name="Inv_ModeAmount" xml:space="preserve">
+    <value>Geïnvesteerd bedrag</value>
+  </data>
+  <data name="Inv_NewHolding" xml:space="preserve">
+    <value>Nieuwe positie</value>
+  </data>
+  <data name="Inv_NewHoldingHint" xml:space="preserve">
+    <value>Een ETF, een aandeel, een fonds…</value>
+  </data>
+  <data name="Inv_AmountInvested" xml:space="preserve">
+    <value>BEDRAG ({0})</value>
+  </data>
+  <data name="Inv_Quantity" xml:space="preserve">
+    <value>AANTAL (STUKS)</value>
+  </data>
+  <data name="Inv_PurchasePreview" xml:space="preserve">
+    <value>{0} stuks × {1} = {2} geïnvesteerd</value>
+  </data>
+  <data name="Inv_InvalidPrice" xml:space="preserve">
+    <value>Voer een positieve koers in, bijvoorbeeld 52,40.</value>
+  </data>
+  <data name="Inv_InvalidAmount" xml:space="preserve">
+    <value>Voer een positief bedrag in.</value>
+  </data>
+  <data name="Inv_InvalidQuantity" xml:space="preserve">
+    <value>Voer een positief aantal in.</value>
+  </data>
+  <data name="Inv_DeletePurchaseTitle" xml:space="preserve">
+    <value>Deze aankoop verwijderen?</value>
+  </data>
+  <data name="Inv_DeletePurchaseText" xml:space="preserve">
+    <value>Het rendement ervan telt dan niet meer mee.</value>
+  </data>
+  <data name="Inv_DeletePurchase" xml:space="preserve">
+    <value>Aankoop verwijderen</value>
+  </data>
+  <data name="Inv_Line" xml:space="preserve">
+    <value>POSITIE</value>
+  </data>
+  <data name="Inv_NamePlaceholder" xml:space="preserve">
+    <value>bv. Amundi PEA S&amp;P 500</value>
+  </data>
+  <data name="Inv_Type" xml:space="preserve">
+    <value>TYPE</value>
+  </data>
+  <data name="Inv_Account" xml:space="preserve">
+    <value>REKENING</value>
+  </data>
+  <data name="Inv_AccountPlaceholder" xml:space="preserve">
+    <value>bv. Effecten</value>
+  </data>
+  <data name="Inv_Code" xml:space="preserve">
+    <value>TICKER OF ISIN</value>
+  </data>
+  <data name="Inv_PurchaseDate" xml:space="preserve">
+    <value>AANKOOPDATUM</value>
+  </data>
+  <data name="Inv_UnitPrice" xml:space="preserve">
+    <value>BETAALDE KOERS PER STUK</value>
+  </data>
+  <data name="Inv_Fees" xml:space="preserve">
+    <value>KOSTEN</value>
+  </data>
+  <data name="Inv_DeleteHoldingText" xml:space="preserve">
+    <value>De positie en al haar aankopen worden verwijderd.</value>
+  </data>
+  <data name="Inv_ManualPrice" xml:space="preserve">
+    <value>ZELF INGEVOERDE KOERS</value>
+  </data>
+  <data name="Inv_ManualPriceHint" xml:space="preserve">
+    <value>Gebruikt als er geen online koers is (tak 21, vastgoedfondsen…).</value>
+  </data>
+  <data name="Inv_DeleteHolding" xml:space="preserve">
+    <value>Positie verwijderen</value>
+  </data>
+  <data name="HoldingType_Etf" xml:space="preserve">
+    <value>ETF</value>
+  </data>
+  <data name="HoldingType_Stock" xml:space="preserve">
+    <value>Aandeel</value>
+  </data>
+  <data name="HoldingType_Bond" xml:space="preserve">
+    <value>Obligatie</value>
+  </data>
+  <data name="HoldingType_Fund" xml:space="preserve">
+    <value>Fonds</value>
+  </data>
+  <data name="HoldingType_Crypto" xml:space="preserve">
+    <value>Crypto</value>
+  </data>
+  <data name="HoldingType_RealEstate" xml:space="preserve">
+    <value>Vastgoed</value>
+  </data>
+  <data name="HoldingType_Cash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="HoldingType_Other" xml:space="preserve">
+    <value>Andere</value>
+  </data>
+  <data name="Pro_InvestTitle" xml:space="preserve">
+    <value>Beleggingen</value>
+  </data>
+  <data name="Pro_InvestText" xml:space="preserve">
+    <value>Het rendement van elke aankoop sinds de datum, de spreiding van je beleggingen en hun evolutie tegenover een index.</value>
+  </data>
+  <data name="Error_EmptyHoldingName" xml:space="preserve">
+    <value>Een positie heeft een naam nodig.</value>
+  </data>
+  <data name="Error_InvalidSymbol" xml:space="preserve">
+    <value>Dit koerssymbool is ongeldig.</value>
+  </data>
+  <data name="Error_InvalidQuantity" xml:space="preserve">
+    <value>Het aantal moet positief zijn.</value>
+  </data>
+  <data name="Error_InvalidUnitPrice" xml:space="preserve">
+    <value>De koers moet positief zijn.</value>
+  </data>
+  <data name="Error_InvalidFees" xml:space="preserve">
+    <value>Kosten kunnen niet negatief zijn.</value>
+  </data>
+  <data name="Error_PurchaseInFuture" xml:space="preserve">
+    <value>Een aankoop kan niet in de toekomst liggen.</value>
+  </data>
+  <data name="Error_HoldingNotFound" xml:space="preserve">
+    <value>Deze positie bestaat niet meer.</value>
+  </data>
+  <data name="Error_PurchaseNotFound" xml:space="preserve">
+    <value>Deze aankoop bestaat niet meer.</value>
+  </data>
 </root>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Poches.Views.PurchaseEditPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:comp="clr-namespace:Poches.Views.Components"
+    xmlns:l="clr-namespace:Poches.Localization"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:PurchaseEditViewModel"
+    ios:Page.ModalPresentationStyle="FormSheet"
+    Shell.NavBarIsVisible="False"
+    SafeAreaEdges="All"
+    Shell.PresentationMode="ModalAnimated">
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="GridOption" x:DataType="vm:SelectableOption">
+            <Grid Grid.Row="{Binding Row}" Grid.Column="{Binding Column}" c:Touch.Command="{Binding SelectCommand}" HeightRequest="58">
+                <Border Padding="0" IsVisible="{Binding IsSelected}" StrokeShape="RoundRectangle 12" Style="{StaticResource Card}" />
+                <Label
+                    FontFamily="OpenSansSemibold"
+                    FontSize="11.5"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="2"
+                    Opacity="{Binding LabelOpacity}"
+                    Text="{Binding Label}"
+                    VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid Padding="20,18,20,6" ColumnDefinitions="90,*,90">
+            <Label c:Touch.Command="{Binding CancelCommand}" Style="{StaticResource LinkLabel}" Text="{l:Tr Common_Cancel}" />
+            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="{Binding Title}" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,14,20,24" Spacing="22">
+
+                <!-- Line -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Line}" />
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Holdings}" Spacing="8">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="vm:HoldingChoice">
+                                <Border Padding="14,10" c:Touch.Command="{Binding SelectCommand}" Style="{StaticResource Card}">
+                                    <Grid ColumnDefinitions="14,*,Auto" ColumnSpacing="12">
+                                        <Ellipse Fill="{Binding Color}" HeightRequest="12" IsVisible="{Binding IsExisting}" VerticalOptions="Center" WidthRequest="12" />
+                                        <c:IconView
+                                            Color="{StaticResource Primary}"
+                                            Data="{x:Static c:Icons.Plus}"
+                                            HeightRequest="14"
+                                            IsVisible="{Binding IsNew}"
+                                            StrokeWidth="2.4"
+                                            VerticalOptions="Center"
+                                            WidthRequest="14" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                            <Label LineBreakMode="TailTruncation" Style="{StaticResource Strong}" Text="{Binding Name}" />
+                                            <Label LineBreakMode="TailTruncation" Style="{StaticResource Caption}" Text="{Binding Caption}" />
+                                        </VerticalStackLayout>
+                                        <c:IconView
+                                            Grid.Column="2"
+                                            Color="{StaticResource Primary}"
+                                            Data="{x:Static c:Icons.Check}"
+                                            HeightRequest="20"
+                                            IsVisible="{Binding IsSelected}"
+                                            StrokeWidth="2.6"
+                                            VerticalOptions="Center"
+                                            WidthRequest="20" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+
+                <!-- New line -->
+                <VerticalStackLayout IsVisible="{Binding IsNewHolding}" Spacing="22">
+                    <comp:SymbolPicker BindingContext="{Binding Search}" />
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Edit_Name}" />
+                        <Border Style="{StaticResource InputField}">
+                            <Entry IsTextPredictionEnabled="False" MaxLength="80" Placeholder="{l:Tr Inv_NamePlaceholder}" ReturnType="Next" Text="{Binding HoldingName}" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Type}" />
+                        <Border
+                            Padding="4"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                            StrokeShape="RoundRectangle 16"
+                            StrokeThickness="0">
+                            <Grid
+                                BindableLayout.ItemTemplate="{StaticResource GridOption}"
+                                BindableLayout.ItemsSource="{Binding Types}"
+                                ColumnDefinitions="*,*,*,*"
+                                RowDefinitions="Auto,Auto"
+                                RowSpacing="4" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Account}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Entry IsTextPredictionEnabled="False" MaxLength="40" Placeholder="{l:Tr Inv_AccountPlaceholder}" Text="{Binding Account}" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Code}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Entry IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" MaxLength="24" Placeholder="FR0011871128" Text="{Binding Code}" />
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+
+                <!-- Purchase -->
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_PurchaseDate}" />
+                    <Border Style="{StaticResource InputField}">
+                        <Grid ColumnDefinitions="22,*" ColumnSpacing="12">
+                            <c:IconView Color="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" Data="{x:Static c:Icons.Calendar}" VerticalOptions="Center" />
+                            <DatePicker Grid.Column="1" Date="{Binding Date}" Format="dddd d MMMM yyyy" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_UnitPrice}" />
+                    <Border Style="{StaticResource InputField}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Entry Keyboard="Numeric" Placeholder="{Binding PricePlaceholder}" Text="{Binding PriceText}" />
+                            <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="{Binding Currency}" VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="8">
+                    <Border
+                        Padding="4"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                        StrokeShape="RoundRectangle 14"
+                        StrokeThickness="0">
+                        <Grid BindableLayout.ItemsSource="{Binding Modes}" ColumnDefinitions="*,*">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SelectableOption">
+                                    <Grid Grid.Column="{Binding Column}" c:Touch.Command="{Binding SelectCommand}" HeightRequest="36">
+                                        <Border Padding="0" IsVisible="{Binding IsSelected}" StrokeShape="RoundRectangle 11" Style="{StaticResource Card}" />
+                                        <Label FontFamily="OpenSansSemibold" FontSize="12.5" HorizontalOptions="Center" Opacity="{Binding LabelOpacity}" Text="{Binding Label}" VerticalOptions="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </Grid>
+                    </Border>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{Binding SizeLabel}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Entry Keyboard="Numeric" Placeholder="0" Text="{Binding SizeText}" />
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Fees}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="0" Text="{Binding FeesText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="{Binding Currency}" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{Binding Preview}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <VerticalStackLayout Grid.Row="2" Padding="20,8,20,16" Spacing="10">
+            <Label IsVisible="{Binding HasError}" Style="{StaticResource ErrorLabel}" Text="{Binding ErrorMessage}" />
+            <Border Background="{StaticResource AccentGradient}" c:Touch.Command="{Binding SaveCommand}" Style="{StaticResource PrimaryButton}">
+                <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Common_Save}" />
+            </Border>
+            <Label
+                Padding="0,8"
+                c:Touch.Command="{Binding DeleteCommand}"
+                FontFamily="OpenSansSemibold"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsNew, Converter={StaticResource InvertBool}}"
+                Text="{l:Tr Inv_DeletePurchase}"
+                TextColor="{AppThemeBinding Light={StaticResource NegativeLight}, Dark={StaticResource NegativeDark}}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

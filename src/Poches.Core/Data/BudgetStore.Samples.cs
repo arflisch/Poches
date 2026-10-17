@@ -94,3 +94,71 @@ public sealed partial class BudgetStore
         OnChanged();
     }
 }
+
+/// <summary>Names of the sample investments, in the user's language.</summary>
+public sealed record SampleInvestmentTexts(string World, string Sp500, string EuroFund, string StockAccount, string LifeInsurance)
+{
+    public static SampleInvestmentTexts French { get; } = new("ETF MSCI World", "ETF S&P 500", "Fonds euros", "PEA", "Assurance vie");
+}
+
+public sealed partial class BudgetStore
+{
+    /// <summary>
+    /// Fills empty investments with monthly purchases over the last ten months. The ETFs carry their real Yahoo
+    /// symbols, so switching online quotes on brings them to life; their manual prices are used until then.
+    /// </summary>
+    public async Task SeedSampleInvestmentsAsync(DateTime today, SampleInvestmentTexts? texts = null)
+    {
+        var t = texts ?? SampleInvestmentTexts.French;
+        var db = await GetConnectionAsync();
+        if (await db.Table<Holding>().CountAsync() > 0)
+            return;
+
+        await db.RunInTransactionAsync(conn =>
+        {
+            Holding Add(string name, string? symbol, string? code, HoldingType type, string account, string color, decimal price)
+            {
+                var holding = new Holding
+                {
+                    Name = name, Symbol = symbol, Code = code, Type = type, Account = account, ColorHex = color,
+                    ManualPrice = price, ManualPriceDate = today.Date, CreatedAt = today.AddMonths(-10),
+                };
+                conn.Insert(holding);
+                return holding;
+            }
+
+            void Buy(Holding holding, int monthsAgo, decimal amount, decimal price, decimal fees)
+            {
+                var month = today.AddMonths(-monthsAgo);
+                var date = new DateTime(month.Year, month.Month, Math.Min(5, DateTime.DaysInMonth(month.Year, month.Month)));
+                if (date > today.Date)
+                    date = today.Date;
+                conn.Insert(new Purchase
+                {
+                    HoldingId = holding.Id,
+                    Date = date,
+                    Quantity = decimal.Round(amount / price, 4),
+                    UnitPrice = price,
+                    Fees = fees,
+                });
+            }
+
+            // A gentle climb with a dip four months ago, so later purchases do better than some earlier ones.
+            decimal[] path = [0.86m, 0.88m, 0.91m, 0.90m, 0.94m, 0.97m, 0.92m, 0.95m, 0.98m, 1.00m];
+            var world = Add(t.World, "CW8.PA", "LU1681043599", HoldingType.Etf, t.StockAccount, "#6366F1", 709.55m);
+            var sp500 = Add(t.Sp500, "PSP5.PA", "FR0011871128", HoldingType.Etf, t.StockAccount, "#0891B2", 60.35m);
+            for (var i = 0; i < path.Length; i++)
+            {
+                var monthsAgo = path.Length - 1 - i;
+                Buy(world, monthsAgo, 300m, decimal.Round(709.55m * path[i], 2), 1.99m);
+                if (i % 2 == 0)
+                    Buy(sp500, monthsAgo, 200m, decimal.Round(60.35m * path[Math.Min(i + 1, path.Length - 1)], 2), 0.99m);
+            }
+
+            var euroFund = Add(t.EuroFund, null, null, HoldingType.Fund, t.LifeInsurance, "#10B981", 102.4m);
+            Buy(euroFund, 9, 2000m, 100m, 0m);
+        });
+
+        OnChanged();
+    }
+}

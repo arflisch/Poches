@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Poches.Views.HoldingDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:HoldingDetailViewModel"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False"
+    SafeAreaEdges="None">
+
+    <Grid RowDefinitions="Auto,*" SafeAreaEdges="Container,Container,Container,None" Style="{StaticResource PageColumn}">
+        <!-- Top bar -->
+        <Grid Padding="20,8,20,6" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+            <Border c:Touch.Command="{Binding GoBackCommand}" Style="{StaticResource IconButton}" SemanticProperties.Description="{l:Tr Common_Back}">
+                <c:IconView Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" Data="{x:Static c:Icons.ChevronLeft}" />
+            </Border>
+            <Label Grid.Column="1" LineBreakMode="TailTruncation" Style="{StaticResource PageTitle}" Text="{Binding Name}" />
+            <Border Grid.Column="2" c:Touch.Command="{Binding EditCommand}" Style="{StaticResource IconButton}" SemanticProperties.Description="{l:Tr Inv_EditHolding}">
+                <c:IconView Color="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" Data="{x:Static c:Icons.Pencil}" />
+            </Border>
+        </Grid>
+
+        <ScrollView Grid.Row="1" SafeAreaEdges="None">
+            <VerticalStackLayout Padding="20,8,20,64" Spacing="18">
+                <c:TwoPane Spacing="18">
+                    <c:TwoPane.Start>
+                        <VerticalStackLayout Spacing="18">
+                            <!-- Value -->
+                            <Border Background="{Binding HeroBrush}" Shadow="{StaticResource FloatingShadow}" StrokeShape="RoundRectangle 28" StrokeThickness="0">
+                                <VerticalStackLayout Padding="24,22" Spacing="4">
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                        <Border BackgroundColor="{StaticResource WhiteGlass}" HeightRequest="44" StrokeShape="RoundRectangle 14" StrokeThickness="0" WidthRequest="44">
+                                            <Label FontSize="22" HorizontalOptions="Center" Text="{Binding Icon}" VerticalOptions="Center" />
+                                        </Border>
+                                        <Label Grid.Column="1" FontSize="13" LineBreakMode="TailTruncation" MaxLines="2" Text="{Binding Subtitle}" TextColor="{StaticResource WhiteSoft}" VerticalOptions="Center" />
+                                    </Grid>
+                                    <Label Margin="0,10,0,0" FontFamily="OpenSansSemibold" FontSize="34" Text="{Binding ValueText}" TextColor="White" />
+                                    <Border Padding="12,5" BackgroundColor="{StaticResource WhiteGlass}" HorizontalOptions="Start" StrokeShape="RoundRectangle 14" StrokeThickness="0">
+                                        <Label FontFamily="OpenSansSemibold" FontSize="13" Text="{Binding GainText}" TextColor="White" />
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Key figures -->
+                            <Border IsVisible="{Binding HasPurchases}" Style="{StaticResource Card}">
+                                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="14" ColumnSpacing="14">
+                                    <VerticalStackLayout Spacing="0">
+                                        <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_Invested}" />
+                                        <Label Style="{StaticResource Strong}" Text="{Binding InvestedText}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                        <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_AverageCost}" />
+                                        <Label Style="{StaticResource Strong}" Text="{Binding AverageCostText}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Row="1" Spacing="0">
+                                        <Label Style="{StaticResource Caption}" Text="{Binding PriceCaption}" />
+                                        <Label Style="{StaticResource Strong}" Text="{Binding PriceText}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="0">
+                                        <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_Xirr}" />
+                                        <Label Style="{StaticResource Strong}" Text="{Binding XirrText}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Row="2" Spacing="0">
+                                        <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_Weight}" />
+                                        <Label Style="{StaticResource Strong}" Text="{Binding WeightText}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+
+                            <!-- Price paid vs today's price -->
+                            <Border IsVisible="{Binding HasPurchases}" Style="{StaticResource Card}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_PricePaid}" />
+                                    <c:PurchaseChartView
+                                        CurrentColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDarkMode}}"
+                                        Data="{Binding Chart}"
+                                        GainColor="{AppThemeBinding Light={StaticResource PositiveLight}, Dark={StaticResource PositiveDark}}"
+                                        GridColor="{AppThemeBinding Light={StaticResource DividerLight}, Dark={StaticResource DividerDark}}"
+                                        HeightRequest="210"
+                                        LabelColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                        LabelFormatter="{Binding AxisFormatter}"
+                                        LossColor="{AppThemeBinding Light={StaticResource NegativeLight}, Dark={StaticResource NegativeDark}}"
+                                        SurfaceColor="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />
+                                    <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_PricePaidHint}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </c:TwoPane.Start>
+                    <c:TwoPane.End>
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_Purchases}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" c:Touch.Command="{Binding AddPurchaseCommand}" Style="{StaticResource LinkLabel}" Text="{l:Tr Inv_AddPurchase}" VerticalOptions="Center" />
+                            </Grid>
+                            <Border IsVisible="{Binding IsEmpty}" Padding="20" Style="{StaticResource Card}">
+                                <Label HorizontalTextAlignment="Center" Style="{StaticResource Secondary}" Text="{l:Tr Inv_NoPurchaseYet}" />
+                            </Border>
+                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Purchases}" Spacing="12">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:PurchaseItemViewModel">
+                                        <Border Padding="16,14" c:Touch.Command="{Binding OpenCommand}" Style="{StaticResource Card}">
+                                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="2" ColumnSpacing="12">
+                                                <Label Style="{StaticResource Strong}" Text="{Binding DateText}" />
+                                                <Label Grid.Column="1" FontFamily="OpenSansSemibold" FontSize="15" HorizontalTextAlignment="End" Text="{Binding ReturnText}">
+                                                    <Label.Triggers>
+                                                        <DataTrigger Binding="{Binding IsGain}" TargetType="Label" Value="True">
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PositiveLight}, Dark={StaticResource PositiveDark}}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsLoss}" TargetType="Label" Value="True">
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource NegativeLight}, Dark={StaticResource NegativeDark}}" />
+                                                        </DataTrigger>
+                                                    </Label.Triggers>
+                                                </Label>
+                                                <Label Grid.Row="1" Style="{StaticResource Caption}" Text="{Binding DetailText}" />
+                                                <Label Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End" Style="{StaticResource Caption}" Text="{Binding GainText}" />
+                                                <Label Grid.Row="2" Style="{StaticResource Caption}" Text="{Binding AmountsText}" />
+                                                <Label Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End" Style="{StaticResource Caption}" Text="{Binding AnnualizedText}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </c:TwoPane.End>
+                </c:TwoPane>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -19,6 +19,14 @@ public enum BudgetError
     WrongPassword,
     SplitOverHundredPercent,
     NoSplitRules,
+    EmptyHoldingName,
+    InvalidSymbol,
+    InvalidQuantity,
+    InvalidUnitPrice,
+    InvalidFees,
+    PurchaseInFuture,
+    HoldingNotFound,
+    PurchaseNotFound,
 }
 
 /// <summary>A business rule was violated. <see cref="Exception.Message"/> is for logs; show <see cref="Error"/> translated.</summary>

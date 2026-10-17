@@ -926,4 +926,343 @@ Your current data will be replaced.</value>
   <data name="Settings_OpenNotificationSettings" xml:space="preserve">
     <value>Turn them on in Settings</value>
   </data>
+  <data name="Inv_Title" xml:space="preserve">
+    <value>Investments</value>
+  </data>
+  <data name="Inv_LockedTitle" xml:space="preserve">
+    <value>Track your investments</value>
+  </data>
+  <data name="Inv_LockedText" xml:space="preserve">
+    <value>See how each purchase has done since its date, how your investments are spread and how they compare with an index. Included in Poches Pro.</value>
+  </data>
+  <data name="Inv_DiscoverPro" xml:space="preserve">
+    <value>Discover Poches Pro</value>
+  </data>
+  <data name="Inv_CurrentValue" xml:space="preserve">
+    <value>Current value</value>
+  </data>
+  <data name="Inv_OnlineQuotes" xml:space="preserve">
+    <value>Online quotes</value>
+  </data>
+  <data name="Inv_Refresh" xml:space="preserve">
+    <value>Refresh now</value>
+  </data>
+  <data name="Inv_EmptyTitle" xml:space="preserve">
+    <value>No investments yet</value>
+  </data>
+  <data name="Inv_EmptyText" xml:space="preserve">
+    <value>Add a purchase: the line (an ETF, a share…), the date, the price paid and the quantity or amount. Poches then shows how each purchase has done.</value>
+  </data>
+  <data name="Inv_AddFirst" xml:space="preserve">
+    <value>Add a first purchase</value>
+  </data>
+  <data name="Inv_AddPurchase" xml:space="preserve">
+    <value>Add a purchase</value>
+  </data>
+  <data name="Inv_Evolution" xml:space="preserve">
+    <value>Evolution</value>
+  </data>
+  <data name="Inv_LegendValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Inv_LegendInvested" xml:space="preserve">
+    <value>Invested</value>
+  </data>
+  <data name="Inv_CompareWith" xml:space="preserve">
+    <value>COMPARE WITH</value>
+  </data>
+  <data name="Inv_Lines" xml:space="preserve">
+    <value>Holdings</value>
+  </data>
+  <data name="Inv_ByLine" xml:space="preserve">
+    <value>By holding</value>
+  </data>
+  <data name="Inv_ByType" xml:space="preserve">
+    <value>By type</value>
+  </data>
+  <data name="Inv_QuotesOff" xml:space="preserve">
+    <value>Off: prices entered by hand are used</value>
+  </data>
+  <data name="Inv_QuotesAt" xml:space="preserve">
+    <value>Prices at {0}, delayed about 15 min</value>
+  </data>
+  <data name="Inv_QuotesMissing" xml:space="preserve">
+    <value>missing: {0}</value>
+  </data>
+  <data name="Inv_QuotesNoSymbol" xml:space="preserve">
+    <value>No holding has a ticker yet</value>
+  </data>
+  <data name="Inv_QuotesNone" xml:space="preserve">
+    <value>Prices unavailable for now</value>
+  </data>
+  <data name="Inv_InvestedSince" xml:space="preserve">
+    <value>{0} invested</value>
+  </data>
+  <data name="Inv_XirrValue" xml:space="preserve">
+    <value>IRR {0} a year</value>
+  </data>
+  <data name="Inv_XirrTooEarly" xml:space="preserve">
+    <value>IRR: needs 3 months of history</value>
+  </data>
+  <data name="Inv_LastSession" xml:space="preserve">
+    <value>Last session {0} ({1})</value>
+  </data>
+  <data name="Inv_Today" xml:space="preserve">
+    <value>Today {0} ({1})</value>
+  </data>
+  <data name="Inv_BenchmarkLegend" xml:space="preserve">
+    <value>{0}, same amounts</value>
+  </data>
+  <data name="Inv_EvolutionVs" xml:space="preserve">
+    <value>Investing the same amounts on the same dates in the {0} would now be worth {1}. Your portfolio's difference: {2}.</value>
+  </data>
+  <data name="Inv_EvolutionOffline" xml:space="preserve">
+    <value>Turn online quotes on to compare with an index.</value>
+  </data>
+  <data name="Inv_EvolutionUnavailable" xml:space="preserve">
+    <value>The index history is unavailable for now.</value>
+  </data>
+  <data name="Inv_EvolutionNoBenchmark" xml:space="preserve">
+    <value>Pick an index below to compare your purchases with it.</value>
+  </data>
+  <data name="Inv_BenchmarkNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Inv_OnlineTitle" xml:space="preserve">
+    <value>Turn online quotes on?</value>
+  </data>
+  <data name="Inv_OnlineText" xml:space="preserve">
+    <value>Poches will ask Yahoo Finance for prices, sending only the symbols of your holdings (such as CW8.PA). Your amounts and purchases stay on this device. Prices are delayed by about 15 minutes.</value>
+  </data>
+  <data name="Inv_OnlineAccept" xml:space="preserve">
+    <value>Turn on</value>
+  </data>
+  <data name="Inv_Units" xml:space="preserve">
+    <value>{0} units</value>
+  </data>
+  <data name="Holding_One" xml:space="preserve">
+    <value>holding</value>
+  </data>
+  <data name="Holding_Many" xml:space="preserve">
+    <value>holdings</value>
+  </data>
+  <data name="Sample_World" xml:space="preserve">
+    <value>MSCI World ETF</value>
+  </data>
+  <data name="Sample_Sp500" xml:space="preserve">
+    <value>S&amp;P 500 ETF</value>
+  </data>
+  <data name="Sample_EuroFund" xml:space="preserve">
+    <value>Capital-guaranteed fund</value>
+  </data>
+  <data name="Sample_StockAccount" xml:space="preserve">
+    <value>Brokerage account</value>
+  </data>
+  <data name="Inv_EditHolding" xml:space="preserve">
+    <value>Edit holding</value>
+  </data>
+  <data name="Inv_Invested" xml:space="preserve">
+    <value>Invested</value>
+  </data>
+  <data name="Inv_AverageCost" xml:space="preserve">
+    <value>Average cost (fees incl.)</value>
+  </data>
+  <data name="Inv_Xirr" xml:space="preserve">
+    <value>IRR (yearly)</value>
+  </data>
+  <data name="Inv_Weight" xml:space="preserve">
+    <value>Share of investments</value>
+  </data>
+  <data name="Inv_PricePaid" xml:space="preserve">
+    <value>Price paid vs today</value>
+  </data>
+  <data name="Inv_PricePaidHint" xml:space="preserve">
+    <value>Each dot is a purchase, sized by the amount invested: green below today's price (blue line), red above. The grey line is the average cost.</value>
+  </data>
+  <data name="Inv_Purchases" xml:space="preserve">
+    <value>Purchases</value>
+  </data>
+  <data name="Inv_NoPurchaseYet" xml:space="preserve">
+    <value>No purchase yet</value>
+  </data>
+  <data name="Inv_PriceOf" xml:space="preserve">
+    <value>Price on {0}</value>
+  </data>
+  <data name="Inv_PriceManual" xml:space="preserve">
+    <value>Price entered on {0}</value>
+  </data>
+  <data name="Inv_PriceLastPurchase" xml:space="preserve">
+    <value>Last purchase price</value>
+  </data>
+  <data name="Inv_PerYear" xml:space="preserve">
+    <value>{0}/yr</value>
+  </data>
+  <data name="Inv_HeldDays" xml:space="preserve">
+    <value>held {0} d</value>
+  </data>
+  <data name="Inv_Quote" xml:space="preserve">
+    <value>ONLINE QUOTE</value>
+  </data>
+  <data name="Inv_QuoteOffline" xml:space="preserve">
+    <value>Online quotes are off: the price you enter is used. Turn them on in the Investments tab to find this holding's quote.</value>
+  </data>
+  <data name="Inv_Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="Inv_SearchPlaceholder" xml:space="preserve">
+    <value>Name, ticker or ISIN</value>
+  </data>
+  <data name="Inv_Searching" xml:space="preserve">
+    <value>Searching…</value>
+  </data>
+  <data name="Inv_NoResult" xml:space="preserve">
+    <value>No result. Try the ISIN or the full name.</value>
+  </data>
+  <data name="Inv_SearchUnavailable" xml:space="preserve">
+    <value>Search unavailable for now. Try again in a moment.</value>
+  </data>
+  <data name="Inv_CurrentPrice" xml:space="preserve">
+    <value>price {0}</value>
+  </data>
+  <data name="Inv_SymbolNotFound" xml:space="preserve">
+    <value>Symbol not found on Yahoo Finance.</value>
+  </data>
+  <data name="Inv_NewPurchase" xml:space="preserve">
+    <value>New purchase</value>
+  </data>
+  <data name="Inv_EditPurchase" xml:space="preserve">
+    <value>Edit purchase</value>
+  </data>
+  <data name="Inv_ModeQuantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Inv_ModeAmount" xml:space="preserve">
+    <value>Amount invested</value>
+  </data>
+  <data name="Inv_NewHolding" xml:space="preserve">
+    <value>New holding</value>
+  </data>
+  <data name="Inv_NewHoldingHint" xml:space="preserve">
+    <value>An ETF, a share, a fund…</value>
+  </data>
+  <data name="Inv_AmountInvested" xml:space="preserve">
+    <value>AMOUNT ({0})</value>
+  </data>
+  <data name="Inv_Quantity" xml:space="preserve">
+    <value>QUANTITY (UNITS)</value>
+  </data>
+  <data name="Inv_PurchasePreview" xml:space="preserve">
+    <value>{0} units × {1} = {2} invested</value>
+  </data>
+  <data name="Inv_InvalidPrice" xml:space="preserve">
+    <value>Enter a positive price, for example 52.40.</value>
+  </data>
+  <data name="Inv_InvalidAmount" xml:space="preserve">
+    <value>Enter a positive amount.</value>
+  </data>
+  <data name="Inv_InvalidQuantity" xml:space="preserve">
+    <value>Enter a positive quantity.</value>
+  </data>
+  <data name="Inv_DeletePurchaseTitle" xml:space="preserve">
+    <value>Delete this purchase?</value>
+  </data>
+  <data name="Inv_DeletePurchaseText" xml:space="preserve">
+    <value>Its performance will no longer count.</value>
+  </data>
+  <data name="Inv_DeletePurchase" xml:space="preserve">
+    <value>Delete purchase</value>
+  </data>
+  <data name="Inv_Line" xml:space="preserve">
+    <value>HOLDING</value>
+  </data>
+  <data name="Inv_NamePlaceholder" xml:space="preserve">
+    <value>e.g. Amundi PEA S&amp;P 500</value>
+  </data>
+  <data name="Inv_Type" xml:space="preserve">
+    <value>TYPE</value>
+  </data>
+  <data name="Inv_Account" xml:space="preserve">
+    <value>ACCOUNT</value>
+  </data>
+  <data name="Inv_AccountPlaceholder" xml:space="preserve">
+    <value>e.g. Brokerage</value>
+  </data>
+  <data name="Inv_Code" xml:space="preserve">
+    <value>TICKER OR ISIN</value>
+  </data>
+  <data name="Inv_PurchaseDate" xml:space="preserve">
+    <value>PURCHASE DATE</value>
+  </data>
+  <data name="Inv_UnitPrice" xml:space="preserve">
+    <value>PRICE PAID PER UNIT</value>
+  </data>
+  <data name="Inv_Fees" xml:space="preserve">
+    <value>FEES</value>
+  </data>
+  <data name="Inv_DeleteHoldingText" xml:space="preserve">
+    <value>The holding and all its purchases will be deleted.</value>
+  </data>
+  <data name="Inv_ManualPrice" xml:space="preserve">
+    <value>PRICE ENTERED BY HAND</value>
+  </data>
+  <data name="Inv_ManualPriceHint" xml:space="preserve">
+    <value>Used when there is no online quote (guaranteed funds, real estate funds…).</value>
+  </data>
+  <data name="Inv_DeleteHolding" xml:space="preserve">
+    <value>Delete holding</value>
+  </data>
+  <data name="HoldingType_Etf" xml:space="preserve">
+    <value>ETF</value>
+  </data>
+  <data name="HoldingType_Stock" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="HoldingType_Bond" xml:space="preserve">
+    <value>Bond</value>
+  </data>
+  <data name="HoldingType_Fund" xml:space="preserve">
+    <value>Fund</value>
+  </data>
+  <data name="HoldingType_Crypto" xml:space="preserve">
+    <value>Crypto</value>
+  </data>
+  <data name="HoldingType_RealEstate" xml:space="preserve">
+    <value>Real estate</value>
+  </data>
+  <data name="HoldingType_Cash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="HoldingType_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Pro_InvestTitle" xml:space="preserve">
+    <value>Investments</value>
+  </data>
+  <data name="Pro_InvestText" xml:space="preserve">
+    <value>The performance of each purchase since its date, how your investments are spread and how they compare with an index.</value>
+  </data>
+  <data name="Error_EmptyHoldingName" xml:space="preserve">
+    <value>A holding needs a name.</value>
+  </data>
+  <data name="Error_InvalidSymbol" xml:space="preserve">
+    <value>This quote symbol is not valid.</value>
+  </data>
+  <data name="Error_InvalidQuantity" xml:space="preserve">
+    <value>The quantity must be positive.</value>
+  </data>
+  <data name="Error_InvalidUnitPrice" xml:space="preserve">
+    <value>The price must be positive.</value>
+  </data>
+  <data name="Error_InvalidFees" xml:space="preserve">
+    <value>Fees cannot be negative.</value>
+  </data>
+  <data name="Error_PurchaseInFuture" xml:space="preserve">
+    <value>A purchase cannot be in the future.</value>
+  </data>
+  <data name="Error_HoldingNotFound" xml:space="preserve">
+    <value>This holding no longer exists.</value>
+  </data>
+  <data name="Error_PurchaseNotFound" xml:space="preserve">
+    <value>This purchase no longer exists.</value>
+  </data>
 </root>

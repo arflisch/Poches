@@ -9,6 +9,8 @@
         <!-- Backups: read the file picked in the Open panel, write the one chosen in the Save panel. -->
         <key>com.apple.security.files.user-selected.read-write</key>
         <true/>
-        <!-- No network entitlement: the app works entirely offline. -->
+        <!-- Investments (Poches Pro): quotes from Yahoo Finance, only after the user turns online quotes on. -->
+        <key>com.apple.security.network.client</key>
+        <true/>
     </dict>
 </plist>

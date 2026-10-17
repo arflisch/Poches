@@ -11,4 +11,7 @@ public static class Routes
     public const string ScheduledDeposit = "scheduleddeposit";
     public const string Split = "split";
     public const string Statistics = "statistics";
+    public const string Holding = "holding";
+    public const string EditHolding = "editholding";
+    public const string Purchase = "purchase";
 }

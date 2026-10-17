@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<VerticalStackLayout
+    x:Class="Poches.Views.Components.SymbolPicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:SymbolSearchViewModel"
+    Spacing="8">
+
+    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Quote}" />
+
+    <!-- Online quotes off: nothing is searched -->
+    <Border IsVisible="{Binding IsOffline}" Padding="14,12" Style="{StaticResource Card}">
+        <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_QuoteOffline}" />
+    </Border>
+
+    <!-- Chosen symbol -->
+    <Border IsVisible="{Binding HasSymbol}" Padding="14,10" Style="{StaticResource Card}">
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+            <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                <Label Style="{StaticResource Strong}" Text="{Binding Symbol}" />
+                <Label LineBreakMode="TailTruncation" Style="{StaticResource Caption}" Text="{Binding SymbolCaption}" />
+            </VerticalStackLayout>
+            <Label
+                Grid.Column="1"
+                c:Touch.Command="{Binding ClearCommand}"
+                Style="{StaticResource LinkLabel}"
+                Text="{l:Tr Inv_Change}"
+                VerticalOptions="Center" />
+        </Grid>
+    </Border>
+
+    <!-- Search -->
+    <VerticalStackLayout IsVisible="{Binding IsSearchVisible}" Spacing="8">
+        <Border Style="{StaticResource InputField}">
+            <Entry
+                IsSpellCheckEnabled="False"
+                IsTextPredictionEnabled="False"
+                MaxLength="40"
+                Placeholder="{l:Tr Inv_SearchPlaceholder}"
+                ReturnType="Search"
+                Text="{Binding Query}" />
+        </Border>
+        <Label IsVisible="{Binding HasMessage}" Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{Binding Message}" />
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Results}" Spacing="8">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="vm:SymbolResult">
+                    <Border Padding="14,10" c:Touch.Command="{Binding PickCommand}" Style="{StaticResource Card}">
+                        <Grid ColumnDefinitions="88,*" ColumnSpacing="12">
+                            <Label FontFamily="OpenSansSemibold" FontSize="14" Text="{Binding Symbol}" VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="0">
+                                <Label FontSize="14" LineBreakMode="TailTruncation" Text="{Binding Name}" />
+                                <Label Style="{StaticResource Caption}" Text="{Binding Caption}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</VerticalStackLayout>

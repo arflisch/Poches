@@ -13,6 +13,8 @@ public sealed partial class BudgetStore
         var subscriptions = await db.Table<Subscription>().OrderBy(s => s.Id).ToListAsync();
         var schedules = await db.Table<ScheduledDeposit>().OrderBy(s => s.Id).ToListAsync();
         var splitRules = await db.Table<SplitRule>().ToListAsync();
+        var holdings = await db.Table<Holding>().OrderBy(h => h.Id).ToListAsync();
+        var purchases = await db.Table<Purchase>().OrderBy(p => p.Date).ThenBy(p => p.Id).ToListAsync();
 
         return new BackupDocument
         {
@@ -30,12 +32,19 @@ public sealed partial class BudgetStore
                 .Select(s => new BackupScheduledDeposit(s.PocketId, s.AmountCents, s.Period, s.Anchor, s.AppliedThrough, s.Note, s.IsActive, s.CreatedAt))
                 .ToList(),
             SplitRules = splitRules.Select(r => new BackupSplitRule(r.PocketId, r.BasisPoints)).ToList(),
+            Holdings = holdings
+                .Select(h => new BackupHolding(h.Id, h.Name, h.Code, h.Symbol, h.Type, h.Account, h.ColorHex, h.ManualPriceMicros, h.ManualPriceDate, h.CreatedAt))
+                .ToList(),
+            Purchases = purchases
+                .Select(p => new BackupPurchase(p.HoldingId, p.Date, p.QuantityMicros, p.UnitPriceMicros, p.FeesCents))
+                .ToList(),
         };
     }
 
     /// <summary>
     /// Replaces all current data with the content of <paramref name="backup"/>, atomically. Backups made before
-    /// subscriptions existed (version 1) leave the current subscriptions untouched. Scheduled deposits and split
+    /// subscriptions existed (version 1) leave the current subscriptions untouched, and those made before
+    /// investments existed (before version 5) leave the current investments untouched. Scheduled deposits and split
     /// rules always follow the backup, since they point to pockets that are replaced.
     /// </summary>
     /// <exception cref="BudgetException">The backup is inconsistent; nothing is changed.</exception>
@@ -98,6 +107,41 @@ public sealed partial class BudgetStore
             foreach (var r in backup.SplitRules)
                 conn.Insert(new SplitRule { PocketId = newIds[r.PocketId], BasisPoints = r.BasisPoints });
 
+            if (backup.Version >= 5)
+            {
+                conn.DeleteAll<Purchase>();
+                conn.DeleteAll<Holding>();
+                var holdingIds = new Dictionary<int, int>();
+                foreach (var h in backup.Holdings)
+                {
+                    var holding = new Holding
+                    {
+                        Name = h.Name.Trim(),
+                        Code = h.Code,
+                        Symbol = h.Symbol is { } symbol && Investments.Symbols.IsValid(symbol) ? symbol.ToUpperInvariant() : null,
+                        Type = h.Type,
+                        Account = h.Account,
+                        ColorHex = string.IsNullOrWhiteSpace(h.ColorHex) ? "#6366F1" : h.ColorHex,
+                        ManualPriceMicros = h.ManualPriceMicros is > 0 ? h.ManualPriceMicros : null,
+                        ManualPriceDate = h.ManualPriceMicros is > 0 ? h.ManualPriceDate : null,
+                        CreatedAt = h.CreatedAt,
+                    };
+                    conn.Insert(holding);
+                    holdingIds[h.Id] = holding.Id;
+                }
+                foreach (var p in backup.Purchases)
+                {
+                    conn.Insert(new Purchase
+                    {
+                        HoldingId = holdingIds[p.HoldingId],
+                        Date = p.Date.Date,
+                        QuantityMicros = p.QuantityMicros,
+                        UnitPriceMicros = p.UnitPriceMicros,
+                        FeesCents = p.FeesCents,
+                    });
+                }
+            }
+
             if (backup.Version >= 2)
             {
                 conn.DeleteAll<Subscription>();
@@ -122,7 +166,10 @@ public sealed partial class BudgetStore
         OnChanged();
     }
 
-    /// <summary>Deletes every pocket, movement, subscription, scheduled deposit and split rule.</summary>
+    /// <summary>
+    /// Deletes every pocket, movement, subscription, scheduled deposit, split rule and investment, with the market
+    /// data fetched for them (it would still tell which securities were held).
+    /// </summary>
     public async Task DeleteAllAsync()
     {
         var db = await GetConnectionAsync();
@@ -133,6 +180,11 @@ public sealed partial class BudgetStore
             conn.DeleteAll<Subscription>();
             conn.DeleteAll<ScheduledDeposit>();
             conn.DeleteAll<SplitRule>();
+            conn.DeleteAll<Purchase>();
+            conn.DeleteAll<Holding>();
+            conn.DeleteAll<CachedQuote>();
+            conn.DeleteAll<PriceClose>();
+            conn.DeleteAll<PriceCoverage>();
         });
         OnChanged();
     }
@@ -159,5 +211,14 @@ public sealed partial class BudgetStore
             || backup.SplitRules.Sum(r => r.BasisPoints) > Pro.SalarySplit.WholeIncome
             || backup.SplitRules.Select(r => r.PocketId).Distinct().Count() != backup.SplitRules.Count)
             throw new BudgetException(BudgetError.CorruptBackup, "The split rules are inconsistent.");
+
+        var holdingIds = new HashSet<int>();
+        foreach (var holding in backup.Holdings)
+        {
+            if (!holdingIds.Add(holding.Id) || string.IsNullOrWhiteSpace(holding.Name) || !Enum.IsDefined(holding.Type))
+                throw new BudgetException(BudgetError.CorruptBackup, $"Invalid or duplicate holding {holding.Id}.");
+        }
+        if (backup.Purchases.Any(p => !holdingIds.Contains(p.HoldingId) || p.QuantityMicros <= 0 || p.UnitPriceMicros <= 0 || p.FeesCents < 0))
+            throw new BudgetException(BudgetError.CorruptBackup, "A purchase is incomplete or references an unknown holding.");
     }
 }

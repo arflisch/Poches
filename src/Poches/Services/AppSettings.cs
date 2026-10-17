@@ -14,6 +14,8 @@ public sealed class AppSettings
     private const string LanguageKey = "language";
     private const string ReminderKey = "reminder_days_before";
     private const string LockKey = "app_lock";
+    private const string OnlineQuotesKey = "online_quotes";
+    private const string BenchmarkKey = "investments_benchmark";
 
     /// <summary>Reminder choices, in days before a payment (null = no reminder).</summary>
     public static readonly IReadOnlyList<int?> ReminderChoices = [null, 0, 1, 3, 7];
@@ -74,6 +76,32 @@ public sealed class AppSettings
         get => _preferences.Get(LockKey, false);
         set => Update(() => _preferences.Set(LockKey, value));
     }
+
+    /// <summary>
+    /// Whether investment quotes are fetched from Yahoo Finance. Off by default: Poches stays offline until the
+    /// user turns this on.
+    /// </summary>
+    public bool OnlineQuotes
+    {
+        get => _preferences.Get(OnlineQuotesKey, false);
+        set => Update(() => _preferences.Set(OnlineQuotesKey, value));
+    }
+
+    /// <summary>Symbol the investments are compared with on the evolution chart; empty for none.</summary>
+    public string Benchmark
+    {
+        get => _preferences.Get(BenchmarkKey, "CW8.PA");
+        set => Update(() => _preferences.Set(BenchmarkKey, value));
+    }
+
+    /// <summary>ISO code of the display currency, used to convert quotes ("€" → EUR).</summary>
+    public string CurrencyCode => Currency switch
+    {
+        "CHF" => "CHF",
+        "$" => "USD",
+        "£" => "GBP",
+        _ => "EUR",
+    };
 
     /// <summary>How many days before a subscription payment to send a reminder; null disables reminders.</summary>
     public int? ReminderDaysBefore

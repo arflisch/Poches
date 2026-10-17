@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Plugin.LocalNotification;
 using Poches.Core.Data;
+using Poches.Core.Investments;
 using Poches.Services;
 using Poches.ViewModels;
 using Poches.Views;
@@ -36,6 +37,16 @@ public static class MauiProgram
         builder.Services.AddSingleton<SubscriptionReminders>();
         builder.Services.AddSingleton<ProService>();
         builder.Services.AddSingleton<ScheduledDeposits>();
+        // Investments (Poches Pro): quotes from Yahoo Finance, only once the user turns online quotes on.
+        builder.Services.AddSingleton(_ =>
+        {
+            var http = new HttpClient { Timeout = TimeSpan.FromSeconds(15), MaxResponseContentBufferSize = 5 * 1024 * 1024 };
+            http.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1");
+            return new YahooFinanceClient(http);
+        });
+        builder.Services.AddSingleton<IQuoteSource>(sp => sp.GetRequiredService<YahooFinanceClient>());
+        builder.Services.AddSingleton(sp => new MarketData(sp.GetRequiredService<BudgetStore>(), sp.GetRequiredService<IQuoteSource>()));
+        builder.Services.AddSingleton<InvestmentService>();
         builder.Services.AddSingleton<IDialogService, DialogService>();
         builder.Services.AddSingleton<AppShell>();
 
@@ -61,6 +72,15 @@ public static class MauiProgram
         builder.Services.AddTransient<SplitPage>();
         builder.Services.AddTransient<StatisticsViewModel>();
         builder.Services.AddTransient<StatisticsPage>();
+        builder.Services.AddSingleton<InvestmentsViewModel>();
+        builder.Services.AddSingleton<InvestmentsPage>();
+        builder.Services.AddTransient<HoldingDetailViewModel>();
+        builder.Services.AddTransient<HoldingDetailPage>();
+        builder.Services.AddTransient<SymbolSearchViewModel>();
+        builder.Services.AddTransient<PurchaseEditViewModel>();
+        builder.Services.AddTransient<PurchaseEditPage>();
+        builder.Services.AddTransient<HoldingEditViewModel>();
+        builder.Services.AddTransient<HoldingEditPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

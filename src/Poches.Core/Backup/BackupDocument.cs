@@ -11,9 +11,9 @@ public sealed record BackupDocument
     public const string FormatName = "poches-backup";
     /// <summary>
     /// Version 2 added <see cref="Subscriptions"/>; version 3 their category and the 6-month period; version 4
-    /// the scheduled deposits and split rules of Poches Pro.
+    /// the scheduled deposits and split rules of Poches Pro; version 5 the investments (holdings and purchases).
     /// </summary>
-    public const int CurrentVersion = 4;
+    public const int CurrentVersion = 5;
 
     public string Format { get; init; } = FormatName;
 
@@ -33,6 +33,10 @@ public sealed record BackupDocument
     public List<BackupScheduledDeposit> ScheduledDeposits { get; init; } = [];
 
     public List<BackupSplitRule> SplitRules { get; init; } = [];
+
+    public List<BackupHolding> Holdings { get; init; } = [];
+
+    public List<BackupPurchase> Purchases { get; init; } = [];
 }
 
 public sealed record BackupPocket(
@@ -74,3 +78,17 @@ public sealed record BackupScheduledDeposit(
     DateTime CreatedAt);
 
 public sealed record BackupSplitRule(int PocketId, int BasisPoints);
+
+public sealed record BackupHolding(
+    int Id,
+    string Name,
+    string? Code,
+    string? Symbol,
+    HoldingType Type,
+    string? Account,
+    string ColorHex,
+    long? ManualPriceMicros,
+    DateTime? ManualPriceDate,
+    DateTime CreatedAt);
+
+public sealed record BackupPurchase(int HoldingId, DateTime Date, long QuantityMicros, long UnitPriceMicros, long FeesCents);

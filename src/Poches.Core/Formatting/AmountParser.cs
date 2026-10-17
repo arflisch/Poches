@@ -28,4 +28,31 @@ public static class AmountParser
 
         return decimal.TryParse(cleaned, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out amount);
     }
+
+    /// <summary>
+    /// Parses a quantity or a unit price, which can have more decimals than an amount ("29,4002", "0.000123").
+    /// The last separator is the decimal one; spaces and currency symbols are ignored.
+    /// </summary>
+    public static bool TryParseDecimal(string? text, int maxDecimals, out decimal value)
+    {
+        value = 0m;
+        if (string.IsNullOrWhiteSpace(text))
+            return false;
+
+        var cleaned = new string(text.Where(c => char.IsAsciiDigit(c) || c is ',' or '.').ToArray());
+        if (cleaned.Length == 0)
+            return false;
+
+        var lastSeparator = cleaned.LastIndexOfAny([',', '.']);
+        if (lastSeparator >= 0)
+        {
+            var integerPart = cleaned[..lastSeparator].Replace(",", string.Empty).Replace(".", string.Empty);
+            var decimalPart = cleaned[(lastSeparator + 1)..];
+            if (decimalPart.Length > maxDecimals)
+                return false;
+            cleaned = $"{(integerPart.Length == 0 ? "0" : integerPart)}.{(decimalPart.Length == 0 ? "0" : decimalPart)}";
+        }
+
+        return decimal.TryParse(cleaned, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out value);
+    }
 }

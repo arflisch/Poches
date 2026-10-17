@@ -30,17 +30,23 @@ La version gratuite reste complète (poches, charges fixes, rappels, sauvegarde 
 - **Répartition du salaire** : un revenu est réparti entre les poches par pourcentages (retenus pour la fois suivante), avec l'aperçu de chaque part et du montant non réparti ; l'arrondi ne crée ni ne perd aucun centime.
 - **Statistiques** : épargne moyenne des 3 derniers mois complets, ajouts et retraits sur 12 mois, évolution du total, épargne nette par mois (les virements entre poches ne comptent pas) et date d'atteinte de chaque objectif au rythme actuel.
 - **Export CSV** de tous les mouvements, lisible directement par Excel ou Numbers (séparateur et décimales de la langue, BOM UTF-8).
+- **Investissements** (3ᵉ onglet) : des lignes (ETF, actions, fonds…) et leurs achats datés. Pour chaque achat : montant investi, valeur actuelle, plus-value, performance et rendement annualisé depuis sa date (l'achat de janvier et le renfort de juin se lisent séparément). Par ligne : PRU frais inclus, TRI (rendement pondéré par les dates de versement), graphique du prix payé à chaque achat face au cours actuel. Pour l'ensemble : valeur, plus-value, TRI, variation du jour, répartition par ligne ou par type, et courbe d'évolution comparée aux mêmes versements dans un indice (MSCI World, S&P 500, Nasdaq-100, CAC 40).
+- **Cours en ligne** (désactivés par défaut) : un interrupteur de l'onglet Investissements active les cours de Yahoo Finance (différés d'environ 15 min), la recherche d'une cotation par nom, ticker ou ISIN, et l'historique pour la courbe. Seuls les symboles sont envoyés ; tant que l'option est coupée, Poches reste hors ligne et utilise les cours saisis à la main (ou les derniers cours connus).
 
 Côté technique :
 
 - Achat intégré via `Plugin.InAppBilling` (StoreKit sur iPhone et Mac, Google Play Billing sur Android), produit **non consommable** `com.arflisch.poches.pro` à créer dans App Store Connect et la Play Console. « Restaurer mes achats » le retrouve sur un nouvel appareil ; le déblocage est gardé sur l'appareil (l'app reste hors ligne).
 - Tant que le produit n'existe pas dans les stores, l'achat affiche « Achat indisponible ». Les builds pour nos propres appareils ont un **mode test** (« Débloquer (mode test) ») : il est actif en Debug ou avec `-p:ProTesting=true`, et ne doit **jamais** être utilisé pour un build envoyé aux stores.
-- Les versements programmés et les pourcentages font partie des sauvegardes (format version 4).
+- Les versements programmés et les pourcentages font partie des sauvegardes (format version 4), les investissements aussi (version 5 ; les cours téléchargés n'y sont pas, ils se retéléchargent).
+- **Cours Yahoo Finance** : l'API utilisée est publique mais non officielle, et ses conditions d'utilisation limitent l'usage commercial. Avant de publier cette fonction dans une version payante, il faut un fournisseur de cours sous licence : il suffit d'implémenter `IQuoteSource` (`Poches.Core/Investments`).
 - Google Play Billing impose Android 6.0 (API 23) minimum.
 
 ## Persistance
 
-**SQLite** local via `sqlite-net-pcl`, dans le dossier privé de l'app. Aucune connexion réseau n'est demandée (pas de permission INTERNET sur Android).
+**SQLite** local via `sqlite-net-pcl`, dans le dossier privé de l'app. Aucune connexion réseau n'a lieu tant que les cours en ligne (onglet Investissements, Poches Pro) sont désactivés ; la permission INTERNET d'Android et l'autorisation réseau du Mac n'existent que pour eux.
+
+- Quantités et cours unitaires sont stockés en **millionièmes (`long`)**, comme les montants en centimes.
+- Les cours et l'historique téléchargés sont un cache (tables `quote_cache`, `price_history`, `price_coverage`), effacé par « Tout effacer » : il trahirait les titres détenus.
 
 - Les montants sont stockés en **centimes (`long`)** pour éviter les erreurs d'arrondi.
 - Le solde d'une poche n'est **jamais stocké** : c'est toujours la somme de ses mouvements, il ne peut donc pas se désynchroniser.
@@ -138,6 +144,5 @@ dotnet test tests/Poches.Core.Tests
 - Verrouillage par Face ID / empreinte.
 - Synchronisation automatique entre appareils (CloudKit, nécessite un compte Apple Developer payant).
 - Lier une charge fixe à une poche pour débiter automatiquement chaque prélèvement.
-- Suivi de la valeur des investissements (plus-values) en plus des versements.
 - Statistiques mensuelles (entrées/sorties par mois) et date cible pour les objectifs.
 - Widget d'écran d'accueil avec le solde total.
