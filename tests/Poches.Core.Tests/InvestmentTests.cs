@@ -248,6 +248,78 @@ public sealed class InvestmentStoreTests : IAsyncLifetime
         Assert.Equal(3, (await _store.GetHoldingsAsync()).Count);
     }
 
+    // As written by Poches 1.0 (build 2): no "holdings" nor "purchases" key at all.
+    private const string VersionFourFile = """
+        {
+          "format": "poches-backup",
+          "version": 4,
+          "exportedAt": "2026-10-02T11:20:00+02:00",
+          "currency": "€",
+          "pockets": [
+            { "id": 3, "name": "Vacances", "icon": "🏖️", "colorHex": "#F97316", "goalCents": 150000, "createdAt": "2026-03-25T21:25:51" }
+          ],
+          "movements": [
+            { "pocketId": 3, "amountCents": 45000, "kind": "Deposit", "note": "Salaire", "date": "2026-09-01T10:00:00", "transferGroup": null, "counterpartPocketId": null }
+          ],
+          "subscriptions": [
+            { "name": "Netflix", "icon": "📺", "colorHex": "#E11D48", "amountCents": 1399, "period": "Monthly", "billingAnchor": "2026-09-12T00:00:00", "isActive": true, "createdAt": "2026-09-01T10:00:00", "category": "Subscription" }
+          ],
+          "scheduledDeposits": [
+            { "pocketId": 3, "amountCents": 10000, "period": "Monthly", "anchor": "2026-10-01T00:00:00", "appliedThrough": "2026-10-01T00:00:00", "note": null, "isActive": true, "createdAt": "2026-09-01T10:00:00" }
+          ],
+          "splitRules": [ { "pocketId": 3, "basisPoints": 1000 } ]
+        }
+        """;
+
+    [Fact]
+    public async Task A_version_4_file_without_investments_is_read_and_restored()
+    {
+        var document = BackupSerializer.Read(System.Text.Encoding.UTF8.GetBytes(VersionFourFile));
+
+        Assert.Equal(4, document.Version);
+        Assert.Empty(document.Holdings);
+        Assert.Empty(document.Purchases);
+
+        await _store.ImportAsync(document);
+        Assert.Equal("Vacances", Assert.Single(await _store.GetPocketSummariesAsync()).Pocket.Name);
+        Assert.Empty(await _store.GetHoldingsAsync());
+    }
+
+    [Fact]
+    public async Task Restoring_a_version_4_file_keeps_the_investments_and_the_next_backup_uses_the_new_format()
+    {
+        await _store.SeedSampleInvestmentsAsync(DateTime.Today);
+        var purchases = (await _store.GetPurchasesAsync()).Count;
+
+        await _store.ImportAsync(BackupSerializer.Read(System.Text.Encoding.UTF8.GetBytes(VersionFourFile)));
+        Assert.Equal(3, (await _store.GetHoldingsAsync()).Count);
+        Assert.Equal(purchases, (await _store.GetPurchasesAsync()).Count);
+
+        var next = await _store.ExportAsync(DateTime.Now);
+        Assert.Equal(BackupDocument.CurrentVersion, next.Version);
+        var reread = BackupSerializer.Read(BackupSerializer.WriteEncrypted(next, "mot de passe"), "mot de passe");
+        Assert.Equal(5, reread.Version);
+        Assert.Equal(3, reread.Holdings.Count);
+        Assert.Equal(purchases, reread.Purchases.Count);
+        Assert.Equal("Vacances", Assert.Single(reread.Pockets).Name);
+    }
+
+    [Fact]
+    public async Task Null_investment_lists_in_a_version_5_file_count_as_empty()
+    {
+        const string file = """
+            { "format": "poches-backup", "version": 5, "exportedAt": "2026-10-18T09:00:00", "currency": "€",
+              "pockets": [], "movements": [], "holdings": null, "purchases": null }
+            """;
+
+        var document = BackupSerializer.Read(System.Text.Encoding.UTF8.GetBytes(file));
+        Assert.Empty(document.Holdings);
+        Assert.Empty(document.Purchases);
+
+        await _store.ImportAsync(document);
+        Assert.Empty(await _store.GetHoldingsAsync());
+    }
+
     [Fact]
     public async Task A_purchase_pointing_to_an_unknown_holding_makes_the_backup_corrupt()
     {
