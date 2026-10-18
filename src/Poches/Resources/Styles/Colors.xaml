@@ -58,6 +58,23 @@
         <GradientStop Color="#4338CA" Offset="1" />
     </LinearGradientBrush>
 
+    <!-- Investments tab: deep oranges, dark enough for white text, away from the green and red of gains and losses. -->
+    <Color x:Key="InvestmentsAccent">#C2410C</Color>
+    <Color x:Key="InvestmentsAccentDarkMode">#FB923C</Color>
+
+    <LinearGradientBrush x:Key="InvestmentsGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#9A3412" Offset="0" />
+        <GradientStop Color="#C2410C" Offset="0.55" />
+        <GradientStop Color="#B45309" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Buttons of the investments tab: the gradient of its card, laid out horizontally. -->
+    <LinearGradientBrush x:Key="InvestmentsAccentGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#9A3412" Offset="0" />
+        <GradientStop Color="#C2410C" Offset="0.55" />
+        <GradientStop Color="#B45309" Offset="1" />
+    </LinearGradientBrush>
+
     <Color x:Key="DueSoonLight">#D97706</Color>
     <Color x:Key="DueSoonDark">#FBBF24</Color>
 

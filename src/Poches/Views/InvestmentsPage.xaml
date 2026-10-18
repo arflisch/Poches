@@ -90,7 +90,7 @@
                         </Border>
                         <Label HorizontalTextAlignment="Center" Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_LockedTitle}" />
                         <Label HorizontalTextAlignment="Center" Style="{StaticResource Secondary}" Text="{l:Tr Inv_LockedText}" />
-                        <Border Margin="0,10,0,0" c:Touch.Command="{Binding OpenProCommand}" Style="{StaticResource PrimaryButton}">
+                        <Border Margin="0,10,0,0" c:Touch.Command="{Binding OpenProCommand}" Background="{StaticResource InvestmentsAccentGradient}" Style="{StaticResource PrimaryButton}">
                             <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Inv_DiscoverPro}" />
                         </Border>
                     </VerticalStackLayout>
@@ -101,8 +101,8 @@
                         <VerticalStackLayout Spacing="22">
                             <!-- Value -->
                             <Border
-                                Background="{StaticResource HeroGradient}"
-                                Shadow="{StaticResource FloatingShadow}"
+                                Background="{StaticResource InvestmentsGradient}"
+                                Shadow="{StaticResource InvestmentsShadow}"
                                 StrokeShape="RoundRectangle 28"
                                 StrokeThickness="0">
                                 <Grid>
@@ -173,7 +173,7 @@
                                         <Label Style="{StaticResource Caption}" Text="{Binding QuotesText}" />
                                     </VerticalStackLayout>
                                     <Grid Grid.Column="1" c:Touch.Command="{Binding ToggleOnlineCommand}">
-                                        <Switch InputTransparent="True" IsToggled="{Binding OnlineQuotes, Mode=OneWay}" OnColor="{StaticResource Primary}" VerticalOptions="Center" />
+                                        <Switch InputTransparent="True" IsToggled="{Binding OnlineQuotes, Mode=OneWay}" OnColor="{StaticResource InvestmentsAccent}" VerticalOptions="Center" />
                                     </Grid>
                                     <Label
                                         Grid.Row="1"
@@ -191,7 +191,7 @@
                                     <Label FontSize="52" HorizontalOptions="Center" Text="📈" />
                                     <Label HorizontalTextAlignment="Center" Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_EmptyTitle}" />
                                     <Label HorizontalTextAlignment="Center" Style="{StaticResource Secondary}" Text="{l:Tr Inv_EmptyText}" />
-                                    <Border Margin="0,10,0,0" c:Touch.Command="{Binding AddPurchaseCommand}" Style="{StaticResource PrimaryButton}">
+                                    <Border Margin="0,10,0,0" c:Touch.Command="{Binding AddPurchaseCommand}" Background="{StaticResource InvestmentsAccentGradient}" Style="{StaticResource PrimaryButton}">
                                         <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Inv_AddFirst}" />
                                     </Border>
                                     <Label
@@ -209,11 +209,11 @@
                                     <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_Evolution}" />
                                     <FlexLayout Wrap="Wrap">
                                         <HorizontalStackLayout Margin="0,0,14,4" Spacing="6">
-                                            <BoxView CornerRadius="1" HeightRequest="3" VerticalOptions="Center" WidthRequest="14" Color="{StaticResource Primary}" />
+                                            <BoxView CornerRadius="1" HeightRequest="3" VerticalOptions="Center" WidthRequest="14" Color="{AppThemeBinding Light={StaticResource InvestmentsAccent}, Dark={StaticResource InvestmentsAccentDarkMode}}" />
                                             <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_LegendValue}" />
                                         </HorizontalStackLayout>
                                         <HorizontalStackLayout Margin="0,0,14,4" IsVisible="{Binding HasBenchmarkLegend}" Spacing="6">
-                                            <BoxView CornerRadius="1" HeightRequest="3" VerticalOptions="Center" WidthRequest="14" Color="#F97316" />
+                                            <BoxView CornerRadius="1" HeightRequest="3" VerticalOptions="Center" WidthRequest="14" Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDarkMode}}" />
                                             <Label Style="{StaticResource Caption}" Text="{Binding BenchmarkLegend}" />
                                         </HorizontalStackLayout>
                                         <HorizontalStackLayout Margin="0,0,14,4" Spacing="6">
@@ -222,13 +222,14 @@
                                         </HorizontalStackLayout>
                                     </FlexLayout>
                                     <c:EvolutionChartView
+                                        BenchmarkColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDarkMode}}"
                                         GridColor="{AppThemeBinding Light={StaticResource DividerLight}, Dark={StaticResource DividerDark}}"
                                         HeightRequest="200"
                                         InvestedColor="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
                                         LabelColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                                         LabelFormatter="{Binding AxisFormatter}"
                                         Points="{Binding Evolution}"
-                                        ValueColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDarkMode}}" />
+                                        ValueColor="{AppThemeBinding Light={StaticResource InvestmentsAccent}, Dark={StaticResource InvestmentsAccentDarkMode}}" />
                                     <Label Style="{StaticResource Secondary}" Text="{Binding EvolutionText}" />
                                     <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_CompareWith}" />
                                     <Border
@@ -284,11 +285,11 @@
                 Margin="0,0,20,20"
                 Padding="22,0"
                 c:Touch.Command="{Binding AddPurchaseCommand}"
-                Background="{StaticResource AccentGradient}"
+                Background="{StaticResource InvestmentsAccentGradient}"
                 HeightRequest="58"
                 HorizontalOptions="End"
                 IsVisible="{Binding HasHoldings}"
-                Shadow="{StaticResource FloatingShadow}"
+                Shadow="{StaticResource InvestmentsShadow}"
                 StrokeShape="RoundRectangle 29"
                 StrokeThickness="0"
                 VerticalOptions="End"
