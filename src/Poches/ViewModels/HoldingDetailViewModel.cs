@@ -14,6 +14,10 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
     : ReloadingViewModel, IQueryAttributable
 {
     private int _holdingId;
+    private IReadOnlyList<PurchaseDot> _dots = [];
+    private double _current, _averageCost;
+    private DateTime _priceDate;
+    private int? _year;
 
     public ObservableCollection<PurchaseItemViewModel> Purchases { get; } = [];
 
@@ -61,6 +65,13 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
     [ObservableProperty]
     private PurchaseChartData? _chart;
 
+    /// <summary>One chip per year with purchases, newest first, when they span more than a year.</summary>
+    [ObservableProperty]
+    private IReadOnlyList<SelectableOption> _years = [];
+
+    [ObservableProperty]
+    private bool _hasYears;
+
     [ObservableProperty]
     private bool _hasPurchases;
 
@@ -106,6 +117,8 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
             ValueText = formatter.Format(0);
             GainText = Loc.Get("Inv_NoPurchaseYet");
             Chart = null;
+            Years = [];
+            HasYears = false;
             return;
         }
 
@@ -126,11 +139,31 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
         foreach (var purchase in performance.Purchases.OrderByDescending(p => p.Purchase.Date).ThenByDescending(p => p.Purchase.Id))
             Purchases.Add(new PurchaseItemViewModel(purchase, formatter, OpenPurchaseAsync));
 
-        Chart = new PurchaseChartData(
-            performance.Purchases.Select(p => new PurchaseDot(p.Purchase.Date, (double)p.Purchase.UnitPrice, (double)p.Invested, p.Gain >= 0)).ToList(),
-            (double)performance.Price,
-            (double)performance.AverageCost,
-            performance.PriceDate);
+        _dots = performance.Purchases.Select(p => new PurchaseDot(p.Purchase.Date, (double)p.Purchase.UnitPrice, (double)p.Invested, p.Gain >= 0)).ToList();
+        _current = (double)performance.Price;
+        _averageCost = (double)performance.AverageCost;
+        _priceDate = performance.PriceDate;
+
+        // Years of monthly purchases would pile up dozens of dots: the chart shows one year at a time.
+        var years = _dots.Select(d => d.Date.Year).Distinct().OrderDescending().ToList();
+        if (_year is not { } kept || !years.Contains(kept))
+            _year = years[0];
+        Years = years.Count > 1
+            ? years.Select((y, i) => new SelectableOption(y.ToString(System.Globalization.CultureInfo.InvariantCulture), i, years.Count, o => ShowYear(int.Parse(o.Value, System.Globalization.CultureInfo.InvariantCulture)))).ToList()
+            : [];
+        HasYears = Years.Count > 0;
+        ShowYear(_year.Value);
+    }
+
+    private void ShowYear(int year)
+    {
+        _year = year;
+        foreach (var option in Years)
+            option.IsSelected = option.Value == year.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var dots = HasYears ? _dots.Where(d => d.Date.Year == year).ToList() : _dots;
+        // The current year runs to today's price; a past one stops at its last purchase.
+        var end = year == _priceDate.Year || !HasYears ? _priceDate : dots.Max(d => d.Date);
+        Chart = new PurchaseChartData(dots, _current, _averageCost, end);
     }
 
     private Task OpenPurchaseAsync(int purchaseId) => Shell.Current.GoToAsync($"{Routes.Purchase}?id={purchaseId}");

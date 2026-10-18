@@ -180,7 +180,7 @@
                                         Padding="0,8,0,0"
                                         c:Touch.Command="{Binding RefreshCommand}"
                                         IsVisible="{Binding OnlineQuotes}"
-                                        Style="{StaticResource LinkLabel}"
+                                        Style="{StaticResource InvestmentsLinkLabel}"
                                         Text="{l:Tr Inv_Refresh}" />
                                 </Grid>
                             </Border>
@@ -198,7 +198,7 @@
                                         Padding="0,6"
                                         c:Touch.Command="{Binding LoadSamplesCommand}"
                                         HorizontalOptions="Center"
-                                        Style="{StaticResource LinkLabel}"
+                                        Style="{StaticResource InvestmentsLinkLabel}"
                                         Text="{l:Tr Main_ExploreSamples}" />
                                 </VerticalStackLayout>
                             </Border>

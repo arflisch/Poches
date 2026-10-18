@@ -142,6 +142,11 @@
         <Setter Property="VerticalTextAlignment" Value="Center" />
     </Style>
 
+    <!-- Links of the investments tab, in its orange. -->
+    <Style x:Key="InvestmentsLinkLabel" TargetType="Label" BasedOn="{StaticResource LinkLabel}">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InvestmentsAccent}, Dark={StaticResource InvestmentsAccentDarkMode}}" />
+    </Style>
+
     <!-- ============ Containers ============ -->
     <Style x:Key="Card" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceLight}, Dark={StaticResource SurfaceDark}}" />

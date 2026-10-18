@@ -64,7 +64,12 @@ public sealed class EvolutionChartView : GraphicsView
             var max = points.Max(p => (double)Math.Max(Math.Max(p.Value, p.Invested), p.Benchmark ?? 0));
             var ticks = Ticks(max);
             var top = (float)ticks[^1];
-            const float labelWidth = 46f, bottomPad = 4f, topPad = 6f;
+            const float bottomPad = 4f, topPad = 6f;
+            // The label column fits the widest amount (€10,000 needs more room than €500); the measure runs a little
+            // short of the font iOS draws with, hence the margin.
+            canvas.FontSize = 10.5f;
+            var labels = ticks.Select(t => owner.LabelFormatter?.Invoke(t) ?? t.ToString("0")).ToList();
+            var labelWidth = Math.Clamp(labels.Max(l => canvas.GetStringSize(l, Microsoft.Maui.Graphics.Font.Default, 10.5f).Width) * 1.25f + 12f, 40f, rect.Width / 3);
             var plot = new RectF(rect.Left + labelWidth, rect.Top + topPad, rect.Width - labelWidth - 6, rect.Height - topPad - bottomPad);
 
             float X(int i) => plot.Left + plot.Width * i / (points.Count - 1);
@@ -75,12 +80,11 @@ public sealed class EvolutionChartView : GraphicsView
             canvas.FontColor = owner.LabelColor;
             canvas.StrokeSize = 1;
             canvas.StrokeColor = owner.GridColor;
-            foreach (var tick in ticks)
+            for (var i = 0; i < ticks.Count; i++)
             {
-                var y = Y(tick);
+                var y = Y(ticks[i]);
                 canvas.DrawLine(plot.Left, y, plot.Right, y);
-                var label = owner.LabelFormatter?.Invoke(tick) ?? tick.ToString("0");
-                canvas.DrawString(label, rect.Left, y - 8, labelWidth - 6, 16, HorizontalAlignment.Right, VerticalAlignment.Center);
+                canvas.DrawString(labels[i], rect.Left, y - 8, labelWidth - 6, 16, HorizontalAlignment.Right, VerticalAlignment.Center);
             }
 
             // Value: area wash and line.

@@ -74,6 +74,32 @@
                             <Border IsVisible="{Binding HasPurchases}" Style="{StaticResource Card}">
                                 <VerticalStackLayout Spacing="12">
                                     <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_PricePaid}" />
+                                    <ScrollView HorizontalScrollBarVisibility="Never" IsVisible="{Binding HasYears}" Orientation="Horizontal">
+                                        <Border
+                                            Padding="4"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                                            HorizontalOptions="Start"
+                                            StrokeShape="RoundRectangle 14"
+                                            StrokeThickness="0">
+                                            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Years}" Spacing="2">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate x:DataType="vm:SelectableOption">
+                                                        <Grid c:Touch.Command="{Binding SelectCommand}" HeightRequest="34" MinimumWidthRequest="64">
+                                                            <Border Padding="0" IsVisible="{Binding IsSelected}" StrokeShape="RoundRectangle 11" Style="{StaticResource Card}" />
+                                                            <Label
+                                                                Padding="14,0"
+                                                                FontFamily="OpenSansSemibold"
+                                                                FontSize="13"
+                                                                HorizontalOptions="Center"
+                                                                Opacity="{Binding LabelOpacity}"
+                                                                Text="{Binding Label}"
+                                                                VerticalOptions="Center" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </ScrollView>
                                     <c:PurchaseChartView
                                         CurrentColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDarkMode}}"
                                         Data="{Binding Chart}"
@@ -93,7 +119,7 @@
                         <VerticalStackLayout Spacing="12">
                             <Grid ColumnDefinitions="*,Auto">
                                 <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_Purchases}" VerticalOptions="Center" />
-                                <Label Grid.Column="1" c:Touch.Command="{Binding AddPurchaseCommand}" Style="{StaticResource LinkLabel}" Text="{l:Tr Inv_AddPurchase}" VerticalOptions="Center" />
+                                <Label Grid.Column="1" c:Touch.Command="{Binding AddPurchaseCommand}" Style="{StaticResource InvestmentsLinkLabel}" Text="{l:Tr Inv_AddPurchase}" VerticalOptions="Center" />
                             </Grid>
                             <Border IsVisible="{Binding IsEmpty}" Padding="20" Style="{StaticResource Card}">
                                 <Label HorizontalTextAlignment="Center" Style="{StaticResource Secondary}" Text="{l:Tr Inv_NoPurchaseYet}" />
