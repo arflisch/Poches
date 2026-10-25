@@ -20,6 +20,11 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(Routes.Holding, typeof(HoldingDetailPage));
         Routing.RegisterRoute(Routes.EditHolding, typeof(HoldingEditPage));
         Routing.RegisterRoute(Routes.Purchase, typeof(PurchaseEditPage));
+        Routing.RegisterRoute(Routes.Operation, typeof(OperationEditPage));
+        Routing.RegisterRoute(Routes.DetectedDividends, typeof(DetectedDividendsPage));
+        Routing.RegisterRoute(Routes.InvestmentPlan, typeof(InvestmentPlanPage));
+        Routing.RegisterRoute(Routes.Contribution, typeof(ContributionPage));
+        Routing.RegisterRoute(Routes.CsvImport, typeof(CsvImportPage));
 
 #if ANDROID
         // Android draws an opaque bottom bar: match the app's surfaces and accent (iOS keeps its native glass bar).

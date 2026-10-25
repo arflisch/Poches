@@ -11,9 +11,10 @@ public sealed record BackupDocument
     public const string FormatName = "poches-backup";
     /// <summary>
     /// Version 2 added <see cref="Subscriptions"/>; version 3 their category and the 6-month period; version 4
-    /// the scheduled deposits and split rules of Poches Pro; version 5 the investments (holdings and purchases).
+    /// the scheduled deposits and split rules of Poches Pro; version 5 the investments (holdings and purchases);
+    /// version 6 sales, dividends, currencies, the Belgian tax fields, and the investment plan and goal.
     /// </summary>
-    public const int CurrentVersion = 5;
+    public const int CurrentVersion = 6;
 
     public string Format { get; init; } = FormatName;
 
@@ -37,6 +38,13 @@ public sealed record BackupDocument
     public List<BackupHolding> Holdings { get; init; } = [];
 
     public List<BackupPurchase> Purchases { get; init; } = [];
+
+    public List<BackupSale> Sales { get; init; } = [];
+
+    public List<BackupDividend> Dividends { get; init; } = [];
+
+    /// <summary>Investment plan, goal and tax settings; null when never set or before version 6.</summary>
+    public BackupInvestmentSettings? InvestmentSettings { get; init; }
 }
 
 public sealed record BackupPocket(
@@ -89,6 +97,43 @@ public sealed record BackupHolding(
     string ColorHex,
     long? ManualPriceMicros,
     DateTime? ManualPriceDate,
-    DateTime CreatedAt);
+    DateTime CreatedAt,
+    TaxEnvelope Envelope = TaxEnvelope.Standard,
+    long? TobRateMicros = null,
+    long? TerMicros = null,
+    long? TargetMicros = null,
+    long? ReferencePriceMicros = null,
+    bool Reynders = false);
 
-public sealed record BackupPurchase(int HoldingId, DateTime Date, long QuantityMicros, long UnitPriceMicros, long FeesCents);
+public sealed record BackupPurchase(
+    int HoldingId,
+    DateTime Date,
+    long QuantityMicros,
+    long UnitPriceMicros,
+    long FeesCents,
+    long TobCents = 0,
+    string? Currency = null,
+    long? FxRateMicros = null,
+    long? FromDividendsCents = null);
+
+public sealed record BackupSale(
+    int HoldingId,
+    DateTime Date,
+    long QuantityMicros,
+    long UnitPriceMicros,
+    long FeesCents,
+    long TobCents,
+    string? Currency,
+    long? FxRateMicros);
+
+public sealed record BackupDividend(int HoldingId, DateTime Date, long GrossCents, long WithholdingCents, string? Currency, long? FxRateMicros);
+
+public sealed record BackupInvestmentSettings(
+    long? MonthlyCents,
+    int MonthlyDay,
+    long? GoalCents,
+    DateTime? GoalDate,
+    long ExpectedReturnMicros,
+    long VolatilityMicros,
+    long CapitalGainsRateMicros,
+    long ExemptionCents);

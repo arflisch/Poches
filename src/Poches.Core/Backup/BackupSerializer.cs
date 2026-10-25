@@ -68,6 +68,8 @@ public static class BackupSerializer
             SplitRules = document.SplitRules ?? [],
             Holdings = document.Holdings ?? [],
             Purchases = document.Purchases ?? [],
+            Sales = document.Sales ?? [],
+            Dividends = document.Dividends ?? [],
         };
     }
 

@@ -10,7 +10,7 @@ using Poches.Services;
 namespace Poches.ViewModels;
 
 /// <summary>One investment line: its value, average cost, and the performance of each purchase since its date.</summary>
-public sealed partial class HoldingDetailViewModel(InvestmentService investments, AppSettings settings)
+public sealed partial class HoldingDetailViewModel(InvestmentService investments, AppSettings settings, IDialogService dialogs)
     : ReloadingViewModel, IQueryAttributable
 {
     private int _holdingId;
@@ -20,6 +20,28 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
     private int? _year;
 
     public ObservableCollection<PurchaseItemViewModel> Purchases { get; } = [];
+
+    public ObservableCollection<OperationItemViewModel> Sales { get; } = [];
+
+    public ObservableCollection<OperationItemViewModel> DividendItems { get; } = [];
+
+    [ObservableProperty]
+    private bool _hasSales;
+
+    [ObservableProperty]
+    private bool _hasDividends;
+
+    [ObservableProperty]
+    private bool _hasRealized;
+
+    [ObservableProperty]
+    private string _realizedText = string.Empty;
+
+    [ObservableProperty]
+    private string _dividendsText = string.Empty;
+
+    [ObservableProperty]
+    private bool _isOpen = true;
 
     public Func<double, string> AxisFormatter => value => InvestmentText.Price((decimal)Math.Round(value, 2), settings.Formatter);
 
@@ -112,6 +134,9 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
         HasPurchases = performance is not null;
         IsEmpty = performance is null;
         Purchases.Clear();
+        Sales.Clear();
+        DividendItems.Clear();
+        HasSales = HasDividends = HasRealized = false;
         if (performance is null)
         {
             ValueText = formatter.Format(0);
@@ -122,8 +147,31 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
             return;
         }
 
+        IsOpen = !performance.Closed;
         ValueText = formatter.Format(performance.Value);
-        GainText = $"{formatter.FormatSigned(performance.Gain)} · {InvestmentText.SignedPercent(performance.Return)}";
+        GainText = performance.Closed
+            ? Loc.Get("Inv_ClosedLine")
+            : $"{formatter.FormatSigned(performance.Gain)} · {InvestmentText.SignedPercent(performance.Return)}";
+        HasRealized = performance.Sales.Count > 0 || performance.DividendsReceived.Count > 0;
+        RealizedText = formatter.FormatSigned(performance.Realized);
+        DividendsText = formatter.Format(performance.Dividends);
+        foreach (var sale in performance.Sales.OrderByDescending(x => x.Date).ThenByDescending(x => x.Id))
+        {
+            var gain = performance.Slices.Where(x => x.Sale.Id == sale.Id).Sum(x => x.Gain);
+            Sales.Add(new OperationItemViewModel(sale.Id, Loc.Date(sale.Date, "d MMM yyyy"),
+                $"{InvestmentText.Quantity(sale.Quantity)} × {Native(sale.UnitPrice, sale.Currency, formatter)}",
+                formatter.Format(sale.Proceeds), Loc.Format("Inv_SaleGain", formatter.FormatSigned(gain)), gain > 0.004m, gain < -0.004m,
+                id => Shell.Current.GoToAsync($"{Routes.Operation}?kind={OperationEditViewModel.SaleKind}&id={id}")));
+        }
+        HasSales = Sales.Count > 0;
+        foreach (var dividend in performance.DividendsReceived.OrderByDescending(x => x.Date).ThenByDescending(x => x.Id))
+        {
+            DividendItems.Add(new OperationItemViewModel(dividend.Id, Loc.Date(dividend.Date, "d MMM yyyy"),
+                Loc.Format("Inv_DividendDetail", Native(dividend.Gross, dividend.Currency, formatter), Native(dividend.Withholding, dividend.Currency, formatter)),
+                formatter.Format(dividend.Net), Loc.Get("Inv_Net"), dividend.Net > 0, false,
+                id => Shell.Current.GoToAsync($"{Routes.Operation}?kind={OperationEditViewModel.DividendKind}&id={id}")));
+        }
+        HasDividends = DividendItems.Count > 0;
         InvestedText = formatter.Format(performance.Invested);
         AverageCostText = InvestmentText.Price(performance.AverageCost, formatter);
         PriceText = InvestmentText.Price(performance.Price, formatter);
@@ -166,10 +214,29 @@ public sealed partial class HoldingDetailViewModel(InvestmentService investments
         Chart = new PurchaseChartData(dots, _current, _averageCost, end);
     }
 
+    private static string Native(decimal amount, string? currency, MoneyFormatter formatter) =>
+        currency is null ? InvestmentText.Price(amount, formatter) : $"{InvestmentText.Editable(amount, 4)} {currency}";
+
     private Task OpenPurchaseAsync(int purchaseId) => Shell.Current.GoToAsync($"{Routes.Purchase}?id={purchaseId}");
 
     [RelayCommand]
     private Task AddPurchaseAsync() => Shell.Current.GoToAsync($"{Routes.Purchase}?holdingId={_holdingId}");
+
+    /// <summary>A purchase, a sale (while units are held) or a dividend of this line.</summary>
+    [RelayCommand]
+    private async Task AddOperationAsync()
+    {
+        var purchase = Loc.Get("Inv_AddPurchase");
+        var sale = Loc.Get("Inv_AddSale");
+        var dividend = Loc.Get("Inv_AddDividend");
+        var choice = await dialogs.ChooseAsync(Loc.Get("Inv_AddWhat"), null, IsOpen ? [purchase, sale, dividend] : [purchase, dividend]);
+        if (choice == purchase)
+            await AddPurchaseAsync();
+        else if (choice == sale)
+            await Shell.Current.GoToAsync($"{Routes.Operation}?kind={OperationEditViewModel.SaleKind}&holdingId={_holdingId}");
+        else if (choice == dividend)
+            await Shell.Current.GoToAsync($"{Routes.Operation}?kind={OperationEditViewModel.DividendKind}&holdingId={_holdingId}");
+    }
 
     [RelayCommand]
     private Task EditAsync() => Shell.Current.GoToAsync($"{Routes.EditHolding}?id={_holdingId}");
@@ -185,8 +252,12 @@ public sealed class PurchaseItemViewModel
         var purchase = performance.Purchase;
         Id = purchase.Id;
         DateText = Loc.Date(purchase.Date, "d MMM yyyy");
-        DetailText = $"{InvestmentText.Quantity(purchase.Quantity)} × {InvestmentText.Price(purchase.UnitPrice, formatter)}";
-        AmountsText = $"{formatter.Format(performance.Invested)} → {formatter.Format(performance.Value)}";
+        DetailText = $"{InvestmentText.Quantity(purchase.Quantity)} × {(purchase.Currency is { } currency ? $"{InvestmentText.Editable(purchase.UnitPrice, 4)} {currency}" : InvestmentText.Price(purchase.UnitPrice, formatter))}";
+        if (performance.SoldQuantity > 0)
+            DetailText += " · " + Loc.Format("Inv_SoldUnits", InvestmentText.Quantity(performance.SoldQuantity));
+        AmountsText = performance.SoldOut
+            ? Loc.Format("Inv_SoldOutRealized", formatter.FormatSigned(performance.Realized))
+            : $"{formatter.Format(performance.Invested)} → {formatter.Format(performance.Value)}";
         ReturnText = InvestmentText.SignedPercent(performance.Return);
         GainText = formatter.FormatSigned(performance.Gain);
         IsGain = performance.Gain > 0.004m;
@@ -216,4 +287,22 @@ public sealed class PurchaseItemViewModel
     public string AnnualizedText { get; }
 
     public IAsyncRelayCommand OpenCommand { get; }
+}
+
+/// <summary>A sale or a dividend in the line's history.</summary>
+public sealed class OperationItemViewModel(int id, string dateText, string detailText, string amountText, string captionText, bool isGain, bool isLoss, Func<int, Task> open)
+{
+    public string DateText { get; } = dateText;
+
+    public string DetailText { get; } = detailText;
+
+    public string AmountText { get; } = amountText;
+
+    public string CaptionText { get; } = captionText;
+
+    public bool IsGain { get; } = isGain;
+
+    public bool IsLoss { get; } = isLoss;
+
+    public IAsyncRelayCommand OpenCommand { get; } = new AsyncRelayCommand(() => open(id));
 }

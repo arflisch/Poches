@@ -81,6 +81,17 @@ public static class MauiProgram
         builder.Services.AddTransient<PurchaseEditPage>();
         builder.Services.AddTransient<HoldingEditViewModel>();
         builder.Services.AddTransient<HoldingEditPage>();
+        builder.Services.AddTransient<CurrencyFieldViewModel>();
+        builder.Services.AddTransient<OperationEditViewModel>();
+        builder.Services.AddTransient<OperationEditPage>();
+        builder.Services.AddTransient<DetectedDividendsViewModel>();
+        builder.Services.AddTransient<DetectedDividendsPage>();
+        builder.Services.AddTransient<InvestmentPlanViewModel>();
+        builder.Services.AddTransient<InvestmentPlanPage>();
+        builder.Services.AddTransient<ContributionViewModel>();
+        builder.Services.AddTransient<ContributionPage>();
+        builder.Services.AddTransient<CsvImportViewModel>();
+        builder.Services.AddTransient<CsvImportPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

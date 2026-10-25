@@ -1,0 +1,21 @@
+{
+ "quoteSummary": {
+  "result": [
+   {
+    "assetProfile": {
+     "sector": "Utilities",
+     "sectorKey": "utilities",
+     "country": "France",
+     "industry": "Utilities - Diversified"
+    },
+    "price": {
+     "symbol": "ENGI.PA",
+     "currency": "EUR",
+     "quoteType": "EQUITY",
+     "longName": "Engie SA"
+    }
+   }
+  ],
+  "error": null
+ }
+}

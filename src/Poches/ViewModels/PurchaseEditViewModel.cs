@@ -11,7 +11,8 @@ namespace Poches.ViewModels;
 
 /// <summary>
 /// Adds or edits a purchase: the line (an existing one, or a new one found by name, ticker or ISIN), the date,
-/// the unit price and the quantity or amount invested, plus fees.
+/// the unit price and the quantity or amount invested, plus fees, the stock-exchange tax (computed under the Belgian
+/// option), the currency of the statement and the part paid with dividends.
 /// </summary>
 public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttributable, ISheetViewModel
 {
@@ -21,18 +22,32 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
     private readonly InvestmentService _investments;
     private readonly IDialogService _dialogs;
     private readonly MoneyFormatter _formatter;
+    private readonly bool _belgian;
     private Purchase _purchase = new() { Date = DateTime.Today };
-    private Dictionary<int, string?> _symbols = [];
+    private Dictionary<int, Holding> _holdingsById = [];
+    private IReadOnlyList<Dividend> _dividends = [];
+    private IReadOnlyList<Purchase> _otherPurchases = [];
+    private decimal _dividendRoom;
     private bool _loaded;
+    private bool _settingTob;
+    private bool _tobEdited;
 
-    public PurchaseEditViewModel(BudgetStore store, InvestmentService investments, AppSettings settings, IDialogService dialogs, SymbolSearchViewModel search)
+    public PurchaseEditViewModel(BudgetStore store, InvestmentService investments, AppSettings settings, IDialogService dialogs, SymbolSearchViewModel search,
+        CurrencyFieldViewModel currencyField)
     {
         _store = store;
         _investments = investments;
         _dialogs = dialogs;
+        _belgian = settings.BelgianTax;
+        ShowTob = _belgian;
         // Amounts being typed are always shown, even in privacy mode.
         _formatter = new MoneyFormatter(settings.Currency, culture: Localizer.Instance.Culture);
-        Currency = settings.Currency;
+        CurrencyField = currencyField;
+        CurrencyField.Changed += () =>
+        {
+            OnPropertyChanged(nameof(Currency));
+            UpdatePreview();
+        };
         Search = search;
         Search.Picked = OnSymbolPicked;
         Search.PropertyChanged += (_, e) =>
@@ -57,11 +72,14 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
 
     public SymbolSearchViewModel Search { get; }
 
+    public CurrencyFieldViewModel CurrencyField { get; }
+
     public IReadOnlyList<SelectableOption> Types { get; }
 
     public IReadOnlyList<SelectableOption> Modes { get; }
 
-    public string Currency { get; }
+    /// <summary>What prices and fees are typed in: the operation's currency.</summary>
+    public string Currency => CurrencyField.AmountUnit;
 
     [ObservableProperty]
     private IReadOnlyList<HoldingChoice> _holdings = [];
@@ -114,6 +132,24 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
     private string _preview = string.Empty;
 
     [ObservableProperty]
+    private bool _showTob;
+
+    [ObservableProperty]
+    private string _tobText = string.Empty;
+
+    [ObservableProperty]
+    private string _tobHint = string.Empty;
+
+    [ObservableProperty]
+    private string _fromDividendsText = string.Empty;
+
+    [ObservableProperty]
+    private bool _showFromDividends;
+
+    [ObservableProperty]
+    private string _dividendRoomText = string.Empty;
+
+    [ObservableProperty]
     private string _errorMessage = string.Empty;
 
     [ObservableProperty]
@@ -132,20 +168,30 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
     private async Task LoadAsync(int? purchaseId, int? holdingId)
     {
         var holdings = await _store.GetHoldingsAsync();
+        _dividends = await _store.GetDividendsAsync();
         if (purchaseId is { } pid && await _store.GetPurchaseAsync(pid) is { } purchase)
         {
             _purchase = purchase;
             IsNew = false;
             Title = Loc.Get("Inv_EditPurchase");
+            CurrencyField.Load(purchase.Currency, Operations.IsForeign(purchase) ? purchase.Rate : null);
             Date = purchase.Date;
             PriceText = InvestmentText.Editable(purchase.UnitPrice);
             SizeText = InvestmentText.Editable(purchase.Quantity);
             FeesText = purchase.FeesCents > 0 ? InvestmentText.Editable(purchase.Fees, 2) : string.Empty;
+            // A recorded tax stays as it was: it came from the statement.
+            _tobEdited = true;
+            SetTob(purchase.TobCents > 0 ? InvestmentText.Editable(purchase.Tob, 2) : string.Empty);
+            ShowTob |= purchase.TobCents > 0;
+            FromDividendsText = purchase.FromDividendsCents > 0 ? InvestmentText.Editable(purchase.FromDividends, 2) : string.Empty;
             holdingId = purchase.HoldingId;
         }
+        _otherPurchases = (await _store.GetPurchasesAsync()).Where(p => p.Id != _purchase.Id).ToList();
+        await CurrencyField.SetDateAsync(Date ?? DateTime.Today);
+        UpdateDividendRoom();
 
         var selected = holdingId ?? holdings.LastOrDefault()?.Id ?? 0;
-        _symbols = holdings.ToDictionary(x => x.Id, x => x.Symbol);
+        _holdingsById = holdings.ToDictionary(x => x.Id);
         Holdings = holdings
             .OrderBy(x => x.Name, StringComparer.CurrentCultureIgnoreCase)
             .Select(x => new HoldingChoice(x.Id, x.Name, x.Symbol ?? HoldingTypes.Name(x.Type), Color.FromArgb(x.ColorHex), SelectHolding))
@@ -160,6 +206,7 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
             choice.IsSelected = choice.Id == holdingId;
         IsNewHolding = holdingId == 0;
         _purchase.HoldingId = holdingId;
+        UpdateTob();
         _ = ShowPriceHintAsync(holdingId);
     }
 
@@ -167,7 +214,10 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
     private async Task ShowPriceHintAsync(int holdingId)
     {
         var price = holdingId == 0 ? Search.CurrentPrice : null;
-        if (holdingId != 0 && _symbols.GetValueOrDefault(holdingId) is { } symbol)
+        // Quotes are in the portfolio currency: no hint for a price typed in another one.
+        if (CurrencyField.IsForeign)
+            price = null;
+        else if (holdingId != 0 && _holdingsById.GetValueOrDefault(holdingId)?.Symbol is { } symbol)
         {
             try
             {
@@ -190,6 +240,7 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
         Type = type;
         foreach (var option in Types)
             option.IsSelected = option.Value == type.ToString();
+        UpdateTob();
     }
 
     private void OnSymbolPicked(SymbolMatch match)
@@ -213,30 +264,106 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
         UpdatePreview();
     }
 
-    partial void OnPriceTextChanged(string value) => UpdatePreview();
+    partial void OnPriceTextChanged(string value)
+    {
+        UpdateTob();
+        UpdatePreview();
+    }
 
-    partial void OnSizeTextChanged(string value) => UpdatePreview();
+    partial void OnSizeTextChanged(string value)
+    {
+        UpdateTob();
+        UpdatePreview();
+    }
 
     partial void OnFeesTextChanged(string value) => UpdatePreview();
 
-    private bool TryRead(out decimal quantity, out decimal price, out decimal fees)
+    partial void OnTobTextChanged(string value)
+    {
+        if (!_settingTob)
+            _tobEdited = !string.IsNullOrWhiteSpace(value);
+        UpdatePreview();
+    }
+
+    partial void OnFromDividendsTextChanged(string value) => HasError = false;
+
+    partial void OnDateChanged(DateTime? value)
+    {
+        if (!_loaded)
+            return;
+        _ = CurrencyField.SetDateAsync(value ?? DateTime.Today);
+        UpdateDividendRoom();
+    }
+
+    private void SetTob(string text)
+    {
+        _settingTob = true;
+        TobText = text;
+        _settingTob = false;
+    }
+
+    /// <summary>Under the Belgian option the tax follows the amount until the user types the one of the statement.</summary>
+    private void UpdateTob()
+    {
+        if (!_belgian)
+            return;
+        var rate = IsNewHolding || !_holdingsById.TryGetValue(_purchase.HoldingId, out var holding)
+            ? BelgianTax.DefaultTobRate(Type)
+            : BelgianTax.TobRateFor(holding);
+        TobHint = rate > 0 ? Loc.Format("Inv_TobHint", InvestmentText.Percent((double)rate, 2)) : Loc.Get("Inv_TobNone");
+        if (_tobEdited)
+            return;
+        var amount = TryReadTrade(out var quantity, out var price) ? quantity * price : 0;
+        var tob = BelgianTax.Tob(rate, amount);
+        SetTob(tob > 0 ? InvestmentText.Editable(tob, 2) : string.Empty);
+    }
+
+    /// <summary>Dividends received and not reinvested yet can pay part of the purchase.</summary>
+    private void UpdateDividendRoom()
+    {
+        _dividendRoom = DividendTools.Room(_dividends, _otherPurchases, (Date ?? DateTime.Today).Date);
+        ShowFromDividends = _dividendRoom > 0 || !string.IsNullOrWhiteSpace(FromDividendsText);
+        DividendRoomText = Loc.Format("Inv_DividendRoom", _formatter.Format(_dividendRoom));
+    }
+
+    private bool TryReadTrade(out decimal quantity, out decimal price)
     {
         quantity = 0;
-        fees = 0;
         if (!AmountParser.TryParseDecimal(PriceText, 6, out price) || price <= 0)
             return false;
         if (!AmountParser.TryParseDecimal(SizeText, 6, out var size) || size <= 0)
             return false;
         quantity = ByAmount ? decimal.Round(size / price, 6) : size;
-        return string.IsNullOrWhiteSpace(FeesText) || (AmountParser.TryParse(FeesText, out fees) && fees >= 0);
+        return true;
+    }
+
+    private bool TryRead(out decimal quantity, out decimal price, out decimal fees, out decimal tob)
+    {
+        fees = 0;
+        tob = 0;
+        if (!TryReadTrade(out quantity, out price))
+            return false;
+        return (string.IsNullOrWhiteSpace(FeesText) || (AmountParser.TryParse(FeesText, out fees) && fees >= 0))
+            && (string.IsNullOrWhiteSpace(TobText) || (AmountParser.TryParse(TobText, out tob) && tob >= 0));
     }
 
     private void UpdatePreview()
     {
         HasError = false;
-        Preview = TryRead(out var quantity, out var price, out var fees) && quantity > 0
-            ? Loc.Format("Inv_PurchasePreview", InvestmentText.Quantity(quantity), InvestmentText.Price(price, _formatter), _formatter.Format(quantity * price + fees))
-            : string.Empty;
+        if (!TryRead(out var quantity, out var price, out var fees, out var tob) || quantity <= 0)
+        {
+            Preview = string.Empty;
+            return;
+        }
+        var total = quantity * price + fees + tob;
+        if (CurrencyField.IsForeign)
+        {
+            var unit = CurrencyField.Code;
+            Preview = Loc.Format("Inv_PurchasePreview", InvestmentText.Quantity(quantity), $"{InvestmentText.Editable(price, 4)} {unit}", $"{InvestmentText.Editable(total, 2)} {unit}")
+                + " · " + Loc.Format("Inv_AboutBase", _formatter.Format(total / CurrencyField.PreviewRate));
+            return;
+        }
+        Preview = Loc.Format("Inv_PurchasePreview", InvestmentText.Quantity(quantity), InvestmentText.Price(price, _formatter), _formatter.Format(total));
     }
 
     [RelayCommand]
@@ -247,9 +374,25 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
             ShowError(Loc.Get("Inv_InvalidPrice"));
             return;
         }
-        if (!TryRead(out var quantity, out _, out var fees))
+        if (!TryRead(out var quantity, out _, out var fees, out var tob))
         {
             ShowError(ByAmount ? Loc.Get("Inv_InvalidAmount") : Loc.Get("Inv_InvalidQuantity"));
+            return;
+        }
+        if (!CurrencyField.TryRead(out var currency, out var rate))
+        {
+            ShowError(Loc.Get("Inv_InvalidRate"));
+            return;
+        }
+        decimal fromDividends = 0;
+        if (!string.IsNullOrWhiteSpace(FromDividendsText) && (!AmountParser.TryParse(FromDividendsText, out fromDividends) || fromDividends < 0))
+        {
+            ShowError(Loc.Get("Inv_InvalidFromDividends"));
+            return;
+        }
+        if (fromDividends > _dividendRoom + 0.005m)
+        {
+            ShowError(Loc.Format("Inv_FromDividendsTooMuch", _formatter.Format(_dividendRoom)));
             return;
         }
 
@@ -264,6 +407,7 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
                 Account = Account,
                 Type = Type,
                 Symbol = Search.Symbol,
+                Envelope = TaxEnvelope.Standard,
                 // Each new line takes the next colour of the palette, so the chart stays readable.
                 ColorHex = Palette.Colors[existing.Count % Palette.Colors.Count],
             };
@@ -273,6 +417,10 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
         _purchase.Quantity = quantity;
         _purchase.UnitPrice = price;
         _purchase.Fees = fees;
+        _purchase.Tob = tob;
+        _purchase.Currency = currency;
+        _purchase.FxRateMicros = rate is { } r ? Units.ToMicros(r) : null;
+        _purchase.FromDividendsCents = fromDividends > 0 ? Money.ToCents(fromDividends) : null;
 
         try
         {
@@ -298,7 +446,15 @@ public sealed partial class PurchaseEditViewModel : ObservableObject, IQueryAttr
         if (!confirmed)
             return;
 
-        await _store.DeletePurchaseAsync(_purchase.Id);
+        try
+        {
+            await _store.DeletePurchaseAsync(_purchase.Id);
+        }
+        catch (BudgetException ex)
+        {
+            ShowError(Loc.Error(ex));
+            return;
+        }
         Palette.Haptic();
         await Shell.Current.GoToAsync("..");
     }

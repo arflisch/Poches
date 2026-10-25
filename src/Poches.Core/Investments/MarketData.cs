@@ -89,6 +89,89 @@ public sealed class MarketData(BudgetStore store, IQuoteSource source, TimeProvi
         return series.Closes.Select(c => c with { Close = Math.Round(c.Close * factor * fx.Closes.CloseNear(c.Date)!.Value, 6) }).ToList();
     }
 
+    /// <summary>
+    /// Daily rates from a week before <paramref name="from"/> to <paramref name="to"/>: units of <paramref name="quote"/> for one
+    /// <paramref name="baseCurrency"/>, as banks quote EUR/USD. Null when nothing is known (new rates only when online).
+    /// </summary>
+    public async Task<IReadOnlyList<DailyClose>?> GetFxRatesAsync(string baseCurrency, string quote, DateTime from, DateTime to, bool online, CancellationToken cancellationToken)
+    {
+        if (baseCurrency == quote)
+            return [new DailyClose(to.Date, 1m)];
+        var series = await GetStoredHistoryAsync(FxSymbol(baseCurrency, quote), from, online, cancellationToken);
+        return series is null || series.Closes.Count == 0 ? null : series.Closes.Where(c => c.Date <= to.Date).ToList();
+    }
+
+    private readonly Dictionary<string, (DateTime At, DividendSeries? Series)> _dividends = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, (DateTime At, InstrumentProfile? Profile)> _profiles = new(StringComparer.OrdinalIgnoreCase);
+    private readonly SemaphoreSlim _extrasGate = new(1, 1);
+
+    /// <summary>
+    /// Distributions per unit since <paramref name="from"/>, in the listing's main currency (pence turned into pounds),
+    /// kept 12 hours. Online only: null when offline or unknown.
+    /// </summary>
+    public async Task<DividendSeries?> GetDividendsAsync(string symbol, DateTime from, bool online, CancellationToken cancellationToken)
+    {
+        if (!online || !Symbols.IsValid(symbol))
+            return null;
+        var key = $"{symbol.ToUpperInvariant()}|{from:yyyy-MM-dd}";
+        await _extrasGate.WaitAsync(cancellationToken);
+        try
+        {
+            var now = _time.GetUtcNow().UtcDateTime;
+            if (_dividends.TryGetValue(key, out var cached) && now - cached.At < TimeSpan.FromHours(12))
+                return cached.Series;
+            DividendSeries? series = null;
+            try
+            {
+                if (await source.GetDividendsAsync(symbol.ToUpperInvariant(), from, now.Date, cancellationToken) is { } raw)
+                {
+                    var (factor, currency) = YahooParser.MinorUnit(raw.Currency);
+                    series = raw with { Currency = currency, Events = raw.Events.Select(e => e with { Amount = Math.Round(e.Amount * factor, 6) }).ToList() };
+                }
+            }
+            catch (QuoteSourceException)
+            {
+                return null;
+            }
+            _dividends[key] = (now, series);
+            return series;
+        }
+        finally
+        {
+            _extrasGate.Release();
+        }
+    }
+
+    /// <summary>Holdings breakdown and running costs of a fund or share, kept a week. Online only.</summary>
+    public async Task<InstrumentProfile?> GetProfileAsync(string symbol, bool online, CancellationToken cancellationToken)
+    {
+        if (!online || !Symbols.IsValid(symbol))
+            return null;
+        var key = symbol.ToUpperInvariant();
+        await _extrasGate.WaitAsync(cancellationToken);
+        try
+        {
+            var now = _time.GetUtcNow().UtcDateTime;
+            if (_profiles.TryGetValue(key, out var cached) && now - cached.At < TimeSpan.FromDays(7))
+                return cached.Profile;
+            InstrumentProfile? profile;
+            try
+            {
+                profile = await source.GetProfileAsync(key, cancellationToken);
+            }
+            catch (QuoteSourceException)
+            {
+                return null;
+            }
+            _profiles[key] = (now, profile);
+            return profile;
+        }
+        finally
+        {
+            _extrasGate.Release();
+        }
+    }
+
     private async Task<LiveQuote> GetQuoteAsync(string symbol, string currency, bool online, bool force, CancellationToken cancellationToken)
     {
         var quote = await GetRawQuoteAsync(symbol, online, force, cancellationToken);

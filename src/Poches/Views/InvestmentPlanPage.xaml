@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Poches.Views.InvestmentPlanPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
+    xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:InvestmentPlanViewModel"
+    ios:Page.ModalPresentationStyle="FormSheet"
+    Shell.NavBarIsVisible="False"
+    SafeAreaEdges="All"
+    Shell.PresentationMode="ModalAnimated">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Grid Padding="20,18,20,6" ColumnDefinitions="90,*,90">
+            <Label c:Touch.Command="{Binding CancelCommand}" Style="{StaticResource LinkLabel}" Text="{l:Tr Common_Cancel}" />
+            <Label Grid.Column="1" Style="{StaticResource PageTitle}" Text="{l:Tr Inv_PlanTitle}" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,14,20,24" Spacing="22">
+                <Grid ColumnDefinitions="2*,*" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Monthly}" />
+                        <Border Style="{StaticResource InputField}">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Entry Keyboard="Numeric" Placeholder="300" Text="{Binding MonthlyText}" />
+                                <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="{Binding Currency}" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                        <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_MonthlyDay}" />
+                        <Border Style="{StaticResource InputField}">
+                            <Entry Keyboard="Numeric" MaxLength="2" Placeholder="5" Text="{Binding DayText}" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Goal}" />
+                        <Border Style="{StaticResource InputField}">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Entry Keyboard="Numeric" Placeholder="100000" Text="{Binding GoalText}" />
+                                <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="{Binding Currency}" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                        <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_GoalDate}" />
+                        <Border Style="{StaticResource InputField}">
+                            <DatePicker Date="{Binding GoalDate}" Format="MMM yyyy" MinimumDate="{Binding MinimumGoalDate}" />
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <VerticalStackLayout Spacing="8">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_ExpectedReturn}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="5" Text="{Binding ReturnText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="%" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Volatility}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="15" Text="{Binding VolatilityText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="%" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{l:Tr Inv_AssumptionsHint}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout IsVisible="{Binding IsBelgian}" Spacing="8">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_CapitalGainsRate}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="10" Text="{Binding TaxRateText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="%" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Exemption}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="10000" Text="{Binding ExemptionText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="{Binding Currency}" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{l:Tr Inv_TaxSettingsHint}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <VerticalStackLayout Grid.Row="2" Padding="20,8,20,16" Spacing="10">
+            <Label IsVisible="{Binding HasError}" Style="{StaticResource ErrorLabel}" Text="{Binding ErrorMessage}" />
+            <Border Background="{StaticResource InvestmentsAccentGradient}" c:Touch.Command="{Binding SaveCommand}" Style="{StaticResource PrimaryButton}">
+                <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Common_Save}" />
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

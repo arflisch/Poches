@@ -45,6 +45,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
         _currency = settings.Currency;
         _languageName = settings.Language.NativeName;
         _hideAmounts = settings.HideAmounts;
+        _belgianTax = settings.BelgianTax;
         RefreshBackupText();
     }
 
@@ -138,6 +139,14 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
     private bool _isBusy;
 
     partial void OnHideAmountsChanged(bool value) => _settings.HideAmounts = value;
+
+    /// <summary>The Belgian tax option is only offered when the phone is set to Belgium.</summary>
+    public bool ShowBelgianTax => AppSettings.IsBelgianRegion;
+
+    [ObservableProperty]
+    private bool _belgianTax;
+
+    partial void OnBelgianTaxChanged(bool value) => _settings.BelgianTax = value;
 
     partial void OnIsLockEnabledChanged(bool value)
     {

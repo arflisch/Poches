@@ -9,23 +9,43 @@ using Poches.Services;
 
 namespace Poches.ViewModels;
 
-/// <summary>Edits an investment line: name, type, account, colour, quote symbol and manual price.</summary>
+/// <summary>
+/// Edits an investment line: name, type, account, colour, quote symbol and manual price, running costs and target
+/// weight; under the Belgian option its tax envelope, stock-exchange tax rate, 31/12/2025 value and Reynders tax.
+/// </summary>
 public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttributable, ISheetViewModel
 {
     public System.Windows.Input.ICommand DismissCommand => CancelCommand;
 
+    private static readonly TaxEnvelope[] EnvelopeOrder =
+        [TaxEnvelope.Standard, TaxEnvelope.PensionSavings, TaxEnvelope.LongTermSavings, TaxEnvelope.Branch21, TaxEnvelope.Branch23];
+
+    private const string AutoTob = "auto";
+
     private readonly BudgetStore _store;
+    private readonly InvestmentService _investments;
     private readonly IDialogService _dialogs;
     private Holding _holding = new();
+    private string _tobChoice = AutoTob;
+    private decimal? _suggestedTer;
     private bool _loaded;
 
-    public HoldingEditViewModel(BudgetStore store, AppSettings settings, IDialogService dialogs, SymbolSearchViewModel search)
+    public HoldingEditViewModel(BudgetStore store, InvestmentService investments, AppSettings settings, IDialogService dialogs, SymbolSearchViewModel search)
     {
         _store = store;
+        _investments = investments;
         _dialogs = dialogs;
         Currency = settings.Currency;
+        IsBelgian = settings.BelgianTax;
         Search = search;
-        Search.Picked = match => SelectType(HoldingTypes.FromKind(match.Kind));
+        Search.Picked = match =>
+        {
+            SelectType(HoldingTypes.FromKind(match.Kind));
+            _ = SuggestTerAsync();
+        };
+        Envelopes = EnvelopeOrder
+            .Select((e, i) => new SelectableOption(e.ToString(), i, 2, o => SelectEnvelope(Enum.Parse<TaxEnvelope>(o.Value))) { Label = HoldingTypes.EnvelopeName(e) })
+            .ToList();
         Types = HoldingTypes.All
             .Select((t, i) => new SelectableOption(t.ToString(), i, 4, o => SelectType(Enum.Parse<HoldingType>(o.Value)))
             {
@@ -36,6 +56,34 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
     }
 
     public SymbolSearchViewModel Search { get; }
+
+    public bool IsBelgian { get; }
+
+    public IReadOnlyList<SelectableOption> Envelopes { get; }
+
+    [ObservableProperty]
+    private IReadOnlyList<SelectableOption> _tobRates = [];
+
+    [ObservableProperty]
+    private bool _isSheltered;
+
+    [ObservableProperty]
+    private string _referencePriceText = string.Empty;
+
+    [ObservableProperty]
+    private bool _reynders;
+
+    [ObservableProperty]
+    private string _terText = string.Empty;
+
+    [ObservableProperty]
+    private string _terSuggestion = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasTerSuggestion;
+
+    [ObservableProperty]
+    private string _targetText = string.Empty;
 
     public IReadOnlyList<SelectableOption> Types { get; }
 
@@ -82,9 +130,60 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
         Account = holding.Account ?? string.Empty;
         ManualPriceText = holding.ManualPrice is { } price ? InvestmentText.Editable(price) : string.Empty;
         ManualPriceDate = holding.ManualPriceDate ?? DateTime.Today;
+        ReferencePriceText = holding.ReferencePrice is { } reference ? InvestmentText.Editable(reference) : string.Empty;
+        Reynders = holding.Reynders;
+        TerText = holding.Ter is { } ter ? InvestmentText.Editable(ter * 100, 4) : string.Empty;
+        TargetText = holding.Target is { } target ? InvestmentText.Editable(target * 100, 2) : string.Empty;
+        _tobChoice = holding.TobRate is { } tob ? tob.ToString(System.Globalization.CultureInfo.InvariantCulture) : AutoTob;
+        SelectEnvelope(holding.Envelope);
         SelectType(holding.Type);
         SelectColor(holding.ColorHex);
         Search.Show(holding.Symbol, holding.Code ?? holding.Name);
+        await SuggestTerAsync();
+    }
+
+    /// <summary>A fund's running costs as Yahoo gives them, offered when none is entered.</summary>
+    private async Task SuggestTerAsync()
+    {
+        try
+        {
+            _suggestedTer = await _investments.SuggestedTerAsync(Search.Symbol, CancellationToken.None);
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            _suggestedTer = null;
+        }
+        HasTerSuggestion = _suggestedTer is not null;
+        TerSuggestion = _suggestedTer is { } ter ? Loc.Format("Inv_TerSuggestion", InvestmentText.Percent((double)ter, 2)) : string.Empty;
+    }
+
+    private void SelectEnvelope(TaxEnvelope envelope)
+    {
+        _holding.Envelope = envelope;
+        IsSheltered = BelgianTax.IsSheltered(envelope);
+        foreach (var option in Envelopes)
+            option.IsSelected = option.Value == envelope.ToString();
+    }
+
+    /// <summary>The stock-exchange tax rates; "automatic" follows the type of the line.</summary>
+    private void BuildTobRates()
+    {
+        var automatic = BelgianTax.DefaultTobRate(_holding.Type);
+        string[] values = [AutoTob, "0.0012", "0.0035", "0.0132", "0"];
+        TobRates = values.Select((v, i) => new SelectableOption(v, i, 3, o => SelectTob(o.Value))
+        {
+            Label = v == AutoTob
+                ? Loc.Format("Inv_TobAuto", InvestmentText.Percent((double)automatic, 2))
+                : v == "0" ? Loc.Get("Inv_TobNoneShort") : InvestmentText.Percent((double)decimal.Parse(v, System.Globalization.CultureInfo.InvariantCulture), 2),
+            IsSelected = v == _tobChoice,
+        }).ToList();
+    }
+
+    private void SelectTob(string value)
+    {
+        _tobChoice = value;
+        foreach (var option in TobRates)
+            option.IsSelected = option.Value == value;
     }
 
     private void SelectType(HoldingType type)
@@ -92,6 +191,7 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
         _holding.Type = type;
         foreach (var option in Types)
             option.IsSelected = option.Value == type.ToString();
+        BuildTobRates();
     }
 
     private void SelectColor(string hex)
@@ -104,6 +204,24 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
     partial void OnNameChanged(string value) => HasError = false;
 
     partial void OnManualPriceTextChanged(string value) => HasError = false;
+
+    [RelayCommand]
+    private void UseSuggestedTer()
+    {
+        if (_suggestedTer is { } ter)
+            TerText = InvestmentText.Editable(ter * 100, 4);
+    }
+
+    private static bool TryOptionalPositive(string text, int decimals, out decimal? value)
+    {
+        value = null;
+        if (string.IsNullOrWhiteSpace(text))
+            return true;
+        if (!AmountParser.TryParseDecimal(text, decimals, out var parsed) || parsed < 0)
+            return false;
+        value = parsed;
+        return true;
+    }
 
     [RelayCommand]
     private async Task SaveAsync()
@@ -119,6 +237,30 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
             manual = price;
         }
 
+        if (!TryOptionalPositive(TerText, 4, out var ter) || ter > 5)
+        {
+            ShowError(Loc.Get("Inv_InvalidTer"));
+            return;
+        }
+        if (!TryOptionalPositive(TargetText, 2, out var target) || target > 100)
+        {
+            ShowError(Loc.Get("Inv_InvalidTarget"));
+            return;
+        }
+        if (!TryOptionalPositive(ReferencePriceText, 6, out var reference) || reference == 0)
+        {
+            ShowError(Loc.Get("Inv_InvalidPrice"));
+            return;
+        }
+
+        _holding.Ter = ter / 100;
+        _holding.Target = target is > 0 ? target / 100 : null;
+        if (IsBelgian)
+        {
+            _holding.ReferencePrice = reference;
+            _holding.Reynders = Reynders;
+            _holding.TobRate = _tobChoice == AutoTob ? null : decimal.Parse(_tobChoice, System.Globalization.CultureInfo.InvariantCulture);
+        }
         _holding.Name = Name;
         _holding.Code = Code;
         _holding.Account = Account;

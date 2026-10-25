@@ -1265,4 +1265,769 @@ Tes données actuelles seront remplacées.</value>
   <data name="Error_PurchaseNotFound" xml:space="preserve">
     <value>Cet achat n'existe plus.</value>
   </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Settings_InvestmentsSection" xml:space="preserve">
+    <value>INVESTISSEMENTS</value>
+  </data>
+  <data name="Settings_BelgianTax" xml:space="preserve">
+    <value>Fiscalité belge</value>
+  </data>
+  <data name="Settings_BelgianTaxHint" xml:space="preserve">
+    <value>TOB, taxe sur les plus-values et enveloppes fiscales</value>
+  </data>
+  <data name="Dividend_One" xml:space="preserve">
+    <value>dividende</value>
+  </data>
+  <data name="Dividend_Many" xml:space="preserve">
+    <value>dividendes</value>
+  </data>
+  <data name="Purchase_One" xml:space="preserve">
+    <value>achat</value>
+  </data>
+  <data name="Purchase_Many" xml:space="preserve">
+    <value>achats</value>
+  </data>
+  <data name="Sale_One" xml:space="preserve">
+    <value>vente</value>
+  </data>
+  <data name="Sale_Many" xml:space="preserve">
+    <value>ventes</value>
+  </data>
+  <data name="Operation_One" xml:space="preserve">
+    <value>opération</value>
+  </data>
+  <data name="Operation_Many" xml:space="preserve">
+    <value>opérations</value>
+  </data>
+  <data name="NewLine_One" xml:space="preserve">
+    <value>nouvelle ligne</value>
+  </data>
+  <data name="NewLine_Many" xml:space="preserve">
+    <value>nouvelles lignes</value>
+  </data>
+  <data name="Envelope_Standard" xml:space="preserve">
+    <value>Compte-titres</value>
+  </data>
+  <data name="Envelope_PensionSavings" xml:space="preserve">
+    <value>Épargne-pension</value>
+  </data>
+  <data name="Envelope_LongTermSavings" xml:space="preserve">
+    <value>Épargne long terme</value>
+  </data>
+  <data name="Envelope_Branch21" xml:space="preserve">
+    <value>Branche 21</value>
+  </data>
+  <data name="Envelope_Branch23" xml:space="preserve">
+    <value>Branche 23</value>
+  </data>
+  <data name="Error_InvalidTob" xml:space="preserve">
+    <value>La TOB est invalide.</value>
+  </data>
+  <data name="Error_InvalidCurrency" xml:space="preserve">
+    <value>Cette devise n’est pas prise en charge.</value>
+  </data>
+  <data name="Error_InvalidFxRate" xml:space="preserve">
+    <value>Le taux de change est invalide.</value>
+  </data>
+  <data name="Error_InvalidFromDividends" xml:space="preserve">
+    <value>La part payée avec des dividendes dépasse l’achat.</value>
+  </data>
+  <data name="Error_InvalidGross" xml:space="preserve">
+    <value>Indiquez le montant brut du dividende.</value>
+  </data>
+  <data name="Error_InvalidWithholding" xml:space="preserve">
+    <value>La retenue ne peut pas dépasser le montant brut.</value>
+  </data>
+  <data name="Error_SaleInFuture" xml:space="preserve">
+    <value>Une vente ne peut pas être dans le futur.</value>
+  </data>
+  <data name="Error_SaleExceedsHoldings" xml:space="preserve">
+    <value>Cette vente dépasse les parts détenues à sa date.</value>
+  </data>
+  <data name="Error_PurchaseUsedBySale" xml:space="preserve">
+    <value>Une vente utilise des parts de cet achat : modifiez ou supprimez d’abord la vente.</value>
+  </data>
+  <data name="Error_SaleNotFound" xml:space="preserve">
+    <value>Cette vente n’existe plus.</value>
+  </data>
+  <data name="Error_DividendNotFound" xml:space="preserve">
+    <value>Ce dividende n’existe plus.</value>
+  </data>
+  <data name="Error_InvalidTobRate" xml:space="preserve">
+    <value>Ce taux de TOB n’existe pas.</value>
+  </data>
+  <data name="Error_InvalidTer" xml:space="preserve">
+    <value>Les frais courants doivent être entre 0 et 5 %.</value>
+  </data>
+  <data name="Error_InvalidTarget" xml:space="preserve">
+    <value>La cible doit être entre 0 et 100 %.</value>
+  </data>
+  <data name="Error_TargetsOverHundredPercent" xml:space="preserve">
+    <value>Les cibles de toutes les lignes dépassent 100 %.</value>
+  </data>
+  <data name="Error_InvalidReferencePrice" xml:space="preserve">
+    <value>Le cours au 31/12/2025 est invalide.</value>
+  </data>
+  <data name="Error_InvalidPlan" xml:space="preserve">
+    <value>Le versement mensuel est invalide (jour entre 1 et 28).</value>
+  </data>
+  <data name="Error_InvalidGoal" xml:space="preserve">
+    <value>L’objectif demande un montant, une date future et des hypothèses réalistes.</value>
+  </data>
+  <data name="Error_InvalidTaxSettings" xml:space="preserve">
+    <value>Le taux ou l’exonération est invalide.</value>
+  </data>
+  <data name="Exposure_Title" xml:space="preserve">
+    <value>Où est votre argent</value>
+  </data>
+  <data name="Exposure_BySector" xml:space="preserve">
+    <value>Secteurs</value>
+  </data>
+  <data name="Exposure_ByClass" xml:space="preserve">
+    <value>Classes d’actifs</value>
+  </data>
+  <data name="Exposure_ByCurrency" xml:space="preserve">
+    <value>Devises</value>
+  </data>
+  <data name="Exposure_ByCountry" xml:space="preserve">
+    <value>Pays</value>
+  </data>
+  <data name="Exposure_Unknown" xml:space="preserve">
+    <value>Inconnu</value>
+  </data>
+  <data name="Exposure_Funds" xml:space="preserve">
+    <value>Fonds (plusieurs pays)</value>
+  </data>
+  <data name="Exposure_NonEquity" xml:space="preserve">
+    <value>Hors actions</value>
+  </data>
+  <data name="Exposure_Unlisted" xml:space="preserve">
+    <value>Non coté</value>
+  </data>
+  <data name="Exposure_Stocks" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Exposure_Bonds" xml:space="preserve">
+    <value>Obligations</value>
+  </data>
+  <data name="Exposure_Cash" xml:space="preserve">
+    <value>Liquidités</value>
+  </data>
+  <data name="Exposure_Other" xml:space="preserve">
+    <value>Autre</value>
+  </data>
+  <data name="Exposure_RealEstate" xml:space="preserve">
+    <value>Immobilier</value>
+  </data>
+  <data name="Exposure_Crypto" xml:space="preserve">
+    <value>Crypto</value>
+  </data>
+  <data name="Exposure_Ter" xml:space="preserve">
+    <value>Frais courants moyens {0} · environ {1} par an</value>
+  </data>
+  <data name="Exposure_TerUnknown" xml:space="preserve">
+    <value>Frais courants inconnus : indiquez-les dans chaque ligne de fonds.</value>
+  </data>
+  <data name="Exposure_TerMissing" xml:space="preserve">
+    <value>Frais courants inconnus pour {0}.</value>
+  </data>
+  <data name="Exposure_Coverage" xml:space="preserve">
+    <value>Secteurs connus pour {0} du portefeuille.</value>
+  </data>
+  <data name="Exposure_Source" xml:space="preserve">
+    <value>D’après Yahoo Finance : la composition des fonds telle qu’ils l’ont publiée en dernier.</value>
+  </data>
+  <data name="Sector_Technology" xml:space="preserve">
+    <value>Technologie</value>
+  </data>
+  <data name="Sector_Financials" xml:space="preserve">
+    <value>Finance</value>
+  </data>
+  <data name="Sector_Healthcare" xml:space="preserve">
+    <value>Santé</value>
+  </data>
+  <data name="Sector_ConsumerCyclical" xml:space="preserve">
+    <value>Consommation cyclique</value>
+  </data>
+  <data name="Sector_ConsumerDefensive" xml:space="preserve">
+    <value>Consommation de base</value>
+  </data>
+  <data name="Sector_Industrials" xml:space="preserve">
+    <value>Industrie</value>
+  </data>
+  <data name="Sector_Communication" xml:space="preserve">
+    <value>Communication</value>
+  </data>
+  <data name="Sector_Energy" xml:space="preserve">
+    <value>Énergie</value>
+  </data>
+  <data name="Sector_Utilities" xml:space="preserve">
+    <value>Services publics</value>
+  </data>
+  <data name="Sector_Materials" xml:space="preserve">
+    <value>Matériaux</value>
+  </data>
+  <data name="Tax_Title" xml:space="preserve">
+    <value>Fiscalité belge</value>
+  </data>
+  <data name="Tax_NetGain" xml:space="preserve">
+    <value>Plus-values réalisées nettes</value>
+  </data>
+  <data name="Tax_ExemptionLeft" xml:space="preserve">
+    <value>Exonération restante</value>
+  </data>
+  <data name="Tax_Estimated" xml:space="preserve">
+    <value>Impôt estimé ({0})</value>
+  </data>
+  <data name="Tax_Latent" xml:space="preserve">
+    <value>Plus-value latente imposable</value>
+  </data>
+  <data name="Tax_IfSoldToday" xml:space="preserve">
+    <value>Impôt si tout était vendu aujourd’hui</value>
+  </data>
+  <data name="Tax_TobPaid" xml:space="preserve">
+    <value>TOB payée</value>
+  </data>
+  <data name="Tax_DividendsGross" xml:space="preserve">
+    <value>Dividendes bruts</value>
+  </data>
+  <data name="Tax_Withheld" xml:space="preserve">
+    <value>Retenues sur dividendes</value>
+  </data>
+  <data name="Tax_NotYet" xml:space="preserve">
+    <value>La taxe sur les plus-values s’applique aux ventes à partir de 2026.</value>
+  </data>
+  <data name="Tax_MissingReference" xml:space="preserve">
+    <value>Cours au 31/12/2025 inconnu pour {0} : le prix d’achat est utilisé. Indiquez-le dans la ligne si besoin.</value>
+  </data>
+  <data name="Tax_Reynders" xml:space="preserve">
+    <value>Taxe Reynders possible à la vente de {0}.</value>
+  </data>
+  <data name="Tax_ReyndersHint" xml:space="preserve">
+    <value>{0} détiennent plus de 10 % d’obligations : vérifiez si la taxe Reynders s’applique.</value>
+  </data>
+  <data name="Tax_Disclaimer" xml:space="preserve">
+    <value>Une estimation : les règles sont récentes et peuvent changer. Vérifiez auprès du SPF Finances ou d’un conseiller.</value>
+  </data>
+  <data name="Csv_Title" xml:space="preserve">
+    <value>Importer un relevé CSV</value>
+  </data>
+  <data name="Csv_Intro" xml:space="preserve">
+    <value>Exportez vos opérations depuis votre banque (Keytrade et la plupart des banques belges) en fichier CSV : achats, ventes et dividendes sont ajoutés d’un coup.</value>
+  </data>
+  <data name="Csv_Choose" xml:space="preserve">
+    <value>Choisir un fichier</value>
+  </data>
+  <data name="Csv_RowsRead" xml:space="preserve">
+    <value>{0} lignes lues</value>
+  </data>
+  <data name="Csv_Column" xml:space="preserve">
+    <value>colonne {0}</value>
+  </data>
+  <data name="Csv_Columns" xml:space="preserve">
+    <value>COLONNES</value>
+  </data>
+  <data name="Csv_ColumnsHint" xml:space="preserve">
+    <value>Vérifiez quelle colonne contient quoi : Poches s’en souvient pour ce format de fichier.</value>
+  </data>
+  <data name="Csv_AmountIsNet" xml:space="preserve">
+    <value>Le montant des dividendes est net de retenue</value>
+  </data>
+  <data name="Csv_NewLinesEnvelope" xml:space="preserve">
+    <value>ENVELOPPE DES NOUVELLES LIGNES</value>
+  </data>
+  <data name="Csv_Preview" xml:space="preserve">
+    <value>APERÇU</value>
+  </data>
+  <data name="Csv_CountPurchases" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountSales" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountDividends" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountNewLines" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountDuplicates" xml:space="preserve">
+    <value>{0} déjà présentes</value>
+  </data>
+  <data name="Csv_CountErrors" xml:space="preserve">
+    <value>{0} ignorées</value>
+  </data>
+  <data name="Csv_ForeignNote" xml:space="preserve">
+    <value>{0} en devise étrangère, au taux du fichier ou, à défaut, au cours du marché du jour. Vérifiez-les après l’import.</value>
+  </data>
+  <data name="Csv_KindBuy" xml:space="preserve">
+    <value>Achat</value>
+  </data>
+  <data name="Csv_KindSell" xml:space="preserve">
+    <value>Vente</value>
+  </data>
+  <data name="Csv_KindDividend" xml:space="preserve">
+    <value>Dividende</value>
+  </data>
+  <data name="Csv_NewLineTag" xml:space="preserve">
+    <value>nouvelle</value>
+  </data>
+  <data name="Csv_Duplicate" xml:space="preserve">
+    <value>déjà présent</value>
+  </data>
+  <data name="Csv_More" xml:space="preserve">
+    <value>… et {0} autres</value>
+  </data>
+  <data name="Csv_Import" xml:space="preserve">
+    <value>Importer</value>
+  </data>
+  <data name="Csv_ImportCount" xml:space="preserve">
+    <value>Importer {0} {1}</value>
+  </data>
+  <data name="Csv_Imported" xml:space="preserve">
+    <value>{0} {1} importées</value>
+  </data>
+  <data name="Csv_TooBig" xml:space="preserve">
+    <value>Ce fichier est trop volumineux (5 Mo au maximum).</value>
+  </data>
+  <data name="Csv_Unreadable" xml:space="preserve">
+    <value>Ce fichier est illisible.</value>
+  </data>
+  <data name="Csv_NoRows" xml:space="preserve">
+    <value>Ce fichier ne contient pas de lignes lisibles.</value>
+  </data>
+  <data name="Csv_Oversold" xml:space="preserve">
+    <value>Des ventes dépassent les parts achetées : le fichier ne contient peut-être pas les achats plus anciens. Ajoutez-les d’abord.</value>
+  </data>
+  <data name="Csv_ErrorDate" xml:space="preserve">
+    <value>date illisible</value>
+  </data>
+  <data name="Csv_ErrorKind" xml:space="preserve">
+    <value>type d’opération inconnu</value>
+  </data>
+  <data name="Csv_ErrorName" xml:space="preserve">
+    <value>ni nom ni ISIN</value>
+  </data>
+  <data name="Csv_ErrorGross" xml:space="preserve">
+    <value>montant du dividende illisible</value>
+  </data>
+  <data name="Csv_ErrorQuantity" xml:space="preserve">
+    <value>quantité illisible</value>
+  </data>
+  <data name="Csv_ErrorPrice" xml:space="preserve">
+    <value>prix illisible</value>
+  </data>
+  <data name="Csv_ErrorCurrency" xml:space="preserve">
+    <value>devise non prise en charge</value>
+  </data>
+  <data name="Csv_ErrorRate" xml:space="preserve">
+    <value>taux de change introuvable</value>
+  </data>
+  <data name="Csv_ErrorFuture" xml:space="preserve">
+    <value>dans le futur</value>
+  </data>
+  <data name="Csv_ErrorUnknownLine" xml:space="preserve">
+    <value>ligne inconnue (aucun achat)</value>
+  </data>
+  <data name="Csv_ErrorOther" xml:space="preserve">
+    <value>ligne illisible</value>
+  </data>
+  <data name="Csv_FieldDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Csv_FieldKind" xml:space="preserve">
+    <value>Type d’opération</value>
+  </data>
+  <data name="Csv_FieldName" xml:space="preserve">
+    <value>Nom du titre</value>
+  </data>
+  <data name="Csv_FieldIsin" xml:space="preserve">
+    <value>ISIN</value>
+  </data>
+  <data name="Csv_FieldSymbol" xml:space="preserve">
+    <value>Symbole</value>
+  </data>
+  <data name="Csv_FieldRate" xml:space="preserve">
+    <value>Taux de change</value>
+  </data>
+  <data name="Csv_FieldQuantity" xml:space="preserve">
+    <value>Quantité</value>
+  </data>
+  <data name="Csv_FieldPrice" xml:space="preserve">
+    <value>Cours</value>
+  </data>
+  <data name="Csv_FieldFees" xml:space="preserve">
+    <value>Frais</value>
+  </data>
+  <data name="Csv_FieldTob" xml:space="preserve">
+    <value>TOB</value>
+  </data>
+  <data name="Csv_FieldAmount" xml:space="preserve">
+    <value>Montant</value>
+  </data>
+  <data name="Csv_FieldWithholding" xml:space="preserve">
+    <value>Précompte / retenue</value>
+  </data>
+  <data name="Csv_FieldCurrency" xml:space="preserve">
+    <value>Devise</value>
+  </data>
+  <data name="Inv_AboutBase" xml:space="preserve">
+    <value>environ {0}</value>
+  </data>
+  <data name="Inv_AddOperation" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="Inv_AddWhat" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="Inv_AddSale" xml:space="preserve">
+    <value>Ajouter une vente</value>
+  </data>
+  <data name="Inv_AddDividend" xml:space="preserve">
+    <value>Ajouter un dividende</value>
+  </data>
+  <data name="Inv_AddDividends" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="Inv_AddDividendsCount" xml:space="preserve">
+    <value>Ajouter {0} {1}</value>
+  </data>
+  <data name="Inv_DividendsAdded" xml:space="preserve">
+    <value>{0} {1} ajoutés : comparez avec votre relevé.</value>
+  </data>
+  <data name="Inv_NewSale" xml:space="preserve">
+    <value>Nouvelle vente</value>
+  </data>
+  <data name="Inv_EditSale" xml:space="preserve">
+    <value>Modifier la vente</value>
+  </data>
+  <data name="Inv_NewDividend" xml:space="preserve">
+    <value>Nouveau dividende</value>
+  </data>
+  <data name="Inv_EditDividend" xml:space="preserve">
+    <value>Modifier le dividende</value>
+  </data>
+  <data name="Inv_DeleteOperation" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Inv_DeleteSaleTitle" xml:space="preserve">
+    <value>Supprimer cette vente ?</value>
+  </data>
+  <data name="Inv_DeleteDividendTitle" xml:space="preserve">
+    <value>Supprimer ce dividende ?</value>
+  </data>
+  <data name="Inv_DeleteOperationText" xml:space="preserve">
+    <value>La performance de la ligne est recalculée sans elle.</value>
+  </data>
+  <data name="Inv_OperationDate" xml:space="preserve">
+    <value>DATE</value>
+  </data>
+  <data name="Inv_ChooseLine" xml:space="preserve">
+    <value>Choisissez une ligne.</value>
+  </data>
+  <data name="Inv_NothingToSell" xml:space="preserve">
+    <value>Aucune ligne ne détient de parts à vendre.</value>
+  </data>
+  <data name="Inv_SalePrice" xml:space="preserve">
+    <value>COURS DE VENTE</value>
+  </data>
+  <data name="Inv_SellAll" xml:space="preserve">
+    <value>Tout : {0}</value>
+  </data>
+  <data name="Inv_SalePreview" xml:space="preserve">
+    <value>{0} parts vendues, {1} reçus</value>
+  </data>
+  <data name="Inv_Gross" xml:space="preserve">
+    <value>MONTANT BRUT</value>
+  </data>
+  <data name="Inv_Withholding" xml:space="preserve">
+    <value>RETENUE</value>
+  </data>
+  <data name="Inv_WithholdingHint" xml:space="preserve">
+    <value>Précompte mobilier belge et retenue étrangère éventuelle, comme sur le relevé.</value>
+  </data>
+  <data name="Inv_UseBelgianWithholding" xml:space="preserve">
+    <value>30 % (belge)</value>
+  </data>
+  <data name="Inv_DividendPreview" xml:space="preserve">
+    <value>{0} net ({1} brut, {2} retenus)</value>
+  </data>
+  <data name="Inv_Currency" xml:space="preserve">
+    <value>DEVISE</value>
+  </data>
+  <data name="Inv_RateLabel" xml:space="preserve">
+    <value>{0} POUR 1 {1}</value>
+  </data>
+  <data name="Inv_RateHint" xml:space="preserve">
+    <value>Le taux de votre relevé, dans un sens ou dans l’autre : Poches le retourne si besoin.</value>
+  </data>
+  <data name="Inv_MarketRate" xml:space="preserve">
+    <value>Marché le {0} : {1} · utiliser</value>
+  </data>
+  <data name="Inv_InvalidRate" xml:space="preserve">
+    <value>Indiquez le taux de change du relevé.</value>
+  </data>
+  <data name="Inv_InvalidFees" xml:space="preserve">
+    <value>Les frais ou la taxe sont invalides.</value>
+  </data>
+  <data name="Inv_InvalidGross" xml:space="preserve">
+    <value>Indiquez le montant brut.</value>
+  </data>
+  <data name="Inv_InvalidWithholding" xml:space="preserve">
+    <value>La retenue ne peut pas dépasser le brut.</value>
+  </data>
+  <data name="Inv_InvalidFromDividends" xml:space="preserve">
+    <value>Le montant payé avec des dividendes est invalide.</value>
+  </data>
+  <data name="Inv_FromDividendsTooMuch" xml:space="preserve">
+    <value>Seuls {0} de dividendes sont disponibles à cette date.</value>
+  </data>
+  <data name="Inv_InvalidTer" xml:space="preserve">
+    <value>Les frais courants doivent être entre 0 et 5 %.</value>
+  </data>
+  <data name="Inv_InvalidTarget" xml:space="preserve">
+    <value>La cible doit être entre 0 et 100 %.</value>
+  </data>
+  <data name="Inv_Tob" xml:space="preserve">
+    <value>TOB</value>
+  </data>
+  <data name="Inv_TobHint" xml:space="preserve">
+    <value>{0} du montant, plafonnée : remplacez-la par celle de votre relevé.</value>
+  </data>
+  <data name="Inv_TobNone" xml:space="preserve">
+    <value>Pas de TOB pour cette ligne.</value>
+  </data>
+  <data name="Inv_TobRate" xml:space="preserve">
+    <value>TAUX DE TOB</value>
+  </data>
+  <data name="Inv_TobAuto" xml:space="preserve">
+    <value>Auto ({0})</value>
+  </data>
+  <data name="Inv_TobNoneShort" xml:space="preserve">
+    <value>Aucune</value>
+  </data>
+  <data name="Inv_FromDividends" xml:space="preserve">
+    <value>PAYÉ AVEC DES DIVIDENDES</value>
+  </data>
+  <data name="Inv_DividendRoom" xml:space="preserve">
+    <value>Dividendes disponibles à réinvestir : {0}. Laissez vide si payé avec de l’argent neuf.</value>
+  </data>
+  <data name="Inv_Envelope" xml:space="preserve">
+    <value>ENVELOPPE FISCALE</value>
+  </data>
+  <data name="Inv_EnvelopeHint" xml:space="preserve">
+    <value>L’épargne-pension, l’épargne long terme et l’assurance échappent ici à la TOB et à la taxe sur les plus-values.</value>
+  </data>
+  <data name="Inv_ReferencePrice" xml:space="preserve">
+    <value>COURS AU 31/12/2025</value>
+  </data>
+  <data name="Inv_ReferencePriceHint" xml:space="preserve">
+    <value>Base des parts plus anciennes pour la taxe sur les plus-values. Vide : la clôture de ce jour d’après Yahoo Finance.</value>
+  </data>
+  <data name="Inv_Reynders" xml:space="preserve">
+    <value>Taxe Reynders</value>
+  </data>
+  <data name="Inv_ReyndersHint" xml:space="preserve">
+    <value>Fonds avec plus de 10 % d’obligations</value>
+  </data>
+  <data name="Inv_Ter" xml:space="preserve">
+    <value>FRAIS COURANTS (TER)</value>
+  </data>
+  <data name="Inv_TerSuggestion" xml:space="preserve">
+    <value>Yahoo Finance : {0} · utiliser</value>
+  </data>
+  <data name="Inv_Target" xml:space="preserve">
+    <value>CIBLE</value>
+  </data>
+  <data name="Inv_TargetHint" xml:space="preserve">
+    <value>La part du portefeuille visée pour cette ligne : les nouveaux versements sont répartis pour s’en rapprocher.</value>
+  </data>
+  <data name="Inv_Sales" xml:space="preserve">
+    <value>Ventes</value>
+  </data>
+  <data name="Inv_Dividends" xml:space="preserve">
+    <value>Dividendes</value>
+  </data>
+  <data name="Inv_Realized" xml:space="preserve">
+    <value>Réalisé</value>
+  </data>
+  <data name="Inv_DividendsReceived" xml:space="preserve">
+    <value>Dividendes nets</value>
+  </data>
+  <data name="Inv_SaleGain" xml:space="preserve">
+    <value>{0} réalisés</value>
+  </data>
+  <data name="Inv_DividendDetail" xml:space="preserve">
+    <value>{0} brut, {1} retenus</value>
+  </data>
+  <data name="Inv_Net" xml:space="preserve">
+    <value>net</value>
+  </data>
+  <data name="Inv_SoldUnits" xml:space="preserve">
+    <value>{0} vendues</value>
+  </data>
+  <data name="Inv_SoldOutRealized" xml:space="preserve">
+    <value>Vendu · {0} réalisés</value>
+  </data>
+  <data name="Inv_ClosedLine" xml:space="preserve">
+    <value>Soldée</value>
+  </data>
+  <data name="Inv_ClosedLines" xml:space="preserve">
+    <value>Lignes soldées</value>
+  </data>
+  <data name="Inv_ClosedDetail" xml:space="preserve">
+    <value>{0} réalisés · {1} de dividendes</value>
+  </data>
+  <data name="Inv_RealizedValue" xml:space="preserve">
+    <value>Réalisé {0}</value>
+  </data>
+  <data name="Inv_DividendsValue" xml:space="preserve">
+    <value>Dividendes {0}</value>
+  </data>
+  <data name="Inv_ReinvestedValue" xml:space="preserve">
+    <value>{0} réinvestis</value>
+  </data>
+  <data name="Inv_DetectedTitle" xml:space="preserve">
+    <value>Dividendes détectés</value>
+  </data>
+  <data name="Inv_DetectedBanner" xml:space="preserve">
+    <value>{0} {1} pour {2}, environ {3} brut, pas encore enregistrés.</value>
+  </data>
+  <data name="Inv_DetectedDetail" xml:space="preserve">
+    <value>Détaché le {0} · {1} parts × {2}</value>
+  </data>
+  <data name="Inv_DetectedNote" xml:space="preserve">
+    <value>D’après Yahoo Finance : le montant par part de chaque distribution multiplié par les parts détenues la veille. Vérifiez la retenue avec votre relevé.</value>
+  </data>
+  <data name="Inv_DetectedNoteBelgian" xml:space="preserve">
+    <value>D’après Yahoo Finance : le montant par part de chaque distribution multiplié par les parts détenues la veille. La retenue est estimée à 30 % (précompte belge) ; utilisez « Depuis le relevé » pour les montants exacts.</value>
+  </data>
+  <data name="Inv_DetectedNone" xml:space="preserve">
+    <value>Aucun dividende à ajouter.</value>
+  </data>
+  <data name="Inv_DetectFailed" xml:space="preserve">
+    <value>Les dividendes n’ont pas pu être recherchés.</value>
+  </data>
+  <data name="Inv_EncodeFromStatement" xml:space="preserve">
+    <value>Depuis le relevé</value>
+  </data>
+  <data name="Inv_Ignore" xml:space="preserve">
+    <value>Ignorer</value>
+  </data>
+  <data name="Inv_GrossShort" xml:space="preserve">
+    <value>brut</value>
+  </data>
+  <data name="Inv_Periods" xml:space="preserve">
+    <value>Performance par période</value>
+  </data>
+  <data name="Inv_PeriodsHint" xml:space="preserve">
+    <value>Pondérée dans le temps : les versements et ventes ne comptent pas comme performance.</value>
+  </data>
+  <data name="Inv_PeriodYtd" xml:space="preserve">
+    <value>Cette année</value>
+  </data>
+  <data name="Inv_Period1y" xml:space="preserve">
+    <value>1 an</value>
+  </data>
+  <data name="Inv_Period3y" xml:space="preserve">
+    <value>3 ans</value>
+  </data>
+  <data name="Inv_Period5y" xml:space="preserve">
+    <value>5 ans</value>
+  </data>
+  <data name="Inv_PeriodAll" xml:space="preserve">
+    <value>Tout</value>
+  </data>
+  <data name="Inv_PeriodGain" xml:space="preserve">
+    <value>{0} depuis le {1}</value>
+  </data>
+  <data name="Inv_PeriodBenchmark" xml:space="preserve">
+    <value>{0} sur la même période : {1}</value>
+  </data>
+  <data name="Inv_PlanTitle" xml:space="preserve">
+    <value>Plan et objectif</value>
+  </data>
+  <data name="Inv_PlanMonthly" xml:space="preserve">
+    <value>{0} par mois, le {1}</value>
+  </data>
+  <data name="Inv_PlanNone" xml:space="preserve">
+    <value>Pas encore de versement mensuel.</value>
+  </data>
+  <data name="Inv_GoalValue" xml:space="preserve">
+    <value>Objectif : {0} en {1}</value>
+  </data>
+  <data name="Inv_GoalNone" xml:space="preserve">
+    <value>Fixez un objectif pour voir où votre épargne peut mener.</value>
+  </data>
+  <data name="Inv_GoalProgress" xml:space="preserve">
+    <value>{0} de l’objectif atteint</value>
+  </data>
+  <data name="Inv_ProjectionMedian" xml:space="preserve">
+    <value>En {0} : {1} dans le cas médian, entre {2} et {3} dans 8 cas sur 10.</value>
+  </data>
+  <data name="Inv_Probability" xml:space="preserve">
+    <value>Chances d’atteindre l’objectif : {0}</value>
+  </data>
+  <data name="Inv_RequiredMonthly" xml:space="preserve">
+    <value>{0} par mois pour une chance sur deux</value>
+  </data>
+  <data name="Inv_ProjectionHint" xml:space="preserve">
+    <value>Une simulation selon vos hypothèses, pas une promesse : les marchés peuvent faire mieux ou moins bien.</value>
+  </data>
+  <data name="Inv_Drift" xml:space="preserve">
+    <value>Plus loin de sa cible : {0} ({1})</value>
+  </data>
+  <data name="Inv_Monthly" xml:space="preserve">
+    <value>VERSEMENT MENSUEL</value>
+  </data>
+  <data name="Inv_MonthlyDay" xml:space="preserve">
+    <value>JOUR</value>
+  </data>
+  <data name="Inv_Goal" xml:space="preserve">
+    <value>OBJECTIF</value>
+  </data>
+  <data name="Inv_GoalDate" xml:space="preserve">
+    <value>POUR</value>
+  </data>
+  <data name="Inv_ExpectedReturn" xml:space="preserve">
+    <value>RENDEMENT ANNUEL</value>
+  </data>
+  <data name="Inv_Volatility" xml:space="preserve">
+    <value>VOLATILITÉ</value>
+  </data>
+  <data name="Inv_AssumptionsHint" xml:space="preserve">
+    <value>Pour la projection. Un fonds actions monde : environ 5 à 7 % par an avec 15 % de volatilité, sur le long terme.</value>
+  </data>
+  <data name="Inv_CapitalGainsRate" xml:space="preserve">
+    <value>TAXE SUR LES PLUS-VALUES</value>
+  </data>
+  <data name="Inv_Exemption" xml:space="preserve">
+    <value>EXONÉRATION ANNUELLE</value>
+  </data>
+  <data name="Inv_TaxSettingsHint" xml:space="preserve">
+    <value>10 % au-delà de 10 000 € de plus-values nettes par an dès 2026 : modifiez-les si les règles changent.</value>
+  </data>
+  <data name="Inv_ContributionTitle" xml:space="preserve">
+    <value>Répartir un versement</value>
+  </data>
+  <data name="Inv_ContributionAmount" xml:space="preserve">
+    <value>MONTANT À INVESTIR</value>
+  </data>
+  <data name="Inv_ContributionSummary" xml:space="preserve">
+    <value>Pour vous rapprocher de vos cibles avec {0} :</value>
+  </data>
+  <data name="Inv_ContributionEnterAmount" xml:space="preserve">
+    <value>Indiquez le montant à investir.</value>
+  </data>
+  <data name="Inv_ContributionHint" xml:space="preserve">
+    <value>Sans vendre : les lignes les plus en dessous de leur cible reçoivent le plus.</value>
+  </data>
+  <data name="Inv_NoTargets" xml:space="preserve">
+    <value>Pas encore de cible : indiquez un % cible dans chaque ligne (crayon de la ligne).</value>
+  </data>
+  <data name="Inv_WeightToTarget" xml:space="preserve">
+    <value>{0} aujourd’hui · cible {1} · {2} après</value>
+  </data>
 </root>

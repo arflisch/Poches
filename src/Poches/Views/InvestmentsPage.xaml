@@ -59,6 +59,32 @@
                     VerticalOptions="Center" />
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="ChipOption" x:DataType="vm:SelectableOption">
+            <Grid c:Touch.Command="{Binding SelectCommand}" HeightRequest="34" MinimumWidthRequest="56">
+                <Border Padding="0" IsVisible="{Binding IsSelected}" StrokeShape="RoundRectangle 11" Style="{StaticResource Card}" />
+                <Label
+                    Padding="12,0"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="12.5"
+                    HorizontalOptions="Center"
+                    Opacity="{Binding LabelOpacity}"
+                    Text="{Binding Label}"
+                    VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SummaryRowTemplate" x:DataType="vm:SummaryRow">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <Label Style="{StaticResource Secondary}" Text="{Binding Label}" VerticalOptions="Center" />
+                <Label Grid.Column="1" Style="{StaticResource Strong}" Text="{Binding Value}" VerticalOptions="Center">
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding Emphasis}" TargetType="Label" Value="True">
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InvestmentsAccent}, Dark={StaticResource InvestmentsAccentDarkMode}}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+            </Grid>
+        </DataTemplate>
     </ContentPage.Resources>
 
     <Grid SafeAreaEdges="Container,Container,Container,None" Style="{StaticResource PageColumn}">
@@ -139,6 +165,7 @@
                                             </Label.FormattedText>
                                         </Label>
                                         <Label FontSize="13" Text="{Binding InvestedText}" TextColor="{StaticResource WhiteSoft}" />
+                                        <Label FontSize="13" IsVisible="{Binding HasExtras}" Text="{Binding ExtrasText}" TextColor="{StaticResource WhiteSoft}" />
                                         <Border
                                             Margin="0,8,0,0"
                                             Padding="12,5"
@@ -185,6 +212,24 @@
                                 </Grid>
                             </Border>
 
+                            <!-- Dividends found in the quotes -->
+                            <Border c:Touch.Command="{Binding OpenDetectedCommand}" IsVisible="{Binding HasDetected}" Padding="16,14" Style="{StaticResource Card}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Label FontSize="24" Text="💶" VerticalOptions="Center" />
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                        <Label Style="{StaticResource Strong}" Text="{l:Tr Inv_DetectedTitle}" />
+                                        <Label Style="{StaticResource Caption}" Text="{Binding DetectedText}" />
+                                    </VerticalStackLayout>
+                                    <c:IconView
+                                        Grid.Column="2"
+                                        Color="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
+                                        Data="{x:Static c:Icons.ChevronRight}"
+                                        HeightRequest="16"
+                                        VerticalOptions="Center"
+                                        WidthRequest="16" />
+                                </Grid>
+                            </Border>
+
                             <!-- Empty state -->
                             <Border IsVisible="{Binding IsEmpty}" Padding="24,28" Style="{StaticResource Card}">
                                 <VerticalStackLayout Spacing="12">
@@ -194,6 +239,12 @@
                                     <Border Margin="0,10,0,0" c:Touch.Command="{Binding AddPurchaseCommand}" Background="{StaticResource InvestmentsAccentGradient}" Style="{StaticResource PrimaryButton}">
                                         <Label Style="{StaticResource PrimaryButtonText}" Text="{l:Tr Inv_AddFirst}" />
                                     </Border>
+                                    <Label
+                                        Padding="0,6"
+                                        c:Touch.Command="{Binding ImportCsvCommand}"
+                                        HorizontalOptions="Center"
+                                        Style="{StaticResource InvestmentsLinkLabel}"
+                                        Text="{l:Tr Csv_Title}" />
                                     <Label
                                         Padding="0,6"
                                         c:Touch.Command="{Binding LoadSamplesCommand}"
@@ -246,6 +297,70 @@
                                     </Border>
                                 </VerticalStackLayout>
                             </Border>
+
+                            <!-- Returns by period -->
+                            <Border IsVisible="{Binding HasPeriods}" Style="{StaticResource Card}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_Periods}" />
+                                    <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                                        <Border
+                                            Padding="4"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                                            HorizontalOptions="Start"
+                                            StrokeShape="RoundRectangle 14"
+                                            StrokeThickness="0">
+                                            <HorizontalStackLayout BindableLayout.ItemTemplate="{StaticResource ChipOption}" BindableLayout.ItemsSource="{Binding PeriodOptions}" Spacing="2" />
+                                        </Border>
+                                    </ScrollView>
+                                    <Label FontFamily="OpenSansSemibold" FontSize="30" Text="{Binding PeriodReturn}">
+                                        <Label.Triggers>
+                                            <DataTrigger Binding="{Binding PeriodIsGain}" TargetType="Label" Value="True">
+                                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PositiveLight}, Dark={StaticResource PositiveDark}}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PeriodIsLoss}" TargetType="Label" Value="True">
+                                                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource NegativeLight}, Dark={StaticResource NegativeDark}}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Label Margin="0,-8,0,0" Style="{StaticResource Secondary}" Text="{Binding PeriodDetail}" />
+                                    <Label IsVisible="{Binding HasPeriodBenchmark}" Style="{StaticResource Caption}" Text="{Binding PeriodBenchmark}" />
+                                    <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_PeriodsHint}" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Plan and goal -->
+                            <Border IsVisible="{Binding HasHoldings}" Style="{StaticResource Card}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_PlanTitle}" VerticalOptions="Center" />
+                                        <Label Grid.Column="1" c:Touch.Command="{Binding EditPlanCommand}" Style="{StaticResource InvestmentsLinkLabel}" Text="{l:Tr Common_Edit}" VerticalOptions="Center" />
+                                    </Grid>
+                                    <Label Style="{StaticResource Secondary}" Text="{Binding PlanText}" />
+                                    <Label Style="{StaticResource Strong}" Text="{Binding GoalText}" />
+                                    <VerticalStackLayout IsVisible="{Binding HasGoal}" Spacing="4">
+                                        <ProgressBar Progress="{Binding GoalProgress}" ProgressColor="{AppThemeBinding Light={StaticResource InvestmentsAccent}, Dark={StaticResource InvestmentsAccentDarkMode}}" />
+                                        <Label Style="{StaticResource Caption}" Text="{Binding GoalProgressText}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout IsVisible="{Binding HasProjection}" Spacing="8">
+                                        <c:ProjectionChartView
+                                            Bands="{Binding Projection}"
+                                            Goal="{Binding GoalValue}"
+                                            GoalColor="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
+                                            GridColor="{AppThemeBinding Light={StaticResource DividerLight}, Dark={StaticResource DividerDark}}"
+                                            HeightRequest="180"
+                                            LabelColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                                            LabelFormatter="{Binding AxisFormatter}"
+                                            LineColor="{AppThemeBinding Light={StaticResource InvestmentsAccent}, Dark={StaticResource InvestmentsAccentDarkMode}}" />
+                                        <Label Style="{StaticResource Secondary}" Text="{Binding ProjectionText}" />
+                                        <Label IsVisible="{Binding HasProbability}" Style="{StaticResource Strong}" Text="{Binding ProbabilityText}" />
+                                        <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_ProjectionHint}" />
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout IsVisible="{Binding HasTargets}" Spacing="4">
+                                        <Label Style="{StaticResource Caption}" Text="{Binding DriftText}" />
+                                        <Label c:Touch.Command="{Binding OpenContributionCommand}" Style="{StaticResource InvestmentsLinkLabel}" Text="{l:Tr Inv_ContributionTitle}" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
                         </VerticalStackLayout>
                     </c:TwoPane.Start>
                     <c:TwoPane.End>
@@ -273,6 +388,67 @@
                                     BindableLayout.ItemsSource="{Binding Holdings}"
                                     Spacing="12" />
                             </VerticalStackLayout>
+
+                            <!-- Belgian tax -->
+                            <Border IsVisible="{Binding ShowTax}" Style="{StaticResource Card}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Tax_Title}" />
+                                    <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                                        <Border
+                                            Padding="4"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                                            HorizontalOptions="Start"
+                                            StrokeShape="RoundRectangle 14"
+                                            StrokeThickness="0">
+                                            <HorizontalStackLayout BindableLayout.ItemTemplate="{StaticResource ChipOption}" BindableLayout.ItemsSource="{Binding TaxYears}" Spacing="2" />
+                                        </Border>
+                                    </ScrollView>
+                                    <VerticalStackLayout BindableLayout.ItemTemplate="{StaticResource SummaryRowTemplate}" BindableLayout.ItemsSource="{Binding TaxRows}" Spacing="10" />
+                                    <Label Style="{StaticResource Caption}" Text="{Binding TaxNote}" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- What the money is in -->
+                            <Border IsVisible="{Binding HasExposure}" Style="{StaticResource Card}">
+                                <VerticalStackLayout Spacing="12">
+                                    <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Exposure_Title}" />
+                                    <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                                        <Border
+                                            Padding="4"
+                                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                                            HorizontalOptions="Start"
+                                            StrokeShape="RoundRectangle 14"
+                                            StrokeThickness="0">
+                                            <HorizontalStackLayout BindableLayout.ItemTemplate="{StaticResource ChipOption}" BindableLayout.ItemsSource="{Binding ExposureModes}" Spacing="2" />
+                                        </Border>
+                                    </ScrollView>
+                                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding ExposureRows}" Spacing="10">
+                                        <BindableLayout.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:ExposureRow">
+                                                <VerticalStackLayout Spacing="4">
+                                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                                        <Label FontSize="13.5" LineBreakMode="TailTruncation" Text="{Binding Name}" />
+                                                        <Label Grid.Column="1" FontFamily="OpenSansSemibold" FontSize="13.5" Text="{Binding PercentText}" />
+                                                    </Grid>
+                                                    <ProgressBar Progress="{Binding Weight}" ProgressColor="{Binding Color}" />
+                                                </VerticalStackLayout>
+                                            </DataTemplate>
+                                        </BindableLayout.ItemTemplate>
+                                    </VerticalStackLayout>
+                                    <Label Style="{StaticResource Strong}" Text="{Binding TerText}" />
+                                    <Label IsVisible="{Binding HasExposureNote}" Style="{StaticResource Caption}" Text="{Binding ExposureNote}" />
+                                    <Label Style="{StaticResource Caption}" Text="{l:Tr Exposure_Source}" />
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Sold out -->
+                            <VerticalStackLayout IsVisible="{Binding HasClosed}" Spacing="12">
+                                <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Inv_ClosedLines}" />
+                                <VerticalStackLayout
+                                    BindableLayout.ItemTemplate="{StaticResource HoldingRow}"
+                                    BindableLayout.ItemsSource="{Binding ClosedHoldings}"
+                                    Spacing="12" />
+                            </VerticalStackLayout>
                         </VerticalStackLayout>
                     </c:TwoPane.End>
                 </c:TwoPane>
@@ -284,7 +460,7 @@
             <Border
                 Margin="0,0,20,20"
                 Padding="22,0"
-                c:Touch.Command="{Binding AddPurchaseCommand}"
+                c:Touch.Command="{Binding AddOperationCommand}"
                 Background="{StaticResource InvestmentsAccentGradient}"
                 HeightRequest="58"
                 HorizontalOptions="End"
@@ -293,10 +469,10 @@
                 StrokeShape="RoundRectangle 29"
                 StrokeThickness="0"
                 VerticalOptions="End"
-                SemanticProperties.Description="{l:Tr Inv_AddPurchase}">
+                SemanticProperties.Description="{l:Tr Inv_AddOperation}">
                 <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
                     <c:IconView Color="White" Data="{x:Static c:Icons.Plus}" HeightRequest="22" StrokeWidth="2.4" VerticalOptions="Center" WidthRequest="22" />
-                    <Label FontFamily="OpenSansSemibold" FontSize="16" Text="{l:Tr Inv_AddPurchase}" TextColor="White" VerticalOptions="Center" />
+                    <Label FontFamily="OpenSansSemibold" FontSize="16" Text="{l:Tr Inv_AddOperation}" TextColor="White" VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Border>
         </Grid>

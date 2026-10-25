@@ -5,7 +5,7 @@ using UniformTypeIdentifiers;
 
 namespace Poches.Services;
 
-/// <summary>Lets the user choose a backup file to restore and, on a Mac, where to save a new one.</summary>
+/// <summary>Lets the user choose a backup file to restore (or a bank statement to import) and, on a Mac, where to save a new one.</summary>
 public sealed class BackupFilePicker(IFilePicker filePicker)
 {
     /// <summary>Returns the chosen file's content, or null if the user cancelled.</summary>
@@ -16,10 +16,23 @@ public sealed class BackupFilePicker(IFilePicker filePicker)
         // cancellation before the asynchronous file access completes. Picking a copy and completing
         // synchronously in the pick callback avoids that race.
         _ = filePicker;
-        var path = await PickJsonCopyAsync();
+        var path = await PickCopyAsync([UTTypes.Json]);
         return path is null ? null : File.OpenRead(path);
 #else
         var file = await filePicker.PickAsync(new PickOptions { FileTypes = JsonFiles });
+        return file is null ? null : await file.OpenReadAsync();
+#endif
+    }
+
+    /// <summary>Returns the chosen CSV file's content, or null if the user cancelled.</summary>
+    public async Task<Stream?> OpenCsvAsync()
+    {
+#if IOS || MACCATALYST
+        _ = filePicker;
+        var path = await PickCopyAsync([UTTypes.CommaSeparatedText, UTTypes.PlainText, UTTypes.Text]);
+        return path is null ? null : File.OpenRead(path);
+#else
+        var file = await filePicker.PickAsync(new PickOptions { FileTypes = CsvFiles });
         return file is null ? null : await file.OpenReadAsync();
 #endif
     }
@@ -65,10 +78,10 @@ public sealed class BackupFilePicker(IFilePicker filePicker)
 #endif
 
 #if IOS || MACCATALYST
-    private static Task<string?> PickJsonCopyAsync()
+    private static Task<string?> PickCopyAsync(UTType[] types)
     {
         var result = new TaskCompletionSource<string?>();
-        var picker = new UIDocumentPickerViewController([UTTypes.Json], asCopy: true) { AllowsMultipleSelection = false };
+        var picker = new UIDocumentPickerViewController(types, asCopy: true) { AllowsMultipleSelection = false };
         picker.DidPickDocumentAtUrls += (_, e) => result.TrySetResult(e.Urls.FirstOrDefault()?.Path);
         picker.WasCancelled += (_, _) => result.TrySetResult(null);
         if (picker.PresentationController is { } presentation)
@@ -91,6 +104,13 @@ public sealed class BackupFilePicker(IFilePicker filePicker)
         // Some Android file managers report .json files as generic binaries or text.
         [DevicePlatform.Android] = ["application/json", "application/octet-stream", "text/plain"],
         [DevicePlatform.WinUI] = [".json"],
+    });
+
+    private static readonly FilePickerFileType CsvFiles = new(new Dictionary<DevicePlatform, IEnumerable<string>>
+    {
+        // Banks export CSV files under many types.
+        [DevicePlatform.Android] = ["text/csv", "text/comma-separated-values", "text/plain", "application/vnd.ms-excel", "application/octet-stream"],
+        [DevicePlatform.WinUI] = [".csv", ".txt"],
     });
 #endif
 }

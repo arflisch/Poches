@@ -1265,4 +1265,769 @@ Je huidige gegevens worden vervangen.</value>
   <data name="Error_PurchaseNotFound" xml:space="preserve">
     <value>Deze aankoop bestaat niet meer.</value>
   </data>
+  <data name="Common_Edit" xml:space="preserve">
+    <value>Wijzigen</value>
+  </data>
+  <data name="Settings_InvestmentsSection" xml:space="preserve">
+    <value>BELEGGINGEN</value>
+  </data>
+  <data name="Settings_BelgianTax" xml:space="preserve">
+    <value>Belgische fiscaliteit</value>
+  </data>
+  <data name="Settings_BelgianTaxHint" xml:space="preserve">
+    <value>Beurstaks, meerwaardebelasting en fiscale enveloppen</value>
+  </data>
+  <data name="Dividend_One" xml:space="preserve">
+    <value>dividend</value>
+  </data>
+  <data name="Dividend_Many" xml:space="preserve">
+    <value>dividenden</value>
+  </data>
+  <data name="Purchase_One" xml:space="preserve">
+    <value>aankoop</value>
+  </data>
+  <data name="Purchase_Many" xml:space="preserve">
+    <value>aankopen</value>
+  </data>
+  <data name="Sale_One" xml:space="preserve">
+    <value>verkoop</value>
+  </data>
+  <data name="Sale_Many" xml:space="preserve">
+    <value>verkopen</value>
+  </data>
+  <data name="Operation_One" xml:space="preserve">
+    <value>verrichting</value>
+  </data>
+  <data name="Operation_Many" xml:space="preserve">
+    <value>verrichtingen</value>
+  </data>
+  <data name="NewLine_One" xml:space="preserve">
+    <value>nieuwe lijn</value>
+  </data>
+  <data name="NewLine_Many" xml:space="preserve">
+    <value>nieuwe lijnen</value>
+  </data>
+  <data name="Envelope_Standard" xml:space="preserve">
+    <value>Effectenrekening</value>
+  </data>
+  <data name="Envelope_PensionSavings" xml:space="preserve">
+    <value>Pensioensparen</value>
+  </data>
+  <data name="Envelope_LongTermSavings" xml:space="preserve">
+    <value>Langetermijnsparen</value>
+  </data>
+  <data name="Envelope_Branch21" xml:space="preserve">
+    <value>Tak 21</value>
+  </data>
+  <data name="Envelope_Branch23" xml:space="preserve">
+    <value>Tak 23</value>
+  </data>
+  <data name="Error_InvalidTob" xml:space="preserve">
+    <value>De beurstaks is ongeldig.</value>
+  </data>
+  <data name="Error_InvalidCurrency" xml:space="preserve">
+    <value>Deze munt wordt niet ondersteund.</value>
+  </data>
+  <data name="Error_InvalidFxRate" xml:space="preserve">
+    <value>De wisselkoers is ongeldig.</value>
+  </data>
+  <data name="Error_InvalidFromDividends" xml:space="preserve">
+    <value>Het deel betaald met dividenden is groter dan de aankoop.</value>
+  </data>
+  <data name="Error_InvalidGross" xml:space="preserve">
+    <value>Vul het brutobedrag van het dividend in.</value>
+  </data>
+  <data name="Error_InvalidWithholding" xml:space="preserve">
+    <value>De inhouding kan niet groter zijn dan het brutobedrag.</value>
+  </data>
+  <data name="Error_SaleInFuture" xml:space="preserve">
+    <value>Een verkoop kan niet in de toekomst liggen.</value>
+  </data>
+  <data name="Error_SaleExceedsHoldings" xml:space="preserve">
+    <value>Deze verkoop is groter dan de stukken in bezit op die datum.</value>
+  </data>
+  <data name="Error_PurchaseUsedBySale" xml:space="preserve">
+    <value>Een verkoop gebruikt stukken van deze aankoop: wijzig of verwijder eerst de verkoop.</value>
+  </data>
+  <data name="Error_SaleNotFound" xml:space="preserve">
+    <value>Deze verkoop bestaat niet meer.</value>
+  </data>
+  <data name="Error_DividendNotFound" xml:space="preserve">
+    <value>Dit dividend bestaat niet meer.</value>
+  </data>
+  <data name="Error_InvalidTobRate" xml:space="preserve">
+    <value>Dit beurstakstarief bestaat niet.</value>
+  </data>
+  <data name="Error_InvalidTer" xml:space="preserve">
+    <value>De lopende kosten moeten tussen 0 en 5 % liggen.</value>
+  </data>
+  <data name="Error_InvalidTarget" xml:space="preserve">
+    <value>Het doel moet tussen 0 en 100 % liggen.</value>
+  </data>
+  <data name="Error_TargetsOverHundredPercent" xml:space="preserve">
+    <value>De doelen van alle lijnen samen zijn meer dan 100 %.</value>
+  </data>
+  <data name="Error_InvalidReferencePrice" xml:space="preserve">
+    <value>De koers op 31/12/2025 is ongeldig.</value>
+  </data>
+  <data name="Error_InvalidPlan" xml:space="preserve">
+    <value>Het maandplan is ongeldig (dag tussen 1 en 28).</value>
+  </data>
+  <data name="Error_InvalidGoal" xml:space="preserve">
+    <value>Het doel vraagt een bedrag, een datum in de toekomst en realistische aannames.</value>
+  </data>
+  <data name="Error_InvalidTaxSettings" xml:space="preserve">
+    <value>Het tarief of de vrijstelling is ongeldig.</value>
+  </data>
+  <data name="Exposure_Title" xml:space="preserve">
+    <value>Waar uw geld in zit</value>
+  </data>
+  <data name="Exposure_BySector" xml:space="preserve">
+    <value>Sectoren</value>
+  </data>
+  <data name="Exposure_ByClass" xml:space="preserve">
+    <value>Activaklassen</value>
+  </data>
+  <data name="Exposure_ByCurrency" xml:space="preserve">
+    <value>Munten</value>
+  </data>
+  <data name="Exposure_ByCountry" xml:space="preserve">
+    <value>Landen</value>
+  </data>
+  <data name="Exposure_Unknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="Exposure_Funds" xml:space="preserve">
+    <value>Fondsen (meerdere landen)</value>
+  </data>
+  <data name="Exposure_NonEquity" xml:space="preserve">
+    <value>Buiten aandelen</value>
+  </data>
+  <data name="Exposure_Unlisted" xml:space="preserve">
+    <value>Niet genoteerd</value>
+  </data>
+  <data name="Exposure_Stocks" xml:space="preserve">
+    <value>Aandelen</value>
+  </data>
+  <data name="Exposure_Bonds" xml:space="preserve">
+    <value>Obligaties</value>
+  </data>
+  <data name="Exposure_Cash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Exposure_Other" xml:space="preserve">
+    <value>Andere</value>
+  </data>
+  <data name="Exposure_RealEstate" xml:space="preserve">
+    <value>Vastgoed</value>
+  </data>
+  <data name="Exposure_Crypto" xml:space="preserve">
+    <value>Crypto</value>
+  </data>
+  <data name="Exposure_Ter" xml:space="preserve">
+    <value>Gemiddelde lopende kosten {0} · ongeveer {1} per jaar</value>
+  </data>
+  <data name="Exposure_TerUnknown" xml:space="preserve">
+    <value>Lopende kosten onbekend: vul ze in bij elke fondslijn.</value>
+  </data>
+  <data name="Exposure_TerMissing" xml:space="preserve">
+    <value>Lopende kosten onbekend voor {0}.</value>
+  </data>
+  <data name="Exposure_Coverage" xml:space="preserve">
+    <value>Sectoren bekend voor {0} van de portefeuille.</value>
+  </data>
+  <data name="Exposure_Source" xml:space="preserve">
+    <value>Volgens Yahoo Finance: de samenstelling van de fondsen zoals laatst gepubliceerd.</value>
+  </data>
+  <data name="Sector_Technology" xml:space="preserve">
+    <value>Technologie</value>
+  </data>
+  <data name="Sector_Financials" xml:space="preserve">
+    <value>Financiën</value>
+  </data>
+  <data name="Sector_Healthcare" xml:space="preserve">
+    <value>Gezondheidszorg</value>
+  </data>
+  <data name="Sector_ConsumerCyclical" xml:space="preserve">
+    <value>Cyclische consumptie</value>
+  </data>
+  <data name="Sector_ConsumerDefensive" xml:space="preserve">
+    <value>Basisconsumptie</value>
+  </data>
+  <data name="Sector_Industrials" xml:space="preserve">
+    <value>Industrie</value>
+  </data>
+  <data name="Sector_Communication" xml:space="preserve">
+    <value>Communicatie</value>
+  </data>
+  <data name="Sector_Energy" xml:space="preserve">
+    <value>Energie</value>
+  </data>
+  <data name="Sector_Utilities" xml:space="preserve">
+    <value>Nutsbedrijven</value>
+  </data>
+  <data name="Sector_Materials" xml:space="preserve">
+    <value>Grondstoffen</value>
+  </data>
+  <data name="Tax_Title" xml:space="preserve">
+    <value>Belgische fiscaliteit</value>
+  </data>
+  <data name="Tax_NetGain" xml:space="preserve">
+    <value>Netto gerealiseerde meerwaarden</value>
+  </data>
+  <data name="Tax_ExemptionLeft" xml:space="preserve">
+    <value>Resterende vrijstelling</value>
+  </data>
+  <data name="Tax_Estimated" xml:space="preserve">
+    <value>Geschatte belasting ({0})</value>
+  </data>
+  <data name="Tax_Latent" xml:space="preserve">
+    <value>Belastbare latente meerwaarde</value>
+  </data>
+  <data name="Tax_IfSoldToday" xml:space="preserve">
+    <value>Belasting als alles vandaag verkocht werd</value>
+  </data>
+  <data name="Tax_TobPaid" xml:space="preserve">
+    <value>Betaalde beurstaks</value>
+  </data>
+  <data name="Tax_DividendsGross" xml:space="preserve">
+    <value>Brutodividenden</value>
+  </data>
+  <data name="Tax_Withheld" xml:space="preserve">
+    <value>Inhoudingen op dividenden</value>
+  </data>
+  <data name="Tax_NotYet" xml:space="preserve">
+    <value>De meerwaardebelasting geldt voor verkopen vanaf 2026.</value>
+  </data>
+  <data name="Tax_MissingReference" xml:space="preserve">
+    <value>Koers op 31/12/2025 onbekend voor {0}: de aankoopprijs wordt gebruikt. Vul hem zo nodig in bij de lijn.</value>
+  </data>
+  <data name="Tax_Reynders" xml:space="preserve">
+    <value>Reynderstaks mogelijk bij verkoop van {0}.</value>
+  </data>
+  <data name="Tax_ReyndersHint" xml:space="preserve">
+    <value>{0} bevatten meer dan 10 % obligaties: kijk na of de Reynderstaks van toepassing is.</value>
+  </data>
+  <data name="Tax_Disclaimer" xml:space="preserve">
+    <value>Een schatting: de regels zijn recent en kunnen veranderen. Kijk na bij de FOD Financiën of een adviseur.</value>
+  </data>
+  <data name="Csv_Title" xml:space="preserve">
+    <value>CSV-uittreksel importeren</value>
+  </data>
+  <data name="Csv_Intro" xml:space="preserve">
+    <value>Exporteer uw verrichtingen bij uw bank (Keytrade en de meeste Belgische banken) als CSV-bestand: aankopen, verkopen en dividenden worden in één keer toegevoegd.</value>
+  </data>
+  <data name="Csv_Choose" xml:space="preserve">
+    <value>Bestand kiezen</value>
+  </data>
+  <data name="Csv_RowsRead" xml:space="preserve">
+    <value>{0} rijen gelezen</value>
+  </data>
+  <data name="Csv_Column" xml:space="preserve">
+    <value>kolom {0}</value>
+  </data>
+  <data name="Csv_Columns" xml:space="preserve">
+    <value>KOLOMMEN</value>
+  </data>
+  <data name="Csv_ColumnsHint" xml:space="preserve">
+    <value>Kijk na welke kolom wat bevat: Poches onthoudt het voor dit bestandsformaat.</value>
+  </data>
+  <data name="Csv_AmountIsNet" xml:space="preserve">
+    <value>Dividendbedragen zijn na inhouding</value>
+  </data>
+  <data name="Csv_NewLinesEnvelope" xml:space="preserve">
+    <value>ENVELOP VAN DE NIEUWE LIJNEN</value>
+  </data>
+  <data name="Csv_Preview" xml:space="preserve">
+    <value>VOORBEELD</value>
+  </data>
+  <data name="Csv_CountPurchases" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountSales" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountDividends" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountNewLines" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="Csv_CountDuplicates" xml:space="preserve">
+    <value>{0} al geregistreerd</value>
+  </data>
+  <data name="Csv_CountErrors" xml:space="preserve">
+    <value>{0} overgeslagen</value>
+  </data>
+  <data name="Csv_ForeignNote" xml:space="preserve">
+    <value>{0} in vreemde munt, tegen de koers van het bestand of anders de marktkoers van de dag. Kijk ze na na de import.</value>
+  </data>
+  <data name="Csv_KindBuy" xml:space="preserve">
+    <value>Aankoop</value>
+  </data>
+  <data name="Csv_KindSell" xml:space="preserve">
+    <value>Verkoop</value>
+  </data>
+  <data name="Csv_KindDividend" xml:space="preserve">
+    <value>Dividend</value>
+  </data>
+  <data name="Csv_NewLineTag" xml:space="preserve">
+    <value>nieuw</value>
+  </data>
+  <data name="Csv_Duplicate" xml:space="preserve">
+    <value>al geregistreerd</value>
+  </data>
+  <data name="Csv_More" xml:space="preserve">
+    <value>… en nog {0}</value>
+  </data>
+  <data name="Csv_Import" xml:space="preserve">
+    <value>Importeren</value>
+  </data>
+  <data name="Csv_ImportCount" xml:space="preserve">
+    <value>{0} {1} importeren</value>
+  </data>
+  <data name="Csv_Imported" xml:space="preserve">
+    <value>{0} {1} geïmporteerd</value>
+  </data>
+  <data name="Csv_TooBig" xml:space="preserve">
+    <value>Dit bestand is te groot (maximaal 5 MB).</value>
+  </data>
+  <data name="Csv_Unreadable" xml:space="preserve">
+    <value>Dit bestand kan niet gelezen worden.</value>
+  </data>
+  <data name="Csv_NoRows" xml:space="preserve">
+    <value>Dit bestand bevat geen leesbare rijen.</value>
+  </data>
+  <data name="Csv_Oversold" xml:space="preserve">
+    <value>Sommige verkopen zijn groter dan de gekochte stukken: het bestand bevat misschien de oudere aankopen niet. Voeg ze eerst toe.</value>
+  </data>
+  <data name="Csv_ErrorDate" xml:space="preserve">
+    <value>onleesbare datum</value>
+  </data>
+  <data name="Csv_ErrorKind" xml:space="preserve">
+    <value>onbekende verrichting</value>
+  </data>
+  <data name="Csv_ErrorName" xml:space="preserve">
+    <value>geen naam of ISIN</value>
+  </data>
+  <data name="Csv_ErrorGross" xml:space="preserve">
+    <value>onleesbaar dividendbedrag</value>
+  </data>
+  <data name="Csv_ErrorQuantity" xml:space="preserve">
+    <value>onleesbaar aantal</value>
+  </data>
+  <data name="Csv_ErrorPrice" xml:space="preserve">
+    <value>onleesbare prijs</value>
+  </data>
+  <data name="Csv_ErrorCurrency" xml:space="preserve">
+    <value>munt niet ondersteund</value>
+  </data>
+  <data name="Csv_ErrorRate" xml:space="preserve">
+    <value>wisselkoers niet gevonden</value>
+  </data>
+  <data name="Csv_ErrorFuture" xml:space="preserve">
+    <value>in de toekomst</value>
+  </data>
+  <data name="Csv_ErrorUnknownLine" xml:space="preserve">
+    <value>onbekende lijn (geen aankoop)</value>
+  </data>
+  <data name="Csv_ErrorOther" xml:space="preserve">
+    <value>onleesbare rij</value>
+  </data>
+  <data name="Csv_FieldDate" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="Csv_FieldKind" xml:space="preserve">
+    <value>Soort verrichting</value>
+  </data>
+  <data name="Csv_FieldName" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="Csv_FieldIsin" xml:space="preserve">
+    <value>ISIN</value>
+  </data>
+  <data name="Csv_FieldSymbol" xml:space="preserve">
+    <value>Symbool</value>
+  </data>
+  <data name="Csv_FieldRate" xml:space="preserve">
+    <value>Wisselkoers</value>
+  </data>
+  <data name="Csv_FieldQuantity" xml:space="preserve">
+    <value>Aantal</value>
+  </data>
+  <data name="Csv_FieldPrice" xml:space="preserve">
+    <value>Koers</value>
+  </data>
+  <data name="Csv_FieldFees" xml:space="preserve">
+    <value>Kosten</value>
+  </data>
+  <data name="Csv_FieldTob" xml:space="preserve">
+    <value>Beurstaks</value>
+  </data>
+  <data name="Csv_FieldAmount" xml:space="preserve">
+    <value>Bedrag</value>
+  </data>
+  <data name="Csv_FieldWithholding" xml:space="preserve">
+    <value>Inhouding</value>
+  </data>
+  <data name="Csv_FieldCurrency" xml:space="preserve">
+    <value>Munt</value>
+  </data>
+  <data name="Inv_AboutBase" xml:space="preserve">
+    <value>ongeveer {0}</value>
+  </data>
+  <data name="Inv_AddOperation" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Inv_AddWhat" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Inv_AddSale" xml:space="preserve">
+    <value>Verkoop toevoegen</value>
+  </data>
+  <data name="Inv_AddDividend" xml:space="preserve">
+    <value>Dividend toevoegen</value>
+  </data>
+  <data name="Inv_AddDividends" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Inv_AddDividendsCount" xml:space="preserve">
+    <value>{0} {1} toevoegen</value>
+  </data>
+  <data name="Inv_DividendsAdded" xml:space="preserve">
+    <value>{0} {1} toegevoegd: vergelijk met uw uittreksel.</value>
+  </data>
+  <data name="Inv_NewSale" xml:space="preserve">
+    <value>Nieuwe verkoop</value>
+  </data>
+  <data name="Inv_EditSale" xml:space="preserve">
+    <value>Verkoop wijzigen</value>
+  </data>
+  <data name="Inv_NewDividend" xml:space="preserve">
+    <value>Nieuw dividend</value>
+  </data>
+  <data name="Inv_EditDividend" xml:space="preserve">
+    <value>Dividend wijzigen</value>
+  </data>
+  <data name="Inv_DeleteOperation" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Inv_DeleteSaleTitle" xml:space="preserve">
+    <value>Deze verkoop verwijderen?</value>
+  </data>
+  <data name="Inv_DeleteDividendTitle" xml:space="preserve">
+    <value>Dit dividend verwijderen?</value>
+  </data>
+  <data name="Inv_DeleteOperationText" xml:space="preserve">
+    <value>Het rendement van de lijn wordt zonder herberekend.</value>
+  </data>
+  <data name="Inv_OperationDate" xml:space="preserve">
+    <value>DATUM</value>
+  </data>
+  <data name="Inv_ChooseLine" xml:space="preserve">
+    <value>Kies een lijn.</value>
+  </data>
+  <data name="Inv_NothingToSell" xml:space="preserve">
+    <value>Geen enkele lijn heeft stukken om te verkopen.</value>
+  </data>
+  <data name="Inv_SalePrice" xml:space="preserve">
+    <value>VERKOOPKOERS</value>
+  </data>
+  <data name="Inv_SellAll" xml:space="preserve">
+    <value>Alles: {0}</value>
+  </data>
+  <data name="Inv_SalePreview" xml:space="preserve">
+    <value>{0} stukken verkocht, {1} ontvangen</value>
+  </data>
+  <data name="Inv_Gross" xml:space="preserve">
+    <value>BRUTOBEDRAG</value>
+  </data>
+  <data name="Inv_Withholding" xml:space="preserve">
+    <value>INHOUDING</value>
+  </data>
+  <data name="Inv_WithholdingHint" xml:space="preserve">
+    <value>Belgische roerende voorheffing en eventuele buitenlandse inhouding, zoals op het uittreksel.</value>
+  </data>
+  <data name="Inv_UseBelgianWithholding" xml:space="preserve">
+    <value>30 % (Belgisch)</value>
+  </data>
+  <data name="Inv_DividendPreview" xml:space="preserve">
+    <value>{0} netto ({1} bruto, {2} ingehouden)</value>
+  </data>
+  <data name="Inv_Currency" xml:space="preserve">
+    <value>MUNT</value>
+  </data>
+  <data name="Inv_RateLabel" xml:space="preserve">
+    <value>{0} VOOR 1 {1}</value>
+  </data>
+  <data name="Inv_RateHint" xml:space="preserve">
+    <value>De koers van uw uittreksel, in de ene of de andere richting: Poches draait hem zo nodig om.</value>
+  </data>
+  <data name="Inv_MarketRate" xml:space="preserve">
+    <value>Markt op {0}: {1} · gebruiken</value>
+  </data>
+  <data name="Inv_InvalidRate" xml:space="preserve">
+    <value>Vul de wisselkoers van het uittreksel in.</value>
+  </data>
+  <data name="Inv_InvalidFees" xml:space="preserve">
+    <value>De kosten of de taks zijn ongeldig.</value>
+  </data>
+  <data name="Inv_InvalidGross" xml:space="preserve">
+    <value>Vul het brutobedrag in.</value>
+  </data>
+  <data name="Inv_InvalidWithholding" xml:space="preserve">
+    <value>De inhouding kan niet groter zijn dan het brutobedrag.</value>
+  </data>
+  <data name="Inv_InvalidFromDividends" xml:space="preserve">
+    <value>Het bedrag betaald met dividenden is ongeldig.</value>
+  </data>
+  <data name="Inv_FromDividendsTooMuch" xml:space="preserve">
+    <value>Op die datum is maar {0} aan dividenden beschikbaar.</value>
+  </data>
+  <data name="Inv_InvalidTer" xml:space="preserve">
+    <value>De lopende kosten moeten tussen 0 en 5 % liggen.</value>
+  </data>
+  <data name="Inv_InvalidTarget" xml:space="preserve">
+    <value>Het doel moet tussen 0 en 100 % liggen.</value>
+  </data>
+  <data name="Inv_Tob" xml:space="preserve">
+    <value>BEURSTAKS</value>
+  </data>
+  <data name="Inv_TobHint" xml:space="preserve">
+    <value>{0} van het bedrag, begrensd: vervang hem door die van uw uittreksel.</value>
+  </data>
+  <data name="Inv_TobNone" xml:space="preserve">
+    <value>Geen beurstaks voor deze lijn.</value>
+  </data>
+  <data name="Inv_TobRate" xml:space="preserve">
+    <value>BEURSTAKSTARIEF</value>
+  </data>
+  <data name="Inv_TobAuto" xml:space="preserve">
+    <value>Auto ({0})</value>
+  </data>
+  <data name="Inv_TobNoneShort" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="Inv_FromDividends" xml:space="preserve">
+    <value>BETAALD MET DIVIDENDEN</value>
+  </data>
+  <data name="Inv_DividendRoom" xml:space="preserve">
+    <value>Dividenden beschikbaar om te herbeleggen: {0}. Leeg laten als betaald met nieuw geld.</value>
+  </data>
+  <data name="Inv_Envelope" xml:space="preserve">
+    <value>FISCALE ENVELOP</value>
+  </data>
+  <data name="Inv_EnvelopeHint" xml:space="preserve">
+    <value>Pensioensparen, langetermijnsparen en verzekeringen ontsnappen hier aan beurstaks en meerwaardebelasting.</value>
+  </data>
+  <data name="Inv_ReferencePrice" xml:space="preserve">
+    <value>KOERS OP 31/12/2025</value>
+  </data>
+  <data name="Inv_ReferencePriceHint" xml:space="preserve">
+    <value>Basis van oudere stukken voor de meerwaardebelasting. Leeg: de slotkoers van die dag volgens Yahoo Finance.</value>
+  </data>
+  <data name="Inv_Reynders" xml:space="preserve">
+    <value>Reynderstaks</value>
+  </data>
+  <data name="Inv_ReyndersHint" xml:space="preserve">
+    <value>Fonds met meer dan 10 % obligaties</value>
+  </data>
+  <data name="Inv_Ter" xml:space="preserve">
+    <value>LOPENDE KOSTEN (TER)</value>
+  </data>
+  <data name="Inv_TerSuggestion" xml:space="preserve">
+    <value>Yahoo Finance: {0} · gebruiken</value>
+  </data>
+  <data name="Inv_Target" xml:space="preserve">
+    <value>DOEL</value>
+  </data>
+  <data name="Inv_TargetHint" xml:space="preserve">
+    <value>Het aandeel van de portefeuille dat u voor deze lijn nastreeft: nieuwe stortingen worden ernaartoe verdeeld.</value>
+  </data>
+  <data name="Inv_Sales" xml:space="preserve">
+    <value>Verkopen</value>
+  </data>
+  <data name="Inv_Dividends" xml:space="preserve">
+    <value>Dividenden</value>
+  </data>
+  <data name="Inv_Realized" xml:space="preserve">
+    <value>Gerealiseerd</value>
+  </data>
+  <data name="Inv_DividendsReceived" xml:space="preserve">
+    <value>Netto dividenden</value>
+  </data>
+  <data name="Inv_SaleGain" xml:space="preserve">
+    <value>{0} gerealiseerd</value>
+  </data>
+  <data name="Inv_DividendDetail" xml:space="preserve">
+    <value>{0} bruto, {1} ingehouden</value>
+  </data>
+  <data name="Inv_Net" xml:space="preserve">
+    <value>netto</value>
+  </data>
+  <data name="Inv_SoldUnits" xml:space="preserve">
+    <value>{0} verkocht</value>
+  </data>
+  <data name="Inv_SoldOutRealized" xml:space="preserve">
+    <value>Verkocht · {0} gerealiseerd</value>
+  </data>
+  <data name="Inv_ClosedLine" xml:space="preserve">
+    <value>Volledig verkocht</value>
+  </data>
+  <data name="Inv_ClosedLines" xml:space="preserve">
+    <value>Verkochte lijnen</value>
+  </data>
+  <data name="Inv_ClosedDetail" xml:space="preserve">
+    <value>{0} gerealiseerd · {1} dividenden</value>
+  </data>
+  <data name="Inv_RealizedValue" xml:space="preserve">
+    <value>Gerealiseerd {0}</value>
+  </data>
+  <data name="Inv_DividendsValue" xml:space="preserve">
+    <value>Dividenden {0}</value>
+  </data>
+  <data name="Inv_ReinvestedValue" xml:space="preserve">
+    <value>{0} herbelegd</value>
+  </data>
+  <data name="Inv_DetectedTitle" xml:space="preserve">
+    <value>Gedetecteerde dividenden</value>
+  </data>
+  <data name="Inv_DetectedBanner" xml:space="preserve">
+    <value>{0} {1} voor {2}, ongeveer {3} bruto, nog niet geregistreerd.</value>
+  </data>
+  <data name="Inv_DetectedDetail" xml:space="preserve">
+    <value>Ex-datum {0} · {1} stukken × {2}</value>
+  </data>
+  <data name="Inv_DetectedNote" xml:space="preserve">
+    <value>Volgens Yahoo Finance: het bedrag per stuk van elke uitkering maal de stukken in bezit de dag ervoor. Kijk de inhouding na met uw uittreksel.</value>
+  </data>
+  <data name="Inv_DetectedNoteBelgian" xml:space="preserve">
+    <value>Volgens Yahoo Finance: het bedrag per stuk van elke uitkering maal de stukken in bezit de dag ervoor. De inhouding wordt geschat op 30 % (Belgische voorheffing); gebruik “Van het uittreksel” voor de juiste bedragen.</value>
+  </data>
+  <data name="Inv_DetectedNone" xml:space="preserve">
+    <value>Geen dividend om toe te voegen.</value>
+  </data>
+  <data name="Inv_DetectFailed" xml:space="preserve">
+    <value>De dividenden konden niet opgezocht worden.</value>
+  </data>
+  <data name="Inv_EncodeFromStatement" xml:space="preserve">
+    <value>Van het uittreksel</value>
+  </data>
+  <data name="Inv_Ignore" xml:space="preserve">
+    <value>Negeren</value>
+  </data>
+  <data name="Inv_GrossShort" xml:space="preserve">
+    <value>bruto</value>
+  </data>
+  <data name="Inv_Periods" xml:space="preserve">
+    <value>Rendement per periode</value>
+  </data>
+  <data name="Inv_PeriodsHint" xml:space="preserve">
+    <value>Tijdgewogen: stortingen en verkopen tellen niet als rendement.</value>
+  </data>
+  <data name="Inv_PeriodYtd" xml:space="preserve">
+    <value>Dit jaar</value>
+  </data>
+  <data name="Inv_Period1y" xml:space="preserve">
+    <value>1 jaar</value>
+  </data>
+  <data name="Inv_Period3y" xml:space="preserve">
+    <value>3 jaar</value>
+  </data>
+  <data name="Inv_Period5y" xml:space="preserve">
+    <value>5 jaar</value>
+  </data>
+  <data name="Inv_PeriodAll" xml:space="preserve">
+    <value>Alles</value>
+  </data>
+  <data name="Inv_PeriodGain" xml:space="preserve">
+    <value>{0} sinds {1}</value>
+  </data>
+  <data name="Inv_PeriodBenchmark" xml:space="preserve">
+    <value>{0} over dezelfde periode: {1}</value>
+  </data>
+  <data name="Inv_PlanTitle" xml:space="preserve">
+    <value>Plan en doel</value>
+  </data>
+  <data name="Inv_PlanMonthly" xml:space="preserve">
+    <value>{0} per maand, op de {1}e</value>
+  </data>
+  <data name="Inv_PlanNone" xml:space="preserve">
+    <value>Nog geen maandplan.</value>
+  </data>
+  <data name="Inv_GoalValue" xml:space="preserve">
+    <value>Doel: {0} tegen {1}</value>
+  </data>
+  <data name="Inv_GoalNone" xml:space="preserve">
+    <value>Stel een doel om te zien waar uw spaargeld naartoe kan.</value>
+  </data>
+  <data name="Inv_GoalProgress" xml:space="preserve">
+    <value>{0} van het doel bereikt</value>
+  </data>
+  <data name="Inv_ProjectionMedian" xml:space="preserve">
+    <value>In {0}: {1} in het middelste geval, tussen {2} en {3} in 8 op 10 gevallen.</value>
+  </data>
+  <data name="Inv_Probability" xml:space="preserve">
+    <value>Kans om het doel te halen: {0}</value>
+  </data>
+  <data name="Inv_RequiredMonthly" xml:space="preserve">
+    <value>{0} per maand voor een kans van één op twee</value>
+  </data>
+  <data name="Inv_ProjectionHint" xml:space="preserve">
+    <value>Een simulatie op basis van uw aannames, geen belofte: markten kunnen beter of slechter doen.</value>
+  </data>
+  <data name="Inv_Drift" xml:space="preserve">
+    <value>Verst van zijn doel: {0} ({1})</value>
+  </data>
+  <data name="Inv_Monthly" xml:space="preserve">
+    <value>MAANDELIJKSE STORTING</value>
+  </data>
+  <data name="Inv_MonthlyDay" xml:space="preserve">
+    <value>DAG</value>
+  </data>
+  <data name="Inv_Goal" xml:space="preserve">
+    <value>DOEL</value>
+  </data>
+  <data name="Inv_GoalDate" xml:space="preserve">
+    <value>TEGEN</value>
+  </data>
+  <data name="Inv_ExpectedReturn" xml:space="preserve">
+    <value>JAARRENDEMENT</value>
+  </data>
+  <data name="Inv_Volatility" xml:space="preserve">
+    <value>VOLATILITEIT</value>
+  </data>
+  <data name="Inv_AssumptionsHint" xml:space="preserve">
+    <value>Voor de projectie. Een wereldwijd aandelenfonds: ongeveer 5 à 7 % per jaar met 15 % volatiliteit, op lange termijn.</value>
+  </data>
+  <data name="Inv_CapitalGainsRate" xml:space="preserve">
+    <value>MEERWAARDEBELASTING</value>
+  </data>
+  <data name="Inv_Exemption" xml:space="preserve">
+    <value>JAARLIJKSE VRIJSTELLING</value>
+  </data>
+  <data name="Inv_TaxSettingsHint" xml:space="preserve">
+    <value>10 % boven 10.000 € netto meerwaarden per jaar vanaf 2026: pas ze aan als de regels veranderen.</value>
+  </data>
+  <data name="Inv_ContributionTitle" xml:space="preserve">
+    <value>Storting verdelen</value>
+  </data>
+  <data name="Inv_ContributionAmount" xml:space="preserve">
+    <value>TE BELEGGEN BEDRAG</value>
+  </data>
+  <data name="Inv_ContributionSummary" xml:space="preserve">
+    <value>Om met {0} dichter bij uw doelen te komen:</value>
+  </data>
+  <data name="Inv_ContributionEnterAmount" xml:space="preserve">
+    <value>Vul het te beleggen bedrag in.</value>
+  </data>
+  <data name="Inv_ContributionHint" xml:space="preserve">
+    <value>Zonder te verkopen: de lijnen die het verst onder hun doel zitten, krijgen het meest.</value>
+  </data>
+  <data name="Inv_NoTargets" xml:space="preserve">
+    <value>Nog geen doel: stel een doel-% in bij elke lijn (potlood van de lijn).</value>
+  </data>
+  <data name="Inv_WeightToTarget" xml:space="preserve">
+    <value>{0} nu · doel {1} · {2} daarna</value>
+  </data>
 </root>

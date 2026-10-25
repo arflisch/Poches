@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<VerticalStackLayout
+    x:Class="Poches.Views.Components.CurrencyFields"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:c="clr-namespace:Poches.Controls"
+    xmlns:l="clr-namespace:Poches.Localization"
+    xmlns:vm="clr-namespace:Poches.ViewModels"
+    x:DataType="vm:CurrencyFieldViewModel"
+    Spacing="8">
+
+    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Currency}" />
+    <Border c:Touch.Command="{Binding ChooseCommand}" Style="{StaticResource InputField}">
+        <Grid ColumnDefinitions="*,Auto">
+            <Label Style="{StaticResource Strong}" Text="{Binding Code}" VerticalOptions="Center" />
+            <c:IconView
+                Grid.Column="1"
+                Color="{AppThemeBinding Light={StaticResource TextTertiaryLight}, Dark={StaticResource TextTertiaryDark}}"
+                Data="{x:Static c:Icons.ChevronRight}"
+                HeightRequest="16"
+                VerticalOptions="Center"
+                WidthRequest="16" />
+        </Grid>
+    </Border>
+
+    <VerticalStackLayout IsVisible="{Binding IsForeign}" Spacing="8">
+        <Label Style="{StaticResource FieldLabel}" Text="{Binding RateLabel}" />
+        <Border Style="{StaticResource InputField}">
+            <Entry Keyboard="Numeric" Placeholder="1,0850" Text="{Binding RateText}" />
+        </Border>
+        <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{l:Tr Inv_RateHint}" />
+        <Label
+            Margin="4,0,0,0"
+            c:Touch.Command="{Binding UseMarketCommand}"
+            IsVisible="{Binding HasMarketHint}"
+            Style="{StaticResource InvestmentsLinkLabel}"
+            FontSize="13"
+            Text="{Binding MarketHint}" />
+    </VerticalStackLayout>
+</VerticalStackLayout>

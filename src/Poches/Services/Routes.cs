@@ -14,4 +14,9 @@ public static class Routes
     public const string Holding = "holding";
     public const string EditHolding = "editholding";
     public const string Purchase = "purchase";
+    public const string Operation = "operation";
+    public const string DetectedDividends = "detecteddividends";
+    public const string InvestmentPlan = "investmentplan";
+    public const string Contribution = "contribution";
+    public const string CsvImport = "csvimport";
 }

@@ -16,6 +16,9 @@ public sealed class AppSettings
     private const string LockKey = "app_lock";
     private const string OnlineQuotesKey = "online_quotes";
     private const string BenchmarkKey = "investments_benchmark";
+    private const string BelgianTaxKey = "belgian_tax";
+    private const string IgnoredDividendsKey = "ignored_dividends";
+    private const string CsvMappingsKey = "csv_mappings";
 
     /// <summary>Reminder choices, in days before a payment (null = no reminder).</summary>
     public static readonly IReadOnlyList<int?> ReminderChoices = [null, 0, 1, 3, 7];
@@ -94,6 +97,69 @@ public sealed class AppSettings
         set => Update(() => _preferences.Set(BenchmarkKey, value));
     }
 
+    /// <summary>Whether the phone is set to Belgium: only then is the Belgian tax option offered.</summary>
+    public static bool IsBelgianRegion
+    {
+        get
+        {
+            try
+            {
+                return System.Globalization.RegionInfo.CurrentRegion.TwoLetterISORegionName == "BE";
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Belgian rules for investments: stock-exchange tax on each trade, capital gains tax, tax envelopes. On by default
+    /// in Belgium, never elsewhere.
+    /// </summary>
+    public bool BelgianTax
+    {
+        get => IsBelgianRegion && _preferences.Get(BelgianTaxKey, true);
+        set => Update(() => _preferences.Set(BelgianTaxKey, value));
+    }
+
+    /// <summary>Detected dividends the user chose to ignore (holding id and ex-date), on this device.</summary>
+    public IReadOnlySet<string> IgnoredDividends =>
+        _preferences.Get(IgnoredDividendsKey, string.Empty).Split('|', StringSplitOptions.RemoveEmptyEntries).ToHashSet();
+
+    public void IgnoreDividend(string key)
+    {
+        var keys = _preferences.Get(IgnoredDividendsKey, string.Empty).Split('|', StringSplitOptions.RemoveEmptyEntries).ToList();
+        if (keys.Contains(key))
+            return;
+        keys.Add(key);
+        // Silent: nothing on screen depends on the setting itself, the screens reload from their own data.
+        _preferences.Set(IgnoredDividendsKey, string.Join('|', keys.TakeLast(500)));
+    }
+
+    /// <summary>The column mapping last used for a statement format, by its header row.</summary>
+    public Dictionary<string, int>? CsvMapping(string headers) =>
+        ReadCsvMappings().GetValueOrDefault(headers);
+
+    public void SaveCsvMapping(string headers, Dictionary<string, int> mapping)
+    {
+        var all = ReadCsvMappings();
+        all[headers] = mapping;
+        _preferences.Set(CsvMappingsKey, System.Text.Json.JsonSerializer.Serialize(all.TakeLast(20).ToDictionary(), CsvMappingContext.Default.DictionaryStringDictionaryStringInt32));
+    }
+
+    private Dictionary<string, Dictionary<string, int>> ReadCsvMappings()
+    {
+        try
+        {
+            return System.Text.Json.JsonSerializer.Deserialize(_preferences.Get(CsvMappingsKey, "{}"), CsvMappingContext.Default.DictionaryStringDictionaryStringInt32) ?? [];
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            return [];
+        }
+    }
+
     /// <summary>ISO code of the display currency, used to convert quotes ("€" → EUR).</summary>
     public string CurrencyCode => Currency switch
     {
@@ -119,3 +185,6 @@ public sealed class AppSettings
 
     private MoneyFormatter CreateFormatter() => new(Currency, HideAmounts, Localizer.Instance.Culture);
 }
+
+[System.Text.Json.Serialization.JsonSerializable(typeof(Dictionary<string, Dictionary<string, int>>))]
+internal sealed partial class CsvMappingContext : System.Text.Json.Serialization.JsonSerializerContext;

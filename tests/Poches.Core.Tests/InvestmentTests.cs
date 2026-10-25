@@ -298,7 +298,7 @@ public sealed class InvestmentStoreTests : IAsyncLifetime
         var next = await _store.ExportAsync(DateTime.Now);
         Assert.Equal(BackupDocument.CurrentVersion, next.Version);
         var reread = BackupSerializer.Read(BackupSerializer.WriteEncrypted(next, "mot de passe"), "mot de passe");
-        Assert.Equal(5, reread.Version);
+        Assert.Equal(BackupDocument.CurrentVersion, reread.Version);
         Assert.Equal(3, reread.Holdings.Count);
         Assert.Equal(purchases, reread.Purchases.Count);
         Assert.Equal("Vacances", Assert.Single(reread.Pockets).Name);

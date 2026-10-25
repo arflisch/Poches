@@ -15,6 +15,9 @@ public sealed partial class BudgetStore
         var splitRules = await db.Table<SplitRule>().ToListAsync();
         var holdings = await db.Table<Holding>().OrderBy(h => h.Id).ToListAsync();
         var purchases = await db.Table<Purchase>().OrderBy(p => p.Date).ThenBy(p => p.Id).ToListAsync();
+        var sales = await db.Table<Sale>().OrderBy(s => s.Date).ThenBy(s => s.Id).ToListAsync();
+        var dividends = await db.Table<Dividend>().OrderBy(d => d.Date).ThenBy(d => d.Id).ToListAsync();
+        var settings = await db.FindAsync<InvestmentSettings>(InvestmentSettings.SingleId);
 
         return new BackupDocument
         {
@@ -33,11 +36,20 @@ public sealed partial class BudgetStore
                 .ToList(),
             SplitRules = splitRules.Select(r => new BackupSplitRule(r.PocketId, r.BasisPoints)).ToList(),
             Holdings = holdings
-                .Select(h => new BackupHolding(h.Id, h.Name, h.Code, h.Symbol, h.Type, h.Account, h.ColorHex, h.ManualPriceMicros, h.ManualPriceDate, h.CreatedAt))
+                .Select(h => new BackupHolding(h.Id, h.Name, h.Code, h.Symbol, h.Type, h.Account, h.ColorHex, h.ManualPriceMicros, h.ManualPriceDate, h.CreatedAt,
+                    h.Envelope, h.TobRateMicros, h.TerMicros, h.TargetMicros, h.ReferencePriceMicros, h.Reynders))
                 .ToList(),
             Purchases = purchases
-                .Select(p => new BackupPurchase(p.HoldingId, p.Date, p.QuantityMicros, p.UnitPriceMicros, p.FeesCents))
+                .Select(p => new BackupPurchase(p.HoldingId, p.Date, p.QuantityMicros, p.UnitPriceMicros, p.FeesCents, p.TobCents, p.Currency, p.FxRateMicros, p.FromDividendsCents))
                 .ToList(),
+            Sales = sales
+                .Select(s => new BackupSale(s.HoldingId, s.Date, s.QuantityMicros, s.UnitPriceMicros, s.FeesCents, s.TobCents, s.Currency, s.FxRateMicros))
+                .ToList(),
+            Dividends = dividends
+                .Select(d => new BackupDividend(d.HoldingId, d.Date, d.GrossCents, d.WithholdingCents, d.Currency, d.FxRateMicros))
+                .ToList(),
+            InvestmentSettings = settings is null ? null : new BackupInvestmentSettings(settings.MonthlyCents, settings.MonthlyDay, settings.GoalCents,
+                settings.GoalDate, settings.ExpectedReturnMicros, settings.VolatilityMicros, settings.CapitalGainsRateMicros, settings.ExemptionCents),
         };
     }
 
@@ -110,6 +122,8 @@ public sealed partial class BudgetStore
             if (backup.Version >= 5)
             {
                 conn.DeleteAll<Purchase>();
+                conn.DeleteAll<Sale>();
+                conn.DeleteAll<Dividend>();
                 conn.DeleteAll<Holding>();
                 var holdingIds = new Dictionary<int, int>();
                 foreach (var h in backup.Holdings)
@@ -125,6 +139,12 @@ public sealed partial class BudgetStore
                         ManualPriceMicros = h.ManualPriceMicros is > 0 ? h.ManualPriceMicros : null,
                         ManualPriceDate = h.ManualPriceMicros is > 0 ? h.ManualPriceDate : null,
                         CreatedAt = h.CreatedAt,
+                        Envelope = Enum.IsDefined(h.Envelope) ? h.Envelope : TaxEnvelope.Standard,
+                        TobRateMicros = h.TobRateMicros,
+                        TerMicros = h.TerMicros,
+                        TargetMicros = h.TargetMicros is > 0 ? h.TargetMicros : null,
+                        ReferencePriceMicros = h.ReferencePriceMicros is > 0 ? h.ReferencePriceMicros : null,
+                        Reynders = h.Reynders,
                     };
                     conn.Insert(holding);
                     holdingIds[h.Id] = holding.Id;
@@ -138,6 +158,56 @@ public sealed partial class BudgetStore
                         QuantityMicros = p.QuantityMicros,
                         UnitPriceMicros = p.UnitPriceMicros,
                         FeesCents = p.FeesCents,
+                        TobCents = p.TobCents,
+                        Currency = p.Currency,
+                        FxRateMicros = p.Currency is null ? null : p.FxRateMicros,
+                        FromDividendsCents = p.FromDividendsCents is > 0 ? p.FromDividendsCents : null,
+                    });
+                }
+                foreach (var s in backup.Sales)
+                {
+                    conn.Insert(new Sale
+                    {
+                        HoldingId = holdingIds[s.HoldingId],
+                        Date = s.Date.Date,
+                        QuantityMicros = s.QuantityMicros,
+                        UnitPriceMicros = s.UnitPriceMicros,
+                        FeesCents = s.FeesCents,
+                        TobCents = s.TobCents,
+                        Currency = s.Currency,
+                        FxRateMicros = s.Currency is null ? null : s.FxRateMicros,
+                    });
+                }
+                foreach (var d in backup.Dividends)
+                {
+                    conn.Insert(new Dividend
+                    {
+                        HoldingId = holdingIds[d.HoldingId],
+                        Date = d.Date.Date,
+                        GrossCents = d.GrossCents,
+                        WithholdingCents = d.WithholdingCents,
+                        Currency = d.Currency,
+                        FxRateMicros = d.Currency is null ? null : d.FxRateMicros,
+                    });
+                }
+            }
+
+            // The plan and goal follow the backup from version 6; older ones leave them as they are.
+            if (backup.Version >= 6)
+            {
+                conn.DeleteAll<InvestmentSettings>();
+                if (backup.InvestmentSettings is { } s)
+                {
+                    conn.Insert(new InvestmentSettings
+                    {
+                        MonthlyCents = s.MonthlyCents is > 0 ? s.MonthlyCents : null,
+                        MonthlyDay = s.MonthlyDay is >= 1 and <= 28 ? s.MonthlyDay : 5,
+                        GoalCents = s.GoalCents is > 0 ? s.GoalCents : null,
+                        GoalDate = s.GoalCents is > 0 ? s.GoalDate : null,
+                        ExpectedReturnMicros = s.ExpectedReturnMicros,
+                        VolatilityMicros = s.VolatilityMicros,
+                        CapitalGainsRateMicros = s.CapitalGainsRateMicros,
+                        ExemptionCents = s.ExemptionCents,
                     });
                 }
             }
@@ -181,6 +251,9 @@ public sealed partial class BudgetStore
             conn.DeleteAll<ScheduledDeposit>();
             conn.DeleteAll<SplitRule>();
             conn.DeleteAll<Purchase>();
+            conn.DeleteAll<Sale>();
+            conn.DeleteAll<Dividend>();
+            conn.DeleteAll<InvestmentSettings>();
             conn.DeleteAll<Holding>();
             conn.DeleteAll<CachedQuote>();
             conn.DeleteAll<PriceClose>();
@@ -218,7 +291,22 @@ public sealed partial class BudgetStore
             if (!holdingIds.Add(holding.Id) || string.IsNullOrWhiteSpace(holding.Name) || !Enum.IsDefined(holding.Type))
                 throw new BudgetException(BudgetError.CorruptBackup, $"Invalid or duplicate holding {holding.Id}.");
         }
-        if (backup.Purchases.Any(p => !holdingIds.Contains(p.HoldingId) || p.QuantityMicros <= 0 || p.UnitPriceMicros <= 0 || p.FeesCents < 0))
+        if (backup.Purchases.Any(p => !holdingIds.Contains(p.HoldingId) || p.QuantityMicros <= 0 || p.UnitPriceMicros <= 0 || p.FeesCents < 0
+                || p.TobCents < 0 || !ValidCurrency(p.Currency, p.FxRateMicros)))
             throw new BudgetException(BudgetError.CorruptBackup, "A purchase is incomplete or references an unknown holding.");
+        if (backup.Sales.Any(s => !holdingIds.Contains(s.HoldingId) || s.QuantityMicros <= 0 || s.UnitPriceMicros <= 0 || s.FeesCents < 0
+                || s.TobCents < 0 || !ValidCurrency(s.Currency, s.FxRateMicros)))
+            throw new BudgetException(BudgetError.CorruptBackup, "A sale is incomplete or references an unknown holding.");
+        if (backup.Dividends.Any(d => !holdingIds.Contains(d.HoldingId) || d.GrossCents <= 0 || d.WithholdingCents < 0 || d.WithholdingCents > d.GrossCents
+                || !ValidCurrency(d.Currency, d.FxRateMicros)))
+            throw new BudgetException(BudgetError.CorruptBackup, "A dividend is incomplete or references an unknown holding.");
+        // Sales can't sell more than was bought: check with the backup's own ids.
+        var purchases = backup.Purchases.Select(p => new Purchase { HoldingId = p.HoldingId, Date = p.Date, QuantityMicros = p.QuantityMicros }).ToList();
+        var sales = backup.Sales.Select(s => new Sale { HoldingId = s.HoldingId, Date = s.Date, QuantityMicros = s.QuantityMicros }).ToList();
+        if (Investments.InvestmentMath.Oversold(purchases, sales))
+            throw new BudgetException(BudgetError.CorruptBackup, "A sale exceeds the units bought.");
     }
+
+    private static bool ValidCurrency(string? currency, long? rateMicros) =>
+        currency is null || (Operations.Currencies.Contains(currency) && rateMicros is > 0);
 }

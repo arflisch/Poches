@@ -26,6 +26,41 @@ public static class HoldingTypes
         _ => Loc.Get("HoldingType_Other"),
     };
 
+    public static string EnvelopeName(TaxEnvelope envelope) => envelope switch
+    {
+        TaxEnvelope.PensionSavings => Loc.Get("Envelope_PensionSavings"),
+        TaxEnvelope.LongTermSavings => Loc.Get("Envelope_LongTermSavings"),
+        TaxEnvelope.Branch21 => Loc.Get("Envelope_Branch21"),
+        TaxEnvelope.Branch23 => Loc.Get("Envelope_Branch23"),
+        _ => Loc.Get("Envelope_Standard"),
+    };
+
+    /// <summary>Exposure keys of the analysis (Yahoo's sectors, asset classes, neutral keys); countries keep Yahoo's English names.</summary>
+    public static string ExposureName(string key) => key switch
+    {
+        "unknown" => Loc.Get("Exposure_Unknown"),
+        "funds" => Loc.Get("Exposure_Funds"),
+        "non_equity" => Loc.Get("Exposure_NonEquity"),
+        "unlisted" => Loc.Get("Exposure_Unlisted"),
+        "stocks" => Loc.Get("Exposure_Stocks"),
+        "bonds" => Loc.Get("Exposure_Bonds"),
+        "cash" => Loc.Get("Exposure_Cash"),
+        "other" => Loc.Get("Exposure_Other"),
+        "realestate" => Loc.Get("Exposure_RealEstate"),
+        "crypto" => Loc.Get("Exposure_Crypto"),
+        "technology" => Loc.Get("Sector_Technology"),
+        "financial_services" => Loc.Get("Sector_Financials"),
+        "healthcare" => Loc.Get("Sector_Healthcare"),
+        "consumer_cyclical" => Loc.Get("Sector_ConsumerCyclical"),
+        "consumer_defensive" => Loc.Get("Sector_ConsumerDefensive"),
+        "industrials" => Loc.Get("Sector_Industrials"),
+        "communication_services" => Loc.Get("Sector_Communication"),
+        "energy" => Loc.Get("Sector_Energy"),
+        "utilities" => Loc.Get("Sector_Utilities"),
+        "basic_materials" => Loc.Get("Sector_Materials"),
+        _ => key.Length > 0 ? char.ToUpper(key[0], CultureInfo.CurrentCulture) + key[1..].Replace('_', ' ') : key,
+    };
+
     public static string Icon(HoldingType type) => type switch
     {
         HoldingType.Etf => "📊",
@@ -82,10 +117,10 @@ public static class InvestmentText
         return sign + Percent(Math.Abs(rounded) / 100);
     }
 
-    /// <summary>"7,3 %" with one decimal.</summary>
-    public static string Percent(double ratio)
+    /// <summary>"7,3 %" with one decimal, or more for small rates ("0,12 %").</summary>
+    public static string Percent(double ratio, int decimals = 1)
     {
-        var number = (ratio * 100).ToString("0.0", Culture);
+        var number = (ratio * 100).ToString("0." + new string('0', decimals), Culture);
         return Culture.NumberFormat.PercentPositivePattern switch
         {
             0 => number + " %",

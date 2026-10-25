@@ -1,0 +1,121 @@
+{
+ "quoteSummary": {
+  "result": [
+   {
+    "fundProfile": {
+     "family": "BlackRock Asset Management Ireland - ETF",
+     "categoryName": null,
+     "legalType": "Exchange Traded Fund",
+     "feesExpensesInvestment": {
+      "annualReportExpenseRatio": {
+       "raw": 0.002,
+       "fmt": "0.20%"
+      }
+     }
+    },
+    "topHoldings": {
+     "maxAge": 1,
+     "cashPosition": {
+      "raw": 0.0034999999,
+      "fmt": "0.35%"
+     },
+     "stockPosition": {
+      "raw": 0.9961,
+      "fmt": "99.61%"
+     },
+     "bondPosition": {
+      "raw": 0.0,
+      "fmt": "0.00%"
+     },
+     "otherPosition": {
+      "raw": 0.0004,
+      "fmt": "0.04%"
+     },
+     "preferredPosition": {
+      "raw": 0.0,
+      "fmt": "0.00%"
+     },
+     "convertiblePosition": {
+      "raw": 0.0,
+      "fmt": "0.00%"
+     },
+     "sectorWeightings": [
+      {
+       "realestate": {
+        "raw": 0.0153,
+        "fmt": "1.53%"
+       }
+      },
+      {
+       "consumer_cyclical": {
+        "raw": 0.08270001,
+        "fmt": "8.27%"
+       }
+      },
+      {
+       "basic_materials": {
+        "raw": 0.0306,
+        "fmt": "3.06%"
+       }
+      },
+      {
+       "consumer_defensive": {
+        "raw": 0.0473,
+        "fmt": "4.73%"
+       }
+      },
+      {
+       "technology": {
+        "raw": 0.32479998,
+        "fmt": "32.48%"
+       }
+      },
+      {
+       "communication_services": {
+        "raw": 0.084,
+        "fmt": "8.40%"
+       }
+      },
+      {
+       "financial_services": {
+        "raw": 0.15560001,
+        "fmt": "15.56%"
+       }
+      },
+      {
+       "utilities": {
+        "raw": 0.0223,
+        "fmt": "2.23%"
+       }
+      },
+      {
+       "industrials": {
+        "raw": 0.10479999,
+        "fmt": "10.48%"
+       }
+      },
+      {
+       "energy": {
+        "raw": 0.0405,
+        "fmt": "4.05%"
+       }
+      },
+      {
+       "healthcare": {
+        "raw": 0.092,
+        "fmt": "9.20%"
+       }
+      }
+     ]
+    },
+    "price": {
+     "symbol": "IWDA.AS",
+     "currency": "EUR",
+     "quoteType": "ETF",
+     "longName": "iShares Core MSCI World UCITS ETF USD (Acc)"
+    }
+   }
+  ],
+  "error": null
+ }
+}

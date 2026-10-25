@@ -238,6 +238,7 @@ public sealed partial class BudgetStore(string databasePath) : IAsyncDisposable
                 await connection.CreateTablesAsync(CreateFlags.None,
                     typeof(Pocket), typeof(Movement), typeof(Subscription), typeof(ScheduledDeposit), typeof(SplitRule),
                     typeof(Holding), typeof(Purchase), typeof(CachedQuote), typeof(PriceClose), typeof(PriceCoverage));
+                await connection.CreateTablesAsync(CreateFlags.None, typeof(Sale), typeof(Dividend), typeof(InvestmentSettings));
                 _connection = connection;
             }
             return _connection;
