@@ -62,6 +62,7 @@
                             <Switch Grid.Column="1" IsToggled="{Binding AmountIsNet}" OnColor="{StaticResource InvestmentsAccent}" VerticalOptions="Center" />
                         </Grid>
                     </Border>
+                    <Label Margin="4,-10,0,0" IsVisible="{Binding IsBelgian}" Style="{StaticResource Caption}" Text="{l:Tr Csv_BelgianWithholding}" />
 
                     <VerticalStackLayout IsVisible="{Binding IsBelgian}" Spacing="8">
                         <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Csv_NewLinesEnvelope}" />

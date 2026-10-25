@@ -2030,4 +2030,7 @@ Tes données actuelles seront remplacées.</value>
   <data name="Inv_WeightToTarget" xml:space="preserve">
     <value>{0} aujourd’hui · cible {1} · {2} après</value>
   </data>
+  <data name="Csv_BelgianWithholding" xml:space="preserve">
+    <value>Les dividendes sans retenue dans le fichier reçoivent les 30 % belges.</value>
+  </data>
 </root>

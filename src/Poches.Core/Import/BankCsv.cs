@@ -185,6 +185,20 @@ public static partial class BankCsv
         }).ToList();
     }
 
+    /// <summary>
+    /// Dividends of the file without tax withheld get <paramref name="rate"/> (the Belgian précompte under the Belgian
+    /// option). When the file gives the net amount, it is what was received: the gross amount is worked back from it.
+    /// </summary>
+    public static List<CsvOperation> WithDefaultWithholding(IEnumerable<CsvOperation> operations, decimal rate, bool amountIsNet) =>
+        operations.Select(op =>
+        {
+            if (rate is <= 0 or >= 1 || op.Error is not null || op.Kind != "dividend" || op.Withholding > 0 || op.Gross <= 0)
+                return op;
+            var gross = amountIsNet ? Math.Round(op.Gross / (1 - rate), 2) : op.Gross;
+            var withholding = amountIsNet ? gross - op.Gross : Math.Round(gross * rate, 2);
+            return op with { Gross = gross, Withholding = withholding };
+        }).ToList();
+
     /// <summary>Lower case, no accents, punctuation turned into spaces: how headers and operation types are compared.</summary>
     public static string Norm(string? text)
     {

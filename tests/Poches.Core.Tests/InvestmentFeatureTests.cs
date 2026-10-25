@@ -221,6 +221,20 @@ public sealed class InvestmentFeatureTests
         Assert.Equal(("dividend", "USD", (decimal?)1.085m, 45.2m), (ops[1].Kind, ops[1].Currency, ops[1].FxRate, ops[1].Gross));
     }
 
+    [Fact]
+    public void Imported_dividends_without_tax_withheld_get_the_belgian_rate()
+    {
+        var gross = Statement("Date;Type;Produit;ISIN;Montant;Précompte\n14/03/2026;Dividende;World;IE00B4L5Y983;100;\n15/03/2026;Dividende;World;IE00B4L5Y983;100;20");
+        var withRate = BankCsv.WithDefaultWithholding(gross, 0.30m, amountIsNet: false);
+        Assert.Equal((100m, 30m), (withRate[0].Gross, withRate[0].Withholding));
+        // The file's own withholding stays.
+        Assert.Equal((100m, 20m), (withRate[1].Gross, withRate[1].Withholding));
+
+        // A net amount is what was received: 70 net is 100 gross with 30 withheld.
+        var net = BankCsv.WithDefaultWithholding(Statement("Date;Type;Produit;ISIN;Montant\n14/03/2026;Dividende;World;IE00B4L5Y983;70"), 0.30m, amountIsNet: true);
+        Assert.Equal((100m, 30m), (net[0].Gross, net[0].Withholding));
+    }
+
     private static List<CsvOperation> Statement(string csv)
     {
         var (_, rows) = BankCsv.Parse(csv);

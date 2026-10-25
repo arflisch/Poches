@@ -2030,4 +2030,7 @@ Your current data will be replaced.</value>
   <data name="Inv_WeightToTarget" xml:space="preserve">
     <value>{0} now · target {1} · {2} after</value>
   </data>
+  <data name="Csv_BelgianWithholding" xml:space="preserve">
+    <value>Dividends without tax withheld in the file get the Belgian 30 %.</value>
+  </data>
 </root>

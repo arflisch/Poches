@@ -34,6 +34,8 @@ public sealed partial class OperationEditViewModel : ObservableObject, IQueryAtt
     private bool _loaded;
     private bool _settingTob;
     private bool _tobEdited;
+    private bool _settingWithholding;
+    private bool _withholdingEdited;
 
     public OperationEditViewModel(BudgetStore store, InvestmentService investments, AppSettings settings, IDialogService dialogs, CurrencyFieldViewModel currencyField)
     {
@@ -163,7 +165,9 @@ public sealed partial class OperationEditViewModel : ObservableObject, IQueryAtt
             CurrencyField.Load(recorded.Currency, Operations.IsForeign(recorded) ? recorded.Rate : null);
             Date = recorded.Date;
             GrossText = InvestmentText.Editable(recorded.Gross, 2);
-            WithholdingText = recorded.WithholdingCents > 0 ? InvestmentText.Editable(recorded.Withholding, 2) : string.Empty;
+            // A recorded withholding stays as it was: it came from the statement.
+            _withholdingEdited = true;
+            SetWithholding(recorded.WithholdingCents > 0 ? InvestmentText.Editable(recorded.Withholding, 2) : string.Empty);
             holdingId = recorded.HoldingId;
         }
         else if (detected is not null)
@@ -257,9 +261,35 @@ public sealed partial class OperationEditViewModel : ObservableObject, IQueryAtt
         UpdatePreview();
     }
 
-    partial void OnGrossTextChanged(string value) => UpdatePreview();
+    partial void OnGrossTextChanged(string value)
+    {
+        UpdateWithholding();
+        UpdatePreview();
+    }
 
-    partial void OnWithholdingTextChanged(string value) => UpdatePreview();
+    partial void OnWithholdingTextChanged(string value)
+    {
+        if (!_settingWithholding)
+            _withholdingEdited = !string.IsNullOrWhiteSpace(value);
+        UpdatePreview();
+    }
+
+    private void SetWithholding(string text)
+    {
+        _settingWithholding = true;
+        WithholdingText = text;
+        _settingWithholding = false;
+    }
+
+    /// <summary>Under the Belgian option the précompte (30 %) follows the gross amount until the user types the one of the statement.</summary>
+    private void UpdateWithholding()
+    {
+        if (!_belgian || _withholdingEdited)
+            return;
+        SetWithholding(AmountParser.TryParse(GrossText, out var gross) && gross > 0
+            ? InvestmentText.Editable(Math.Round(gross * InvestmentService.BelgianWithholding, 2), 2)
+            : string.Empty);
+    }
 
     private void SetTob(string text)
     {
@@ -324,8 +354,8 @@ public sealed partial class OperationEditViewModel : ObservableObject, IQueryAtt
     [RelayCommand]
     private void UseBelgianWithholding()
     {
-        if (AmountParser.TryParse(GrossText, out var gross) && gross > 0)
-            WithholdingText = InvestmentText.Editable(Math.Round(gross * InvestmentService.BelgianWithholding, 2), 2);
+        _withholdingEdited = false;
+        UpdateWithholding();
     }
 
     [RelayCommand]

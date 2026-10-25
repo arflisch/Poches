@@ -213,6 +213,8 @@ public sealed partial class CsvImportViewModel : ObservableObject, ISheetViewMod
     private async Task BuildAsync()
     {
         var ops = BankCsv.ToOperations(_rows.Skip(1).Cast<IReadOnlyList<string>>().ToList(), CurrentMap(), AmountIsNet);
+        if (IsBelgian)
+            ops = BankCsv.WithDefaultWithholding(ops, InvestmentService.BelgianWithholding, AmountIsNet);
         // Market rates for the foreign currencies of the file, fetched once: they fill in a missing rate and
         // tell which way round the file's rates are quoted.
         var wanted = ops.Where(o => o.Error is null && o.Currency.Length == 3 && o.Currency != _settings.CurrencyCode && !_rates.ContainsKey(o.Currency))
