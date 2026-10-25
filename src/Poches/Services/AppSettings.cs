@@ -98,18 +98,30 @@ public sealed class AppSettings
     }
 
     /// <summary>Whether the phone is set to Belgium: only then is the Belgian tax option offered.</summary>
-    public static bool IsBelgianRegion
+    public static bool IsBelgianRegion => DeviceRegion == "BE";
+
+    /// <summary>
+    /// The region set in the phone's settings. Asked to the system: .NET's current region follows the culture the app
+    /// imposes for its language (fr-FR for French), not the phone's region.
+    /// </summary>
+    private static string? DeviceRegion
     {
         get
         {
+#if IOS || MACCATALYST
+            return Foundation.NSLocale.CurrentLocale.CountryCode?.ToUpperInvariant();
+#elif ANDROID
+            return Java.Util.Locale.Default.Country?.ToUpperInvariant();
+#else
             try
             {
-                return System.Globalization.RegionInfo.CurrentRegion.TwoLetterISORegionName == "BE";
+                return System.Globalization.RegionInfo.CurrentRegion.TwoLetterISORegionName;
             }
             catch (ArgumentException)
             {
-                return false;
+                return null;
             }
+#endif
         }
     }
 
