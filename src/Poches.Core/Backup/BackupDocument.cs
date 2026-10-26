@@ -136,4 +136,9 @@ public sealed record BackupInvestmentSettings(
     long ExpectedReturnMicros,
     long VolatilityMicros,
     long CapitalGainsRateMicros,
-    long ExemptionCents);
+    long ExemptionCents,
+    long? UsShortTermRateMicros = null,
+    long? UsLongTermRateMicros = null,
+    long? UsNiitRateMicros = null,
+    long? UsStateRateMicros = null,
+    long? UsLossLimitCents = null);

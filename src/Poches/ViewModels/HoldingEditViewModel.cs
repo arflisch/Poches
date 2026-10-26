@@ -17,9 +17,6 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
 {
     public System.Windows.Input.ICommand DismissCommand => CancelCommand;
 
-    private static readonly TaxEnvelope[] EnvelopeOrder =
-        [TaxEnvelope.Standard, TaxEnvelope.PensionSavings, TaxEnvelope.LongTermSavings, TaxEnvelope.Branch21, TaxEnvelope.Branch23];
-
     private const string AutoTob = "auto";
 
     private readonly BudgetStore _store;
@@ -37,14 +34,17 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
         _dialogs = dialogs;
         Currency = settings.Currency;
         IsBelgian = settings.BelgianTax;
+        var country = settings.TaxCountry;
+        HasEnvelopes = country != TaxCountry.None;
+        EnvelopeHint = country == TaxCountry.UnitedStates ? Loc.Get("Inv_EnvelopeHintUs") : Loc.Get("Inv_EnvelopeHint");
         Search = search;
         Search.Picked = match =>
         {
             SelectType(HoldingTypes.FromKind(match.Kind));
             _ = SuggestTerAsync();
         };
-        Envelopes = EnvelopeOrder
-            .Select((e, i) => new SelectableOption(e.ToString(), i, 2, o => SelectEnvelope(Enum.Parse<TaxEnvelope>(o.Value))) { Label = HoldingTypes.EnvelopeName(e) })
+        Envelopes = HoldingTypes.Envelopes(country)
+            .Select((e, i) => new SelectableOption(e.ToString(), i, 2, o => SelectEnvelope(Enum.Parse<TaxEnvelope>(o.Value))) { Label = HoldingTypes.EnvelopeName(e, country) })
             .ToList();
         Types = HoldingTypes.All
             .Select((t, i) => new SelectableOption(t.ToString(), i, 4, o => SelectType(Enum.Parse<HoldingType>(o.Value)))
@@ -58,6 +58,11 @@ public sealed partial class HoldingEditViewModel : ObservableObject, IQueryAttri
     public SymbolSearchViewModel Search { get; }
 
     public bool IsBelgian { get; }
+
+    /// <summary>Accounts are offered under the tax rules of a country.</summary>
+    public bool HasEnvelopes { get; }
+
+    public string EnvelopeHint { get; }
 
     public IReadOnlyList<SelectableOption> Envelopes { get; }
 

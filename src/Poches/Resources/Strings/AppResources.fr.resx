@@ -2033,4 +2033,97 @@ Tes données actuelles seront remplacées.</value>
   <data name="Csv_BelgianWithholding" xml:space="preserve">
     <value>Les dividendes sans retenue dans le fichier reçoivent les 30 % belges.</value>
   </data>
+  <data name="Settings_UsTax" xml:space="preserve">
+    <value>Fiscalité américaine</value>
+  </data>
+  <data name="Settings_UsTaxHint" xml:space="preserve">
+    <value>Plus-values à court et long terme, report des pertes, wash sales et comptes retraite</value>
+  </data>
+  <data name="Envelope_UsTaxable" xml:space="preserve">
+    <value>Compte imposable</value>
+  </data>
+  <data name="Envelope_UsTraditional" xml:space="preserve">
+    <value>401(k) / IRA</value>
+  </data>
+  <data name="Envelope_UsRoth" xml:space="preserve">
+    <value>Roth IRA</value>
+  </data>
+  <data name="Envelope_UsHsa" xml:space="preserve">
+    <value>HSA</value>
+  </data>
+  <data name="Envelope_Us529" xml:space="preserve">
+    <value>Plan 529</value>
+  </data>
+  <data name="Inv_EnvelopeHintUs" xml:space="preserve">
+    <value>Les comptes retraite (401(k), IRA, Roth), HSA et plans 529 échappent à l’impôt sur les plus-values.</value>
+  </data>
+  <data name="Inv_UsShortTerm" xml:space="preserve">
+    <value>TAUX COURT TERME</value>
+  </data>
+  <data name="Inv_UsLongTerm" xml:space="preserve">
+    <value>TAUX LONG TERME</value>
+  </data>
+  <data name="Inv_UsRatesHint" xml:space="preserve">
+    <value>Court terme : votre tranche fédérale marginale (10 à 37 %). Long terme et dividendes qualifiés : 0, 15 ou 20 % selon les revenus.</value>
+  </data>
+  <data name="Inv_UsStateRate" xml:space="preserve">
+    <value>IMPÔT DE L’ÉTAT</value>
+  </data>
+  <data name="Inv_UsLossLimit" xml:space="preserve">
+    <value>DÉDUCTION ANNUELLE DES PERTES</value>
+  </data>
+  <data name="Inv_UsNiit" xml:space="preserve">
+    <value>Net investment income tax</value>
+  </data>
+  <data name="Inv_UsNiitHint" xml:space="preserve">
+    <value>3,8 % de plus au-delà de 200 000 $ de revenus (250 000 $ pour un couple)</value>
+  </data>
+  <data name="UsTax_Title" xml:space="preserve">
+    <value>Fiscalité américaine</value>
+  </data>
+  <data name="UsTax_ShortTerm" xml:space="preserve">
+    <value>Plus-values à court terme</value>
+  </data>
+  <data name="UsTax_LongTerm" xml:space="preserve">
+    <value>Plus-values à long terme</value>
+  </data>
+  <data name="UsTax_CarryIn" xml:space="preserve">
+    <value>Pertes reportées des années précédentes</value>
+  </data>
+  <data name="UsTax_Deduction" xml:space="preserve">
+    <value>Perte déduite des revenus</value>
+  </data>
+  <data name="UsTax_CarryOut" xml:space="preserve">
+    <value>Pertes reportées à l’an prochain</value>
+  </data>
+  <data name="UsTax_GainsTax" xml:space="preserve">
+    <value>Impôt estimé sur les plus-values</value>
+  </data>
+  <data name="UsTax_Saving" xml:space="preserve">
+    <value>Impôt économisé par la déduction</value>
+  </data>
+  <data name="UsTax_ForeignTax" xml:space="preserve">
+    <value>Impôt étranger retenu (crédit)</value>
+  </data>
+  <data name="UsTax_DividendTax" xml:space="preserve">
+    <value>Impôt estimé sur les dividendes</value>
+  </data>
+  <data name="UsTax_LatentShort" xml:space="preserve">
+    <value>Latent à court terme</value>
+  </data>
+  <data name="UsTax_LatentLong" xml:space="preserve">
+    <value>Latent à long terme</value>
+  </data>
+  <data name="UsTax_Harvestable" xml:space="preserve">
+    <value>Pertes réalisables pour compenser</value>
+  </data>
+  <data name="UsTax_WashSale" xml:space="preserve">
+    <value>{0} de pertes ne sont pas déductibles : le même titre a été racheté dans les 30 jours de la vente (wash sale). Elles s’ajoutent au coût des nouvelles parts.</value>
+  </data>
+  <data name="UsTax_SoonLongTerm" xml:space="preserve">
+    <value>{0} : long terme dans {1} jours (plus-value {2}). Attendre réduit l’impôt.</value>
+  </data>
+  <data name="UsTax_Disclaimer" xml:space="preserve">
+    <value>Une estimation de l’impôt fédéral : dividendes supposés qualifiés, report calculé sur les seules ventes enregistrées ici. Vérifiez avec vos formulaires 1099 ou un conseiller fiscal.</value>
+  </data>
 </root>

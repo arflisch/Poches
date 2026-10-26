@@ -392,7 +392,7 @@
                             <!-- Belgian tax -->
                             <Border IsVisible="{Binding ShowTax}" Style="{StaticResource Card}">
                                 <VerticalStackLayout Spacing="12">
-                                    <Label Style="{StaticResource SectionTitle}" Text="{l:Tr Tax_Title}" />
+                                    <Label Style="{StaticResource SectionTitle}" Text="{Binding TaxTitle}" />
                                     <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
                                         <Border
                                             Padding="4"

@@ -15,7 +15,7 @@ public sealed record InvestmentSnapshot(
     IReadOnlyDictionary<string, LiveQuote> Quotes,
     DateTime? QuotesAt,
     int MissingQuotes,
-    bool BelgianTax);
+    TaxCountry TaxCountry);
 
 public sealed record EvolutionResult(IReadOnlyList<EvolutionPoint> Points, IReadOnlyList<PeriodPerformance> Periods);
 
@@ -63,7 +63,8 @@ public sealed class InvestmentService(BudgetStore store, MarketData market, AppS
         }
 
         // The value on 31/12/2025 is the cost of older units for the capital gains tax: the close of that day.
-        var belgian = settings.BelgianTax;
+        var country = settings.TaxCountry;
+        var belgian = country == TaxCountry.Belgium;
         var references = new Dictionary<int, decimal>();
         if (belgian)
         {
@@ -88,7 +89,7 @@ public sealed class InvestmentService(BudgetStore store, MarketData market, AppS
             quotes,
             ok.Count > 0 ? ok.Max(q => q.AsOf!.Value).ToLocalTime() : null,
             quotes.Values.Count(q => q.Status != QuoteStatus.Ok),
-            belgian);
+            country);
     }
 
     /// <summary>Value, money invested and benchmark from the first purchase to today, and the returns over usual periods.</summary>
@@ -212,6 +213,9 @@ public sealed class InvestmentService(BudgetStore store, MarketData market, AppS
         }
         return rates;
     }
+
+    public UsTaxReport UsTax(InvestmentSnapshot snapshot, int year) =>
+        UsTaxReport.Compute(snapshot.Performance, snapshot.Purchases, snapshot.Dividends, snapshot.Plan, year, DateTime.Today);
 
     public TaxReport Tax(InvestmentSnapshot snapshot, int year) =>
         TaxReport.Compute(snapshot.Performance, snapshot.Purchases, snapshot.Sales, snapshot.Dividends, snapshot.Plan, year, DateTime.Today.Year);

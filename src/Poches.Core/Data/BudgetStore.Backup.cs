@@ -49,7 +49,8 @@ public sealed partial class BudgetStore
                 .Select(d => new BackupDividend(d.HoldingId, d.Date, d.GrossCents, d.WithholdingCents, d.Currency, d.FxRateMicros))
                 .ToList(),
             InvestmentSettings = settings is null ? null : new BackupInvestmentSettings(settings.MonthlyCents, settings.MonthlyDay, settings.GoalCents,
-                settings.GoalDate, settings.ExpectedReturnMicros, settings.VolatilityMicros, settings.CapitalGainsRateMicros, settings.ExemptionCents),
+                settings.GoalDate, settings.ExpectedReturnMicros, settings.VolatilityMicros, settings.CapitalGainsRateMicros, settings.ExemptionCents,
+                settings.UsShortTermRateMicros, settings.UsLongTermRateMicros, settings.UsNiitRateMicros, settings.UsStateRateMicros, settings.UsLossLimitCents),
         };
     }
 
@@ -208,6 +209,12 @@ public sealed partial class BudgetStore
                         VolatilityMicros = s.VolatilityMicros,
                         CapitalGainsRateMicros = s.CapitalGainsRateMicros,
                         ExemptionCents = s.ExemptionCents,
+                        // Backups made before the US rules keep their defaults.
+                        UsShortTermRateMicros = s.UsShortTermRateMicros ?? 220_000,
+                        UsLongTermRateMicros = s.UsLongTermRateMicros ?? 150_000,
+                        UsNiitRateMicros = s.UsNiitRateMicros ?? 0,
+                        UsStateRateMicros = s.UsStateRateMicros ?? 0,
+                        UsLossLimitCents = s.UsLossLimitCents ?? 300_000,
                     });
                 }
             }

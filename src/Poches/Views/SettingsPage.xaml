@@ -130,18 +130,18 @@
                 </VerticalStackLayout>
 
                 <!-- Investments -->
-                <VerticalStackLayout IsVisible="{Binding ShowBelgianTax}" Spacing="8">
+                <VerticalStackLayout IsVisible="{Binding ShowTaxRules}" Spacing="8">
                     <Label Margin="0,14,0,0" Style="{StaticResource FieldLabel}" Text="{l:Tr Settings_InvestmentsSection}" />
                     <Border Padding="16,0" Style="{StaticResource Card}">
                         <Grid Style="{StaticResource Row}">
                             <Border BackgroundColor="#2610B981" Style="{StaticResource RowIcon}">
-                                <Label FontSize="18" HorizontalOptions="Center" Text="🇧🇪" VerticalOptions="Center" />
+                                <Label FontSize="18" HorizontalOptions="Center" Text="{Binding TaxRulesFlag}" VerticalOptions="Center" />
                             </Border>
                             <VerticalStackLayout Grid.Column="1" Spacing="0" VerticalOptions="Center">
-                                <Label Style="{StaticResource RowTitle}" Text="{l:Tr Settings_BelgianTax}" />
-                                <Label Style="{StaticResource Caption}" Text="{l:Tr Settings_BelgianTaxHint}" />
+                                <Label Style="{StaticResource RowTitle}" Text="{Binding TaxRulesTitle}" />
+                                <Label Style="{StaticResource Caption}" Text="{Binding TaxRulesHint}" />
                             </VerticalStackLayout>
-                            <Switch Grid.Column="2" IsToggled="{Binding BelgianTax}" VerticalOptions="Center" />
+                            <Switch Grid.Column="2" IsToggled="{Binding TaxRules}" VerticalOptions="Center" />
                         </Grid>
                     </Border>
                 </VerticalStackLayout>

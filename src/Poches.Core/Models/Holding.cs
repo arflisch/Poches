@@ -16,8 +16,10 @@ public enum HoldingType
 }
 
 /// <summary>
-/// Where a holding is held, for the Belgian rules: pension and long-term savings and life insurance (branches 21
-/// and 23) are outside the stock-exchange tax and the capital gains tax.
+/// Where a holding is held. Belgian rules: pension and long-term savings and life insurance (branches 21 and 23) are
+/// outside the stock-exchange tax and the capital gains tax. US rules: retirement accounts (401(k), IRA), HSA and 529
+/// plans are outside the capital gains tax. Only <see cref="Standard"/> (a securities account, a taxable brokerage
+/// account) is taxed.
 /// </summary>
 public enum TaxEnvelope
 {
@@ -26,6 +28,19 @@ public enum TaxEnvelope
     LongTermSavings = 2,
     Branch21 = 3,
     Branch23 = 4,
+    /// <summary>401(k) or traditional IRA: taxed when withdrawn, not on trades.</summary>
+    UsTraditional = 5,
+    UsRoth = 6,
+    UsHsa = 7,
+    Us529 = 8,
+}
+
+/// <summary>Which country's tax rules the investments follow.</summary>
+public enum TaxCountry
+{
+    None,
+    Belgium,
+    UnitedStates,
 }
 
 /// <summary>
@@ -353,7 +368,7 @@ public static class Operations
 }
 
 /// <summary>
-/// The investment plan and goal, and the Belgian capital gains tax settings: one row. Amounts in the portfolio
+/// The investment plan and goal, and the capital gains tax settings (Belgian and US): one row. Amounts in the portfolio
 /// currency, ratios in millionths.
 /// </summary>
 [Table("investment_settings")]
@@ -387,6 +402,21 @@ public sealed class InvestmentSettings
     /// <summary>Yearly exemption of the capital gains tax.</summary>
     public long ExemptionCents { get; set; } = 1_000_000;
 
+    /// <summary>US: marginal federal rate, for short-term gains (held a year or less) and the loss deduction (220000 = 22 %).</summary>
+    public long UsShortTermRateMicros { get; set; } = 220_000;
+
+    /// <summary>US: federal rate on long-term gains and qualified dividends (0, 15 or 20 %).</summary>
+    public long UsLongTermRateMicros { get; set; } = 150_000;
+
+    /// <summary>US: net investment income tax (38000 = 3.8 %) when the income is above its threshold, else 0.</summary>
+    public long UsNiitRateMicros { get; set; }
+
+    /// <summary>US: state income tax rate on gains and dividends.</summary>
+    public long UsStateRateMicros { get; set; }
+
+    /// <summary>US: net capital losses deductible from other income each year ($3,000, $1,500 married filing separately).</summary>
+    public long UsLossLimitCents { get; set; } = 300_000;
+
     [Ignore]
     public decimal? Monthly => MonthlyCents is { } c ? Money.FromCents(c) : null;
 
@@ -404,6 +434,21 @@ public sealed class InvestmentSettings
 
     [Ignore]
     public decimal Exemption => Money.FromCents(ExemptionCents);
+
+    [Ignore]
+    public decimal UsShortTermRate => Units.FromMicros(UsShortTermRateMicros);
+
+    [Ignore]
+    public decimal UsLongTermRate => Units.FromMicros(UsLongTermRateMicros);
+
+    [Ignore]
+    public decimal UsNiitRate => Units.FromMicros(UsNiitRateMicros);
+
+    [Ignore]
+    public decimal UsStateRate => Units.FromMicros(UsStateRateMicros);
+
+    [Ignore]
+    public decimal UsLossLimit => Money.FromCents(UsLossLimitCents);
 }
 
 /// <summary>Quantities and unit prices are stored as integer millionths, like amounts are stored as cents.</summary>

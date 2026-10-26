@@ -5,6 +5,7 @@ using Poches.Controls;
 using Poches.Core.Data;
 using Poches.Core.Formatting;
 using Poches.Core.Investments;
+using Poches.Core.Models;
 using Poches.Localization;
 using Poches.Services;
 
@@ -108,6 +109,9 @@ public sealed partial class InvestmentsViewModel(
 
     [ObservableProperty]
     private bool _showTax;
+
+    [ObservableProperty]
+    private string _taxTitle = string.Empty;
 
     [ObservableProperty]
     private IReadOnlyList<SelectableOption> _taxYears = [];
@@ -305,7 +309,8 @@ public sealed partial class InvestmentsViewModel(
         ExtrasText = string.Join(" · ", extras);
 
         ShowPlan(snapshot);
-        ShowTax = snapshot.BelgianTax && !IsEmpty;
+        ShowTax = snapshot.TaxCountry != TaxCountry.None && !IsEmpty;
+        TaxTitle = snapshot.TaxCountry == TaxCountry.UnitedStates ? Loc.Get("UsTax_Title") : Loc.Get("Tax_Title");
         if (ShowTax)
             ShowTaxYear(snapshot);
 
@@ -517,6 +522,12 @@ public sealed partial class InvestmentsViewModel(
             IsSelected = y == _taxYear,
         }).ToList();
 
+        if (snapshot.TaxCountry == TaxCountry.UnitedStates)
+        {
+            ShowUsTax(snapshot);
+            return;
+        }
+
         var report = investments.Tax(snapshot, _taxYear);
         var formatter = settings.Formatter;
         var rows = new List<SummaryRow>();
@@ -549,6 +560,50 @@ public sealed partial class InvestmentsViewModel(
         if (_exposure is { ReyndersHints.Count: > 0 } exposure)
             notes.Add(Loc.Format("Tax_ReyndersHint", string.Join(", ", exposure.ReyndersHints)));
         notes.Add(Loc.Get("Tax_Disclaimer"));
+        TaxNote = string.Join("\n\n", notes);
+    }
+
+    private void ShowUsTax(InvestmentSnapshot snapshot)
+    {
+        var report = investments.UsTax(snapshot, _taxYear);
+        var formatter = settings.Formatter;
+        var rows = new List<SummaryRow>
+        {
+            new(Loc.Get("UsTax_ShortTerm"), formatter.FormatSigned(report.YearGains.ShortTerm)),
+            new(Loc.Get("UsTax_LongTerm"), formatter.FormatSigned(report.YearGains.LongTerm)),
+        };
+        if (report.CarryIn.Total != 0)
+            rows.Add(new SummaryRow(Loc.Get("UsTax_CarryIn"), formatter.FormatSigned(report.CarryIn.Total)));
+        if (report.LossDeduction > 0)
+            rows.Add(new SummaryRow(Loc.Get("UsTax_Deduction"), formatter.Format(report.LossDeduction)));
+        if (report.CarryOut.Total != 0)
+            rows.Add(new SummaryRow(Loc.Get("UsTax_CarryOut"), formatter.FormatSigned(report.CarryOut.Total)));
+        rows.Add(report.GainsTax >= 0
+            ? new SummaryRow(Loc.Get("UsTax_GainsTax"), formatter.Format(report.GainsTax), true)
+            : new SummaryRow(Loc.Get("UsTax_Saving"), formatter.Format(-report.GainsTax), true));
+        if (report.DividendsGross > 0)
+        {
+            rows.Add(new SummaryRow(Loc.Get("Tax_DividendsGross"), formatter.Format(report.DividendsGross)));
+            if (report.ForeignTax > 0)
+                rows.Add(new SummaryRow(Loc.Get("UsTax_ForeignTax"), formatter.Format(report.ForeignTax)));
+            rows.Add(new SummaryRow(Loc.Get("UsTax_DividendTax"), formatter.Format(report.DividendTax), true));
+        }
+        if (report.Year == DateTime.Today.Year)
+        {
+            rows.Add(new SummaryRow(Loc.Get("UsTax_LatentShort"), formatter.FormatSigned(report.Latent.ShortTerm)));
+            rows.Add(new SummaryRow(Loc.Get("UsTax_LatentLong"), formatter.FormatSigned(report.Latent.LongTerm)));
+            rows.Add(new SummaryRow(Loc.Get("Tax_IfSoldToday"), formatter.Format(report.TaxIfSoldToday)));
+            if (report.HarvestableLosses > 0)
+                rows.Add(new SummaryRow(Loc.Get("UsTax_Harvestable"), formatter.Format(report.HarvestableLosses)));
+        }
+        TaxRows = rows;
+
+        var notes = new List<string>();
+        if (report.WashSaleDisallowed > 0)
+            notes.Add(Loc.Format("UsTax_WashSale", formatter.Format(report.WashSaleDisallowed)));
+        foreach (var soon in report.SoonLongTerm.Take(3))
+            notes.Add(Loc.Format("UsTax_SoonLongTerm", soon.Line, soon.Days, formatter.FormatSigned(soon.Gain)));
+        notes.Add(Loc.Get("UsTax_Disclaimer"));
         TaxNote = string.Join("\n\n", notes);
     }
 

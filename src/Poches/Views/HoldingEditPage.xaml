@@ -120,29 +120,30 @@
                     Text="{Binding TerSuggestion}" />
                 <Label Margin="4,-14,0,0" Style="{StaticResource Caption}" Text="{l:Tr Inv_TargetHint}" />
 
+                <!-- Tax account -->
+                <VerticalStackLayout IsVisible="{Binding HasEnvelopes}" Spacing="8">
+                    <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Envelope}" />
+                    <Border
+                        Padding="4"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
+                        StrokeShape="RoundRectangle 16"
+                        StrokeThickness="0">
+                        <Grid BindableLayout.ItemsSource="{Binding Envelopes}" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SelectableOption">
+                                    <Grid Grid.Row="{Binding Row}" Grid.Column="{Binding Column}" c:Touch.Command="{Binding SelectCommand}" HeightRequest="40">
+                                        <Border Padding="0" IsVisible="{Binding IsSelected}" StrokeShape="RoundRectangle 12" Style="{StaticResource Card}" />
+                                        <Label FontFamily="OpenSansSemibold" FontSize="12.5" HorizontalOptions="Center" LineBreakMode="TailTruncation" Opacity="{Binding LabelOpacity}" Text="{Binding Label}" VerticalOptions="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </Grid>
+                    </Border>
+                    <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{Binding EnvelopeHint}" />
+                </VerticalStackLayout>
+
                 <!-- Belgian tax -->
                 <VerticalStackLayout IsVisible="{Binding IsBelgian}" Spacing="22">
-                    <VerticalStackLayout Spacing="8">
-                        <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_Envelope}" />
-                        <Border
-                            Padding="4"
-                            BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceMutedLight}, Dark={StaticResource SurfaceMutedDark}}"
-                            StrokeShape="RoundRectangle 16"
-                            StrokeThickness="0">
-                            <Grid BindableLayout.ItemsSource="{Binding Envelopes}" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:SelectableOption">
-                                        <Grid Grid.Row="{Binding Row}" Grid.Column="{Binding Column}" c:Touch.Command="{Binding SelectCommand}" HeightRequest="40">
-                                            <Border Padding="0" IsVisible="{Binding IsSelected}" StrokeShape="RoundRectangle 12" Style="{StaticResource Card}" />
-                                            <Label FontFamily="OpenSansSemibold" FontSize="12.5" HorizontalOptions="Center" LineBreakMode="TailTruncation" Opacity="{Binding LabelOpacity}" Text="{Binding Label}" VerticalOptions="Center" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </Grid>
-                        </Border>
-                        <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{l:Tr Inv_EnvelopeHint}" />
-                    </VerticalStackLayout>
-
                     <VerticalStackLayout IsVisible="{Binding IsSheltered, Converter={StaticResource InvertBool}}" Spacing="22">
                         <VerticalStackLayout Spacing="8">
                             <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_TobRate}" />

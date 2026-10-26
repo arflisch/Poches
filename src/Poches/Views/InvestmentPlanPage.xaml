@@ -104,6 +104,60 @@
                     </Grid>
                     <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{l:Tr Inv_TaxSettingsHint}" />
                 </VerticalStackLayout>
+
+                <!-- US taxes -->
+                <VerticalStackLayout IsVisible="{Binding IsUs}" Spacing="8">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_UsShortTerm}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="22" Text="{Binding ShortTermText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="%" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_UsLongTerm}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="15" Text="{Binding LongTermText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="%" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Label Margin="4,0,0,0" Style="{StaticResource Caption}" Text="{l:Tr Inv_UsRatesHint}" />
+                    <Grid Margin="0,14,0,0" ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_UsStateRate}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="0" Text="{Binding StateRateText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="%" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Inv_UsLossLimit}" />
+                            <Border Style="{StaticResource InputField}">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Keyboard="Numeric" Placeholder="3000" Text="{Binding LossLimitText}" />
+                                    <Label Grid.Column="1" Style="{StaticResource Secondary}" Text="{Binding Currency}" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                    <Border Margin="0,14,0,0" Padding="16,0" Style="{StaticResource Card}">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" MinimumHeightRequest="60">
+                            <VerticalStackLayout Padding="0,10" Spacing="0" VerticalOptions="Center">
+                                <Label Style="{StaticResource Strong}" Text="{l:Tr Inv_UsNiit}" />
+                                <Label Style="{StaticResource Caption}" Text="{l:Tr Inv_UsNiitHint}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1" IsToggled="{Binding Niit}" OnColor="{StaticResource InvestmentsAccent}" VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
             </VerticalStackLayout>
         </ScrollView>
 

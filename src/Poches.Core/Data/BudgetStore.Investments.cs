@@ -339,7 +339,9 @@ public sealed partial class BudgetStore
         if (settings.GoalCents is not null && (settings.GoalDate is not { } goalDate || goalDate.Date <= today.Date
             || settings.ExpectedReturn is < -0.5m or > 0.5m || settings.Volatility is < 0 or > 1))
             throw new BudgetException(BudgetError.InvalidGoal, "The goal is invalid.");
-        if (settings.CapitalGainsRate is < 0 or > 0.5m || settings.ExemptionCents < 0)
+        if (settings.CapitalGainsRate is < 0 or > 0.5m || settings.ExemptionCents < 0
+            || new[] { settings.UsShortTermRate, settings.UsLongTermRate, settings.UsNiitRate, settings.UsStateRate }.Any(r => r is < 0 or > 0.5m)
+            || settings.UsLossLimitCents < 0 || settings.UsLossLimit > Money.MaxAmount)
             throw new BudgetException(BudgetError.InvalidTaxSettings, "The tax settings are invalid.");
         settings.GoalDate = settings.GoalDate?.Date;
         await (await GetConnectionAsync()).InsertOrReplaceAsync(settings);

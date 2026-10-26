@@ -45,7 +45,7 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
         _currency = settings.Currency;
         _languageName = settings.Language.NativeName;
         _hideAmounts = settings.HideAmounts;
-        _belgianTax = settings.BelgianTax;
+        _taxRules = settings.TaxRules;
         RefreshBackupText();
     }
 
@@ -140,13 +140,19 @@ public sealed partial class SettingsViewModel : ObservableObject, ISheetViewMode
 
     partial void OnHideAmountsChanged(bool value) => _settings.HideAmounts = value;
 
-    /// <summary>The Belgian tax option is only offered when the phone is set to Belgium.</summary>
-    public bool ShowBelgianTax => AppSettings.IsBelgianRegion;
+    /// <summary>The tax option is only offered when the phone is set to a country whose rules Poches knows.</summary>
+    public bool ShowTaxRules => AppSettings.RegionTaxCountry != TaxCountry.None;
+
+    public string TaxRulesTitle => AppSettings.RegionTaxCountry == TaxCountry.UnitedStates ? Loc.Get("Settings_UsTax") : Loc.Get("Settings_BelgianTax");
+
+    public string TaxRulesHint => AppSettings.RegionTaxCountry == TaxCountry.UnitedStates ? Loc.Get("Settings_UsTaxHint") : Loc.Get("Settings_BelgianTaxHint");
+
+    public string TaxRulesFlag => AppSettings.RegionTaxCountry == TaxCountry.UnitedStates ? "🇺🇸" : "🇧🇪";
 
     [ObservableProperty]
-    private bool _belgianTax;
+    private bool _taxRules;
 
-    partial void OnBelgianTaxChanged(bool value) => _settings.BelgianTax = value;
+    partial void OnTaxRulesChanged(bool value) => _settings.TaxRules = value;
 
     partial void OnIsLockEnabledChanged(bool value)
     {

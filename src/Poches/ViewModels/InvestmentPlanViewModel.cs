@@ -10,7 +10,8 @@ namespace Poches.ViewModels;
 
 /// <summary>
 /// The monthly plan and the goal of the investments, the assumptions of the projection and, under the Belgian option,
-/// the capital gains tax rate and yearly exemption.
+/// the capital gains tax rate and yearly exemption; under the US option the federal rates, the net investment income
+/// tax, the state rate and the yearly loss deduction.
 /// </summary>
 public sealed partial class InvestmentPlanViewModel(BudgetStore store, AppSettings settings) : ObservableObject, ISheetViewModel
 {
@@ -22,6 +23,26 @@ public sealed partial class InvestmentPlanViewModel(BudgetStore store, AppSettin
     public string Currency => settings.Currency;
 
     public bool IsBelgian => settings.BelgianTax;
+
+    public bool IsUs => settings.UsTax;
+
+    /// <summary>The net investment income tax rate, when the income is above its threshold.</summary>
+    public const decimal NiitRate = 0.038m;
+
+    [ObservableProperty]
+    private string _shortTermText = "22";
+
+    [ObservableProperty]
+    private string _longTermText = "15";
+
+    [ObservableProperty]
+    private bool _niit;
+
+    [ObservableProperty]
+    private string _stateRateText = "0";
+
+    [ObservableProperty]
+    private string _lossLimitText = "3000";
 
     [ObservableProperty]
     private string _monthlyText = string.Empty;
@@ -69,6 +90,11 @@ public sealed partial class InvestmentPlanViewModel(BudgetStore store, AppSettin
         VolatilityText = InvestmentText.Editable(_plan.Volatility * 100, 2);
         TaxRateText = InvestmentText.Editable(_plan.CapitalGainsRate * 100, 2);
         ExemptionText = InvestmentText.Editable(_plan.Exemption, 2);
+        ShortTermText = InvestmentText.Editable(_plan.UsShortTermRate * 100, 2);
+        LongTermText = InvestmentText.Editable(_plan.UsLongTermRate * 100, 2);
+        Niit = _plan.UsNiitRate > 0;
+        StateRateText = InvestmentText.Editable(_plan.UsStateRate * 100, 2);
+        LossLimitText = InvestmentText.Editable(_plan.UsLossLimit, 2);
     }
 
     private static bool TryAmount(string text, out decimal? value)
@@ -105,6 +131,18 @@ public sealed partial class InvestmentPlanViewModel(BudgetStore store, AppSettin
             return;
         }
 
+        if (!TryPercent(ShortTermText, 0, 50, out var shortTerm) || !TryPercent(LongTermText, 0, 50, out var longTerm)
+            || !TryPercent(StateRateText, 0, 50, out var state) || !TryAmount(LossLimitText, out var lossLimit))
+        {
+            ShowError(Loc.Get("Error_InvalidTaxSettings"));
+            return;
+        }
+
+        _plan.UsShortTermRateMicros = Units.ToMicros(shortTerm / 100);
+        _plan.UsLongTermRateMicros = Units.ToMicros(longTerm / 100);
+        _plan.UsNiitRateMicros = Niit ? Units.ToMicros(NiitRate) : 0;
+        _plan.UsStateRateMicros = Units.ToMicros(state / 100);
+        _plan.UsLossLimitCents = Money.ToCents(lossLimit ?? 0);
         _plan.MonthlyCents = monthly is > 0 ? Money.ToCents(monthly.Value) : null;
         _plan.MonthlyDay = day;
         _plan.GoalCents = goal is > 0 ? Money.ToCents(goal.Value) : null;

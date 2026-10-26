@@ -64,7 +64,7 @@
                     </Border>
                     <Label Margin="4,-10,0,0" IsVisible="{Binding IsBelgian}" Style="{StaticResource Caption}" Text="{l:Tr Csv_BelgianWithholding}" />
 
-                    <VerticalStackLayout IsVisible="{Binding IsBelgian}" Spacing="8">
+                    <VerticalStackLayout IsVisible="{Binding HasEnvelopes}" Spacing="8">
                         <Label Style="{StaticResource FieldLabel}" Text="{l:Tr Csv_NewLinesEnvelope}" />
                         <Border
                             Padding="4"

@@ -43,14 +43,17 @@ public sealed partial class CsvImportViewModel : ObservableObject, ISheetViewMod
         _picker = picker;
         _formatter = new MoneyFormatter(settings.Currency, culture: Localizer.Instance.Culture);
         IsBelgian = settings.BelgianTax;
-        Envelopes = new[] { TaxEnvelope.Standard, TaxEnvelope.PensionSavings, TaxEnvelope.LongTermSavings, TaxEnvelope.Branch21, TaxEnvelope.Branch23 }
-            .Select((e, i) => new SelectableOption(e.ToString(), i, 2, o => SelectEnvelope(Enum.Parse<TaxEnvelope>(o.Value))) { Label = HoldingTypes.EnvelopeName(e), IsSelected = i == 0 })
+        HasEnvelopes = settings.TaxCountry != TaxCountry.None;
+        Envelopes = HoldingTypes.Envelopes(settings.TaxCountry)
+            .Select((e, i) => new SelectableOption(e.ToString(), i, 2, o => SelectEnvelope(Enum.Parse<TaxEnvelope>(o.Value))) { Label = HoldingTypes.EnvelopeName(e, settings.TaxCountry), IsSelected = i == 0 })
             .ToList();
     }
 
     public System.Windows.Input.ICommand DismissCommand => CancelCommand;
 
     public bool IsBelgian { get; }
+
+    public bool HasEnvelopes { get; }
 
     public IReadOnlyList<SelectableOption> Envelopes { get; }
 
@@ -329,7 +332,7 @@ public sealed partial class CsvImportViewModel : ObservableObject, ISheetViewMod
         int count;
         try
         {
-            count = await _store.ImportAsync(plan, IsBelgian ? _envelope : TaxEnvelope.Standard,
+            count = await _store.ImportAsync(plan, HasEnvelopes ? _envelope : TaxEnvelope.Standard,
                 i => Palette.Colors[i % Palette.Colors.Count], _settings.BelgianTax, DateTime.Today);
         }
         catch (BudgetException ex)

@@ -26,12 +26,25 @@ public static class HoldingTypes
         _ => Loc.Get("HoldingType_Other"),
     };
 
-    public static string EnvelopeName(TaxEnvelope envelope) => envelope switch
+    /// <summary>The accounts of each country's rules, the taxed one first.</summary>
+    public static IReadOnlyList<TaxEnvelope> Envelopes(TaxCountry country) => country switch
+    {
+        TaxCountry.Belgium => [TaxEnvelope.Standard, TaxEnvelope.PensionSavings, TaxEnvelope.LongTermSavings, TaxEnvelope.Branch21, TaxEnvelope.Branch23],
+        TaxCountry.UnitedStates => [TaxEnvelope.Standard, TaxEnvelope.UsTraditional, TaxEnvelope.UsRoth, TaxEnvelope.UsHsa, TaxEnvelope.Us529],
+        _ => [],
+    };
+
+    public static string EnvelopeName(TaxEnvelope envelope, TaxCountry country) => envelope switch
     {
         TaxEnvelope.PensionSavings => Loc.Get("Envelope_PensionSavings"),
         TaxEnvelope.LongTermSavings => Loc.Get("Envelope_LongTermSavings"),
         TaxEnvelope.Branch21 => Loc.Get("Envelope_Branch21"),
         TaxEnvelope.Branch23 => Loc.Get("Envelope_Branch23"),
+        TaxEnvelope.UsTraditional => Loc.Get("Envelope_UsTraditional"),
+        TaxEnvelope.UsRoth => Loc.Get("Envelope_UsRoth"),
+        TaxEnvelope.UsHsa => Loc.Get("Envelope_UsHsa"),
+        TaxEnvelope.Us529 => Loc.Get("Envelope_Us529"),
+        _ when country == TaxCountry.UnitedStates => Loc.Get("Envelope_UsTaxable"),
         _ => Loc.Get("Envelope_Standard"),
     };
 

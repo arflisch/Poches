@@ -1,4 +1,5 @@
 using Poches.Core.Formatting;
+using Poches.Core.Models;
 using Poches.Localization;
 
 namespace Poches.Services;
@@ -17,6 +18,7 @@ public sealed class AppSettings
     private const string OnlineQuotesKey = "online_quotes";
     private const string BenchmarkKey = "investments_benchmark";
     private const string BelgianTaxKey = "belgian_tax";
+    private const string UsTaxKey = "us_tax";
     private const string IgnoredDividendsKey = "ignored_dividends";
     private const string CsvMappingsKey = "csv_mappings";
 
@@ -97,8 +99,16 @@ public sealed class AppSettings
         set => Update(() => _preferences.Set(BenchmarkKey, value));
     }
 
-    /// <summary>Whether the phone is set to Belgium: only then is the Belgian tax option offered.</summary>
-    public static bool IsBelgianRegion => DeviceRegion == "BE";
+    /// <summary>
+    /// The tax rules offered for the phone's region: Belgian ones in Belgium, US ones in the United States, none
+    /// elsewhere.
+    /// </summary>
+    public static TaxCountry RegionTaxCountry => DeviceRegion switch
+    {
+        "BE" => TaxCountry.Belgium,
+        "US" => TaxCountry.UnitedStates,
+        _ => TaxCountry.None,
+    };
 
     /// <summary>
     /// The region set in the phone's settings. Asked to the system: .NET's current region follows the culture the app
@@ -109,7 +119,12 @@ public sealed class AppSettings
         get
         {
 #if IOS || MACCATALYST
-            return Foundation.NSLocale.CurrentLocale.CountryCode?.ToUpperInvariant();
+            // A region that differs from the language's one is kept apart: "en_US@rg=bezzzz" is English in Belgium.
+            var locale = Foundation.NSLocale.CurrentLocale;
+            var marker = locale.Identifier.IndexOf("rg=", StringComparison.OrdinalIgnoreCase);
+            if (marker >= 0 && locale.Identifier.Length >= marker + 5)
+                return locale.Identifier.Substring(marker + 3, 2).ToUpperInvariant();
+            return locale.CountryCode?.ToUpperInvariant();
 #elif ANDROID
             return Java.Util.Locale.Default.Country?.ToUpperInvariant();
 #else
@@ -126,14 +141,27 @@ public sealed class AppSettings
     }
 
     /// <summary>
-    /// Belgian rules for investments: stock-exchange tax on each trade, capital gains tax, tax envelopes. On by default
-    /// in Belgium, never elsewhere.
+    /// Whether the investments follow the tax rules of the phone's region (on by default there): in Belgium the
+    /// stock-exchange tax, the capital gains tax and tax envelopes; in the United States short- and long-term capital
+    /// gains, loss carryforward, wash sales and retirement accounts.
     /// </summary>
-    public bool BelgianTax
+    public bool TaxRules
     {
-        get => IsBelgianRegion && _preferences.Get(BelgianTaxKey, true);
-        set => Update(() => _preferences.Set(BelgianTaxKey, value));
+        get => RegionTaxCountry switch
+        {
+            TaxCountry.Belgium => _preferences.Get(BelgianTaxKey, true),
+            TaxCountry.UnitedStates => _preferences.Get(UsTaxKey, true),
+            _ => false,
+        };
+        set => Update(() => _preferences.Set(RegionTaxCountry == TaxCountry.UnitedStates ? UsTaxKey : BelgianTaxKey, value));
     }
+
+    /// <summary>The tax rules in force: those of the phone's region when the option is on.</summary>
+    public TaxCountry TaxCountry => TaxRules ? RegionTaxCountry : TaxCountry.None;
+
+    public bool BelgianTax => TaxCountry == TaxCountry.Belgium;
+
+    public bool UsTax => TaxCountry == TaxCountry.UnitedStates;
 
     /// <summary>Detected dividends the user chose to ignore (holding id and ex-date), on this device.</summary>
     public IReadOnlySet<string> IgnoredDividends =>
